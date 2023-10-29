@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alien.cpp" />
     <ClCompile Include="Bunker.cpp" />
     <ClCompile Include="Practica.cpp" />
     <ClCompile Include="PRuebas.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alien.h" />
     <ClInclude Include="Bunker.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Vector2D.h" />
