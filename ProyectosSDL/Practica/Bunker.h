@@ -8,13 +8,16 @@ private:
 	Point2D<int> pos;
 	int lifes;
 	Texture* textura;
+	int currentFrame;
+	int maxLife;
+	int lifePercentage;
 
 public:
 	Bunker();
-	Bunker(Point2D<int> _pos, int _lifes, Texture _textura);
+	Bunker(Point2D<int> _pos, int _lifes, Texture* _textura);
 
 	void render() const;
-	void update();
+	bool update();
 	void hit();
 };
 
