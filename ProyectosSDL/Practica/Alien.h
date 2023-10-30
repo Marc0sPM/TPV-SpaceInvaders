@@ -12,7 +12,7 @@ private:
 	
 public:
 	Alien();
-	Alien(Point2D<int> _pos, int _lifes, Texture* _textura, int _subtipo, Game* _game);
+	Alien(Point2D<int> _pos, Texture* _textura, int _subtipo, Game* _game);
 
 	void render() const;
 	bool update();
