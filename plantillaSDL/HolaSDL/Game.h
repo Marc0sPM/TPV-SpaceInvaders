@@ -3,9 +3,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Alien.h"
-#include "Bunker.h"r 
+#include "Bunker.h" 
 #include "texture.h"
 #include "Vector2D.h"
+#include "cannon.h"
 #include <vector>
 #include <random>
 using namespace std;
@@ -17,18 +18,18 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	bool exit;
-	vector<Alien> aliens;
-	vector<Bunker> bunkers;
-
+	vector<Alien>* aliens;
+	vector<Bunker>* bunkers;
+	Cannon* myCannon;
 	//Añadir laseres--------------/
 	//Añadir cañón----------------/
 	static const int NUM_TEXTURES = 4;
 	Texture* texturas [NUM_TEXTURES];
-	enum textureName{
-		Alien,
-		Bunker,
-		Cannon,
-		Laser
+	enum textureNames{
+		alien,
+		bunker,
+		cannon,
+		background
 	};
 public:
 	
