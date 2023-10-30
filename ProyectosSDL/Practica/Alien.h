@@ -9,6 +9,8 @@ private:
 	int subtipo;
 	Texture* textura;
 	Game* game;
+	int currentFrame;
+	bool alive;
 	
 public:
 	Alien();
