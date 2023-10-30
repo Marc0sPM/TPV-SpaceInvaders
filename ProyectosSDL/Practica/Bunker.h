@@ -14,7 +14,7 @@ private:
 
 public:
 	Bunker();
-	Bunker(Point2D<int> _pos, int _lifes, Texture* _textura);
+	Bunker(Point2D<int>& _pos, int _lifes, Texture* _textura);
 
 	void render() const;
 	bool update();

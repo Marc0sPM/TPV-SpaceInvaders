@@ -1,11 +1,10 @@
 #include "Bunker.h"
-#include "texture.h"
-#include "Vector2D.h"
+
 
 using namespace std;
 //Constructora
 Bunker::Bunker() : pos(), lifes(), textura() {}
-Bunker::Bunker(Point2D<int> _pos, int _lifes, Texture* _textura) :
+Bunker::Bunker(Point2D<int>& _pos, int _lifes, Texture* _textura) :
 	pos(_pos),
 	lifes(_lifes),
 	textura(_textura) {
