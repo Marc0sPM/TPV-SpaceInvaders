@@ -15,12 +15,13 @@ private:
 	int lifes;
 	int remainingTime;
 	Vector2D<int> moveDirection;
+	bool isMoving;
 public:
 	Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game);
 	void render();
 	void update();
 	void hit();
-	void handleEvents();
+	void handleEvents(const SDL_Event &event);
 
 
 };

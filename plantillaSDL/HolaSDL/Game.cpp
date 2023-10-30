@@ -75,21 +75,33 @@ void Game::render() {
 	for (int i = 0; i < bunkers->size(); i++) {
 		(*bunkers)[i].render();
 	}
-	SDL_RenderPresent(renderer);
+	//Render cañon
+	myCannon->render();
+	SDL_RenderPresent(renderer); 
 }
 void Game::update() {
-
+	for (int i = 0; i < aliens->size(); i++) {
+		(*aliens)[i].update();
+	}
+	myCannon->update();
 }
 void Game::handleEvents() {
-
+	SDL_Event event;
+	while (SDL_PollEvent(&event) != 0) {
+		if (event.type == SDL_QUIT) {
+			exit = true;
+		}
+		myCannon->handleEvents(event);
+	}
 }
-//Vector2D<int> Game::getDirection() {
-//	// Calcula y devuelve la dirección común de movimiento de los Aliens
-//	
-//}
-//bool Game::cannotMove() {
-//
-//}
+Vector2D<int> Game::getDirection() {
+	// Calcula y devuelve la dirección común de movimiento de los Aliens
+	return { 0,0 };
+	
+}
+bool Game::cannotMove() {
+	return false;
+}
 
 void Game::fireLaser() {
 

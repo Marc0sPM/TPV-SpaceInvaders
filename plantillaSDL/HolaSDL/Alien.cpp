@@ -14,13 +14,7 @@ void Alien::render()const {
 	textura->renderFrame(alienRect, subtipo, 0);
 }
 bool Alien::update() {
-	//movimiento es algo asi: 
-	/* game.getDirection(); ----> sirve para que se muevan solo en una direccion, no se como
-	game.getRandomRange(); -----> sirve para numero random para disparo
-	*/
-	//pos += game->getDirection(); //sobrecarga ya hecha y supongo que con eso se moveran los aliens
 	
-
 	return alive;
 }
 void Alien::hit() {

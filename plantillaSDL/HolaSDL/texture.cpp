@@ -11,7 +11,7 @@ Texture::Texture(SDL_Renderer* renderer, SDL_Texture* texture, size_t rows, size
   , ncolumns(columns)
 {
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-
+	 
 	frameWidth = width / ncolumns;
 	frameHeight = height / nrows;
 }
