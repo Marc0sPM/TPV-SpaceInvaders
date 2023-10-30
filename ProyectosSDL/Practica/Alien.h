@@ -1,11 +1,11 @@
 #pragma once
 #include "Vector2D.h"
 #include "texture.h"
+#include "Game.h"
 
 
 
-
-class Game;
+class Game {};
 class Alien
 {
 private:
