@@ -9,6 +9,7 @@
 #include "cannon.h"
 #include <vector>
 #include <random>
+#include <fstream>
 using namespace std;
 
 class Game {

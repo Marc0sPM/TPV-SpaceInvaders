@@ -27,25 +27,52 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 	texturas[cannon] = new Texture(renderer, "../images/spaceship.png", 1, 1);
 	texturas[background] = new Texture(renderer, "../images/stars.png", 1, 1);
 
-	//Inicialización aliens
-	aliens = new vector<Alien>;
-	Vector2D<int>pos = { 50,0 };
-	Vector2D<int>posGlob = { 0,0 };
-	for (int i = 0; i < 6; i++) {
-		posGlob = posGlob + pos;
-		aliens->push_back(Alien(posGlob, texturas[alien], 2, this));
-	}
-	//Inicializacion bunkers
-	bunkers = new vector<Bunker>;
-	Vector2D<int> pos1 = { 150 ,0 };
-	Vector2D<int> posG = { 0, 400 };
-	for (int i = 0; i < 4; i++) {
-		posG = pos1 + posG;
-		bunkers->push_back(Bunker(posG, 8, texturas[bunker]));
-	}
-	//Inicializacion canñon
-	Point2D<int> posC = { 400, 500 };
-	myCannon = new Cannon(posC, texturas[cannon], this);
+	
+	
+	//inicialización por lectura
+	
+		ifstream entrada;
+		entrada.open("../mapas/original.txt");
+		if (!entrada.is_open()) cout << "ERROR: entrada no encontrada.";
+		else {
+			int tipo, posX, posY;
+			//inicialización de vectores de aliens y bunkers
+			aliens = new vector<Alien>;
+			bunkers = new vector<Bunker>;
+			while (!entrada.eof()) {
+				//lectura de variables
+				entrada >> tipo;
+					
+				if (tipo == 0) {
+					//Inicializacion canñon
+					entrada >> posX;
+					entrada >> posY;
+					Point2D<int> posC = { posX, posY };
+					myCannon = new Cannon(posC, texturas[cannon], this);
+				}
+				else if(tipo == 1){
+					entrada >> posX;
+					entrada >> posY;
+					int subtipo;
+					entrada >> subtipo;
+					Point2D<int> pos = { posX, posY };
+					aliens->push_back(Alien(pos, texturas[alien], subtipo, this));
+						
+				}
+				else if (tipo == 2) {
+					entrada >> posX;
+					entrada >> posY;
+					Point2D<int> pos = {posX, posY };
+					bunkers->push_back(Bunker(pos, 8, texturas[bunker]));
+					
+				}
+					
+					
+
+			}
+				
+				
+		}
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
