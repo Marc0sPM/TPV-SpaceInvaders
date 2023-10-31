@@ -28,6 +28,7 @@ public:
     Vector2D<T> operator*(const T esc) const {
         return Vector2D<T>(x * esc, y * esc);
     }
+
 };
 
 template <typename T>

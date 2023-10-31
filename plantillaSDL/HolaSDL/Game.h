@@ -10,12 +10,14 @@
 #include <vector>
 #include <random>
 #include <fstream>
-using namespace std;
 
+using namespace std;
+constexpr Uint32 windowWidth = 800;
+constexpr Uint32 windowHeight = 600;
+const int NUM_TEXTURES = 4;
+const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
 class Game {
 private:
-	const Uint32 windowWidth = 800;
-	const Uint32 windowHeight = 600;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	bool exit;
@@ -23,8 +25,9 @@ private:
 	vector<Bunker>* bunkers;
 	Cannon* myCannon;
 	//Añadir laseres--------------/
-	//Añadir cañón----------------/
-	static const int NUM_TEXTURES = 4;
+	
+	Uint32 lastFrameTime;
+	Vector2D<int> alienDirection;
 	Texture* texturas [NUM_TEXTURES];
 	enum textureNames{
 		alien,

@@ -2,7 +2,7 @@
 #include "Game.h"
 
 using namespace std;
-Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr), bunkers(nullptr) {
+Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr), bunkers(nullptr),lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1,0)) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		cerr << "Error al inicializar SDL: " << SDL_Error;
 		return;
@@ -16,7 +16,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 		return;
 	}
 	renderer = SDL_CreateRenderer(window, -1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		SDL_RENDERER_ACCELERATED);
 	if (renderer == nullptr) {
 		cerr << "Error al cargar renderer: " << SDL_Error;
 		return;
@@ -31,48 +31,48 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 	
 	//inicialización por lectura
 	
-		ifstream entrada;
-		entrada.open("../mapas/original.txt");
-		if (!entrada.is_open()) cout << "ERROR: entrada no encontrada.";
-		else {
-			int tipo, posX, posY;
-			//inicialización de vectores de aliens y bunkers
-			aliens = new vector<Alien>;
-			bunkers = new vector<Bunker>;
-			while (!entrada.eof()) {
-				//lectura de variables
-				entrada >> tipo;
+	ifstream entrada;
+	entrada.open("../mapas/original.txt");
+	if (!entrada.is_open()) cout << "ERROR: entrada no encontrada.";
+	else {
+		int tipo, posX, posY;
+		//inicialización de vectores de aliens y bunkers
+		aliens = new vector<Alien>;
+		bunkers = new vector<Bunker>;
+		while (!entrada.eof()) {
+			//lectura de variables
+			entrada >> tipo;
 					
-				if (tipo == 0) {
-					//Inicializacion canñon
-					entrada >> posX;
-					entrada >> posY;
-					Point2D<int> posC = { posX, posY };
-					myCannon = new Cannon(posC, texturas[cannon], this);
-				}
-				else if(tipo == 1){
-					entrada >> posX;
-					entrada >> posY;
-					int subtipo;
-					entrada >> subtipo;
-					Point2D<int> pos = { posX, posY };
-					aliens->push_back(Alien(pos, texturas[alien], subtipo, this));
+			if (tipo == 0) {
+				//Inicializacion canñon
+				entrada >> posX;
+				entrada >> posY;
+				Point2D<int> posC = { posX, posY };
+				myCannon = new Cannon(posC, texturas[cannon], this);
+			}
+			else if(tipo == 1){
+				entrada >> posX;
+				entrada >> posY;
+				int subtipo;
+				entrada >> subtipo;
+				Point2D<int> pos = { posX, posY };
+				aliens->push_back(Alien(pos, texturas[alien], subtipo, this));
 						
-				}
-				else if (tipo == 2) {
-					entrada >> posX;
-					entrada >> posY;
-					Point2D<int> pos = {posX, posY };
-					bunkers->push_back(Bunker(pos, 8, texturas[bunker]));
+			}
+			else if (tipo == 2) {
+				entrada >> posX;
+				entrada >> posY;
+				Point2D<int> pos = {posX, posY };
+				bunkers->push_back(Bunker(pos, 8, texturas[bunker]));
 					
-				}
+			}
 					
 					
 
-			}
-				
-				
 		}
+				
+				
+	}
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -86,7 +86,18 @@ Game :: ~Game() {
 	SDL_Quit(); 
 }
 void Game::run() {
+	
 	while (!exit) {
+		//Establecemos juego a 60 FPS
+		Uint32 currentFrameTime = SDL_GetTicks(); 
+		Uint32 frameTime = currentFrameTime - lastFrameTime; 
+
+		if (frameTime < FRAME_DELAY) { 
+			SDL_Delay(FRAME_DELAY - frameTime);
+		}
+
+		lastFrameTime = currentFrameTime;
+
 		handleEvents(); 
 		update(); 
 		render(); 
@@ -107,6 +118,7 @@ void Game::render() {
 	SDL_RenderPresent(renderer); 
 }
 void Game::update() {
+	if (cannotMove()) alienDirection = alienDirection * -1;
 	for (int i = 0; i < aliens->size(); i++) {
 		(*aliens)[i].update();
 	}
@@ -123,10 +135,15 @@ void Game::handleEvents() {
 }
 Vector2D<int> Game::getDirection() {
 	// Calcula y devuelve la dirección común de movimiento de los Aliens
-	return { 0,0 };
+	return alienDirection;
 	
 }
 bool Game::cannotMove() {
+	for (int i = 0; i < aliens->size(); i++) {
+		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
+			return true;
+		}
+	}
 	return false;
 }
 

@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+const int SPEED = 2;
+
 class Game;
 class Cannon
 {
@@ -16,6 +18,8 @@ private:
 	int remainingTime;
 	Vector2D<int> moveDirection;
 	bool isMoving;
+	
+	
 public:
 	Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game);
 	void render();
