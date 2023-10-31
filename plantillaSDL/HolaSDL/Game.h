@@ -44,7 +44,7 @@ public:
 	void update();
 	void handleEvents();
 	Vector2D<int> getDirection()const; 
-	void cannotMove() ;
-	//bool cannotMove();
+	//void cannotMove() ;
+	bool cannotMove();
 	void fireLaser();
 };

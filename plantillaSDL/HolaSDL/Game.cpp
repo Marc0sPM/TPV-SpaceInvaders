@@ -125,7 +125,7 @@ void Game::update() {
 		(*aliens)[i].update();
 	}
 	myCannon->update();
-	//if(cannotMove()) alienDirection = alienDirection * -1;
+	if(cannotMove()) alienDirection = alienDirection * -1;
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -143,17 +143,17 @@ Vector2D<int> Game::getDirection() const{
 	return alienDirection;
 	
 }
-//bool Game::cannotMove() {
-//	for (int i = 0; i < aliens->size(); i++) {
-//		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
-//			return true;
-//		}
-//	}
-//	return false;
-//}
-void Game::cannotMove() {
-	alienDirection = alienDirection * -1;
+bool Game::cannotMove() {
+	for (int i = 0; i < aliens->size(); i++) {
+		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
+			return true;
+		}
+	}
+	return false;
 }
+//void Game::cannotMove() {
+//	alienDirection = alienDirection * -1;
+//}
 void Game::fireLaser() {
 
 }
