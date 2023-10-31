@@ -43,7 +43,8 @@ public:
 	void render();
 	void update();
 	void handleEvents();
-	Vector2D<int> getDirection(); 
-	bool cannotMove();
+	Vector2D<int> getDirection()const; 
+	void cannotMove() ;
+	//bool cannotMove();
 	void fireLaser();
 };

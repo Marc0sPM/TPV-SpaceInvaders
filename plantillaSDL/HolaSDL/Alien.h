@@ -14,12 +14,11 @@ private:
 	Game* game;
 	int currentFrame;
 	bool alive;
-	Vector2D<int> direction;
 	
 public:
 	Alien();
 	Alien(Point2D<int>& _pos, Texture* _textura, int _subtipo, Game* _game);
-	Point2D<int> getPos();
+	Point2D<int> getPos () const;
 	void render() const;
 	bool update();
 	void hit();

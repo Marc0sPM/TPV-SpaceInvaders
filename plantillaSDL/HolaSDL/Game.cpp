@@ -104,8 +104,10 @@ void Game::run() {
 	}
 }
 void Game::render() {
+	
 	SDL_RenderClear(renderer);
 	//Render aliens
+	texturas[background]->render();
 	for (int i = 0; i < aliens->size(); i++) {
 		(*aliens)[i].render();
 	}
@@ -118,11 +120,12 @@ void Game::render() {
 	SDL_RenderPresent(renderer); 
 }
 void Game::update() {
-	if (cannotMove()) alienDirection = alienDirection * -1;
+	
 	for (int i = 0; i < aliens->size(); i++) {
 		(*aliens)[i].update();
 	}
 	myCannon->update();
+	//if(cannotMove()) alienDirection = alienDirection * -1;
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -133,20 +136,24 @@ void Game::handleEvents() {
 		myCannon->handleEvents(event);
 	}
 }
-Vector2D<int> Game::getDirection() {
-	// Calcula y devuelve la dirección común de movimiento de los Aliens
+
+// Calcula y devuelve la dirección común de movimiento de los Aliens
+Vector2D<int> Game::getDirection() const{
+	
 	return alienDirection;
 	
 }
-bool Game::cannotMove() {
-	for (int i = 0; i < aliens->size(); i++) {
-		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
-			return true;
-		}
-	}
-	return false;
+//bool Game::cannotMove() {
+//	for (int i = 0; i < aliens->size(); i++) {
+//		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+void Game::cannotMove() {
+	alienDirection = alienDirection * -1;
 }
-
 void Game::fireLaser() {
 
 }
