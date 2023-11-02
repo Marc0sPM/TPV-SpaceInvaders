@@ -26,9 +26,11 @@ void Cannon::handleEvents(const SDL_Event &event) {
 			isMoving = true;
 			switch (event.key.keysym.sym) {
 			case SDLK_a:
+				/*if(pos >= 50)*/
 				moveDirection = { -1, 0 };
 					break;
 			case SDLK_d:
+				/*if(pos < windowWidth - 100)*/
 				moveDirection = { 1, 0 };
 					break;
 			}

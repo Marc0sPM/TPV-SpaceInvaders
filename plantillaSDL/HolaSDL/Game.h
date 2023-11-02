@@ -21,7 +21,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	bool exit;
-	vector<Alien>* aliens;
+	vector<Alien>* aliens; //no array dinamico
 	vector<Bunker>* bunkers;
 	Cannon* myCannon;
 	//Añadir laseres--------------/

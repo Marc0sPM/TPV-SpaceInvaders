@@ -28,6 +28,12 @@ public:
     Vector2D<T> operator*(const T esc) const {
         return Vector2D<T>(x * esc, y * esc);
     }
+    bool operator>=(const T other) const {
+        return x >= other;
+    }
+    bool operator<(const T other) const {
+        return x < other;
+    }
 
 };
 

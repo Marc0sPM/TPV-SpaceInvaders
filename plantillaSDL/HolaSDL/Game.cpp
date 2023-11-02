@@ -26,7 +26,6 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 	texturas[bunker] = new Texture(renderer, "../images/bunker.png", 1, 4);
 	texturas[cannon] = new Texture(renderer, "../images/spaceship.png", 1, 1);
 	texturas[background] = new Texture(renderer, "../images/stars.png", 1, 1);
-
 	
 	
 	//inicialización por lectura
@@ -66,12 +65,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 				bunkers->push_back(Bunker(pos, 8, texturas[bunker]));
 					
 			}
-					
-					
-
-		}
-				
-				
+		}		
 	}
 }
 Game :: ~Game() {
@@ -80,7 +74,9 @@ Game :: ~Game() {
 		delete texturas[i];
 		texturas[i] = nullptr;
 	}
-
+	//Borrar aliens
+	//Borrar bunkers
+	//Borrar laseres
 	SDL_DestroyRenderer(renderer); 
 	SDL_DestroyWindow(window);
 	SDL_Quit(); 
