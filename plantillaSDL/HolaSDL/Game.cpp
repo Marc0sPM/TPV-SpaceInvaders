@@ -149,6 +149,13 @@ void Game::update() {
 	}
 	//Update cannon
 	myCannon->update();
+	/*------------------------------
+
+
+	COMPROBACION DE COLISIONES
+
+
+	--------------------------------*/
 	//Update lasers
 	for (int i = 0; i < lasers.size(); i++) {
 		lasers[i]->update();
