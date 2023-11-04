@@ -34,6 +34,7 @@ private:
 	bool cantMove;
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers; 
+	vector<Laser*> lasers;
 	Cannon* myCannon;
 	Laser* laserPrueba;
 	//Añadir laseres--------------/

@@ -74,7 +74,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 		}
 	}
 	Point2D<int> aux ( 300, 400 );
-	laserPrueba = new Laser(aux, false, renderer);
+	lasers.push_back(new Laser(aux, false, renderer));
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -83,9 +83,19 @@ Game :: ~Game() {
 		texturas[i] = nullptr;
 	}
 	//Borrar aliens
-	
+	for (int i = 0; i < aliens.size(); i++) {
+		delete aliens[i];
+		aliens[i] = nullptr;
+	}
+	aliens.clear();
 	//Borrar bunkers
+	for (int i = 0; i < bunkers.size(); i++) {
+		delete bunkers[i];
+		bunkers[i] = nullptr;
+	}
+	bunkers.clear();
 	//Borrar laseres
+
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -122,16 +132,28 @@ void Game::render() {
 	}
 	//Render cañon
 	myCannon->render();
-	laserPrueba->render();
+	//Render lasers
+	for (int i = 0; i < lasers.size(); i++) {
+		lasers[i]->render();
+	}
 	SDL_RenderPresent(renderer);
 }
 void Game::update() {
-
+	//Update aliens
 	for (int i = 0; i < aliens.size(); i++) {
 		aliens[i]->update();
 	}
+	//Update bunkers
+	for (int i = 0; i < bunkers.size(); i++) {
+		bunkers[i]->update();
+	}
+	//Update cannon
 	myCannon->update();
-	laserPrueba->update();
+	//Update lasers
+	for (int i = 0; i < lasers.size(); i++) {
+		lasers[i]->update();
+	}
+	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
 		cantMove = false;
