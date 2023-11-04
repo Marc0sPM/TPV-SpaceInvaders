@@ -22,8 +22,9 @@ void Alien::render()const {
 bool Alien::update() {
 	pos = pos + (game->getDirection() * ALIEN_SPEED);
 	if (pos.getX() < 0|| pos.getX() >= windowWidth - textura->getFrameWidth()) game->cannotMove();
-	return true; 
+	return alive; 
 }
 void Alien::hit() {
 	alive = false;
 }
+Point2D<int> Alien::getPos() { return pos; }

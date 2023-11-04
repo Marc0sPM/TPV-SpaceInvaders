@@ -19,5 +19,6 @@ public:
 	void render() const;
 	bool update();
 	void hit();
+	Point2D<int> getPos();
 };
 

@@ -19,7 +19,7 @@ void Bunker:: render()const {
 }
 bool Bunker::update() {
 	//Al haber 4 frames del bunker, este se actualizan cada 25% de vida
-	if ((lifes * 100) / maxLife < lifePercentage - 25) { //cambiar a 4 vidas
+	if ((lifes * 100) / maxLife < lifePercentage - 25 && lifes > 0) { //cambiar a 4 vidas
 		currentFrame++;
 		lifePercentage -= 25;
 	}
@@ -29,3 +29,4 @@ bool Bunker::update() {
 void Bunker::hit() {
 	lifes--;
 }
+Point2D<int> Bunker:: getPos() { return pos; }
