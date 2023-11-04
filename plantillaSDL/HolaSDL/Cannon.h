@@ -23,7 +23,7 @@ private:
 public:
 	Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game);
 	void render();
-	void update();
+	bool update();
 	void hit();
 	void handleEvents(const SDL_Event &event);
 

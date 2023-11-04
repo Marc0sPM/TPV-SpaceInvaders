@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Vector2D.h"
 #include "Cannon.h"
+#include "Laser.h"
 #include <vector>
 #include <random>
 #include <fstream>
@@ -34,6 +35,7 @@ private:
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers; 
 	Cannon* myCannon;
+	Laser* laserPrueba;
 	//Añadir laseres--------------/
 	
 	Uint32 lastFrameTime;

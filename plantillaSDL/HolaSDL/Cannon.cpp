@@ -13,9 +13,10 @@ void Cannon::render(){
 		textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->render(rect);
 }
-void Cannon::update() {
+bool Cannon::update() {
 	if(isMoving)
 	 pos = pos + moveDirection * SPEED;
+	return lifes > 0;
 }
 void Cannon::hit() {
 	lifes--;

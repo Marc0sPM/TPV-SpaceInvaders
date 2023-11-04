@@ -32,16 +32,11 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 	}
 
 	//Carga texturas
-	
-	string textureRoot = "../images/";
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
 		texturas[i] = new Texture(renderer,  (TEXTURE_ROOT + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols);
 	}
 
-
-
 	//inicialización por lectura
-
 	ifstream entrada;
 	entrada.open("../mapas/original.txt");
 	if (!entrada.is_open()) cout << "ERROR: entrada no encontrada.";
@@ -78,6 +73,8 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 			}
 		}
 	}
+	Point2D<int> aux ( 300, 400 );
+	laserPrueba = new Laser(aux, false, renderer);
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -86,6 +83,7 @@ Game :: ~Game() {
 		texturas[i] = nullptr;
 	}
 	//Borrar aliens
+	
 	//Borrar bunkers
 	//Borrar laseres
 	SDL_DestroyRenderer(renderer);
@@ -124,6 +122,7 @@ void Game::render() {
 	}
 	//Render cañon
 	myCannon->render();
+	laserPrueba->render();
 	SDL_RenderPresent(renderer);
 }
 void Game::update() {
@@ -132,6 +131,7 @@ void Game::update() {
 		aliens[i]->update();
 	}
 	myCannon->update();
+	laserPrueba->update();
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
 		cantMove = false;
@@ -157,6 +157,7 @@ Vector2D<int> Game::getDirection() const {
 void Game::cannotMove() {
 	cantMove = true;
 }
+
 
 void Game::fireLaser() {
 
