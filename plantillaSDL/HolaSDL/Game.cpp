@@ -5,7 +5,12 @@
 
 
 using namespace std;
-Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false){
+Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false), TEXTURAS{
+		{"aliens.png", 3, 2},
+		{"bunker.png", 1, 4},
+		{"spaceship.png", 1, 1},
+		{"stars.png", 1, 1}
+} {
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		cerr << "Error al inicializar SDL: " << SDL_Error;
@@ -25,17 +30,12 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 		cerr << "Error al cargar renderer: " << SDL_Error;
 		return;
 	}
+
 	//Carga texturas
 	
-	const TextureSpec TEXTURAS[NUM_TEXTURES] = { 
-		{"aliens.png", 3, 2},
-		{"bunker.png", 1, 4},
-		{"spaceship.png", 1, 1},
-		{"stars.png", 1, 1}
-	};
 	string textureRoot = "../images/";
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
-		texturas[i] = new Texture(renderer,  (textureRoot + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols);
+		texturas[i] = new Texture(renderer,  (TEXTURE_ROOT + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols);
 	}
 
 
@@ -102,7 +102,7 @@ void Game::run() {
 		if (frameTime < FRAME_DELAY) {
 			SDL_Delay(FRAME_DELAY - frameTime);
 		}
-
+		
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();

@@ -20,6 +20,7 @@ constexpr Uint32 windowWidth = 800;
 constexpr Uint32 windowHeight = 600;
 const int NUM_TEXTURES = 4;
 const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
+const string TEXTURE_ROOT = "../images/";
 
 
 
@@ -52,7 +53,7 @@ private:
 		size_t cols;
 	};
 	
-	
+	const TextureSpec TEXTURAS[NUM_TEXTURES];
 	
 public:
 	
