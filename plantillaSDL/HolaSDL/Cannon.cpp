@@ -7,6 +7,7 @@ Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
 	moveDirection = { 0,0 };
 	bool isMoving = false;
 	
+	
 }
 void Cannon::render(){
 	SDL_Rect rect = { pos.getX(), pos.getY(),
@@ -14,7 +15,6 @@ void Cannon::render(){
 	textura->render(rect);
 }
 bool Cannon::update() {
-	if(isMoving)
 	 pos = pos + moveDirection * SPEED;
 	return lifes > 0;
 }
@@ -24,7 +24,7 @@ void Cannon::hit() {
 void Cannon::handleEvents(const SDL_Event &event) {
 	
 		if (event.type == SDL_KEYDOWN) {
-			isMoving = true;
+			
 			switch (event.key.keysym.sym) {
 			case SDLK_a:
 				/*if(pos >= 50)*/
@@ -34,15 +34,19 @@ void Cannon::handleEvents(const SDL_Event &event) {
 				/*if(pos < windowWidth - 100)*/
 				moveDirection = { 1, 0 };
 					break;
+			case SDLK_SPACE:
+				Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2, 
+					pos.getY() - textura->getFrameHeight());
+
+				game->fireLaser(centeredPos, false);
+					break;
 			}
+			
 		}
 		else if (event.type == SDL_KEYUP) {
-			isMoving = false;
+			
 			moveDirection = { 0, 0 };
 			
 		}
-	
-	
-	
-	
 }
+Point2D<int> Cannon::getPos() { return pos; }

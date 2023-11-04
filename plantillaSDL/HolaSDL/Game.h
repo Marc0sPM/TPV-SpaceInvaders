@@ -69,5 +69,5 @@ public:
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;
 	
-	void fireLaser();
+	void fireLaser(Point2D<int>& pos, bool source);
 };

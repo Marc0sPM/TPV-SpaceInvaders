@@ -141,25 +141,40 @@ void Game::render() {
 void Game::update() {
 	//Update aliens
 	for (int i = 0; i < aliens.size(); i++) {
-		aliens[i]->update();
+		if (!aliens[i]->update()) { 
+			delete aliens[i]; 
+			aliens.erase(aliens.begin() + i); 
+			i--; //Para que no se salte el siguiente elemento por el resize del vector
+		}
+		
 	}
 	//Update bunkers
 	for (int i = 0; i < bunkers.size(); i++) {
-		bunkers[i]->update();
+		
+		if (!bunkers[i]->update()) {
+			delete bunkers[i]; 
+			bunkers.erase(bunkers.begin() + i); 
+			i--; //Para que no se salte el siguiente elemento por el resize del vector
+		}
 	}
 	//Update cannon
 	myCannon->update();
+	
+	//Update lasers
+	for (int i = 0; i < lasers.size(); i++) {
+		if (!lasers[i]->update()) {
+			delete lasers[i];
+			lasers.erase(lasers.begin() + i);
+			i--; //Para que no se salte el siguiente elemento por el resize del vector
+		}
+	}
 	/*------------------------------
 
 
-	COMPROBACION DE COLISIONES
+	COMPROBACION DE COLISIONES DE LA SIGUIENTE ITERACION
 
 
 	--------------------------------*/
-	//Update lasers
-	for (int i = 0; i < lasers.size(); i++) {
-		lasers[i]->update();
-	}
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
@@ -188,6 +203,6 @@ void Game::cannotMove() {
 }
 
 
-void Game::fireLaser() {
-
+void Game::fireLaser(Point2D<int>& pos, bool source) {
+	lasers.push_back(new Laser(pos/* Temporal */, source, renderer));
 }

@@ -10,10 +10,10 @@ void Laser::render() {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &rect);
 }
-void Laser::update() {
+bool Laser::update() {
 	//src == true -> alien
 	if (src) pos = pos + LASER_SPEED;
 	//src == false -> cannon
 	else pos = pos - LASER_SPEED;
-	
+	return true;
 }
