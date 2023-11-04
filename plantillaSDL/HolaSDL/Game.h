@@ -21,8 +21,9 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	bool exit;
-	vector<Alien>* aliens; //no array dinamico
-	vector<Bunker>* bunkers;
+	bool cantMove;
+	vector<Alien*> aliens; //no array dinamico
+	vector<Bunker*> bunkers; 
 	Cannon* myCannon;
 	//Añadir laseres--------------/
 	
@@ -35,6 +36,10 @@ private:
 		cannon,
 		background
 	};
+	struct textureSpec {
+
+	};
+
 public:
 	
 	Game();
@@ -44,7 +49,7 @@ public:
 	void update();
 	void handleEvents();
 	Vector2D<int> getDirection()const; 
-	//void cannotMove() ;
-	bool cannotMove();
+	void cannotMove() ;
+	
 	void fireLaser();
 };

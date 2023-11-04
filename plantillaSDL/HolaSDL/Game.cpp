@@ -2,7 +2,7 @@
 #include "Game.h"
 
 using namespace std;
-Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr), bunkers(nullptr),lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1,0)) {
+Game::Game() : window(nullptr), renderer(nullptr), exit(false),lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1,0)), cantMove(false) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		cerr << "Error al inicializar SDL: " << SDL_Error;
 		return;
@@ -36,8 +36,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 	else {
 		int tipo, posX, posY;
 		//inicialización de vectores de aliens y bunkers
-		aliens = new vector<Alien>;
-		bunkers = new vector<Bunker>;
+		
 		while (!entrada.eof()) {
 			//lectura de variables
 			entrada >> tipo;
@@ -55,14 +54,14 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), aliens(nullptr),
 				int subtipo;
 				entrada >> subtipo;
 				Point2D<int> pos = { posX, posY };
-				aliens->push_back(Alien(pos, texturas[alien], subtipo, this));
+				aliens.push_back(new Alien(pos, texturas[alien], subtipo, this));
 						
 			}
 			else if (tipo == 2) {
 				entrada >> posX;
 				entrada >> posY;
 				Point2D<int> pos = {posX, posY };
-				bunkers->push_back(Bunker(pos, 8, texturas[bunker]));
+				bunkers.push_back(new Bunker(pos, 8, texturas[bunker]));
 					
 			}
 		}		
@@ -104,12 +103,12 @@ void Game::render() {
 	SDL_RenderClear(renderer);
 	//Render aliens
 	texturas[background]->render();
-	for (int i = 0; i < aliens->size(); i++) {
-		(*aliens)[i].render();
+	for (int i = 0; i < aliens.size(); i++) {
+		aliens[i]->render();
 	}
 	//Render bunkers
-	for (int i = 0; i < bunkers->size(); i++) {
-		(*bunkers)[i].render();
+	for (int i = 0; i < bunkers.size(); i++) {
+		bunkers[i]->render();
 	}
 	//Render cañon
 	myCannon->render();
@@ -117,11 +116,14 @@ void Game::render() {
 }
 void Game::update() {
 	
-	for (int i = 0; i < aliens->size(); i++) {
-		(*aliens)[i].update();
+	for (int i = 0; i < aliens.size(); i++) {
+		aliens[i]->update();
 	}
 	myCannon->update();
-	if(cannotMove()) alienDirection = alienDirection * -1;
+	if (cantMove) {
+		alienDirection = alienDirection * -1;
+		cantMove = false;
+	}
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -139,17 +141,11 @@ Vector2D<int> Game::getDirection() const{
 	return alienDirection;
 	
 }
-bool Game::cannotMove() {
-	for (int i = 0; i < aliens->size(); i++) {
-		if ((*aliens)[i].getPos().getX() < 0 || (*aliens)[i].getPos().getX() >= windowWidth - 50) {
-			return true;
-		}
-	}
-	return false;
+//Si uno de los aliens choca con los laterales de la pantalla habilita cambio direccion
+void Game::cannotMove() {
+	cantMove = true;
 }
-//void Game::cannotMove() {
-//	alienDirection = alienDirection * -1;
-//}
+
 void Game::fireLaser() {
 
 }
