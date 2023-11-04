@@ -23,30 +23,34 @@ void Cannon::hit() {
 }
 void Cannon::handleEvents(const SDL_Event &event) {
 	
-		if (event.type == SDL_KEYDOWN) {
-			
-			switch (event.key.keysym.sym) {
-			case SDLK_a:
-				/*if(pos >= 50)*/
-				moveDirection = { -1, 0 };
-					break;
-			case SDLK_d:
-				/*if(pos < windowWidth - 100)*/
-				moveDirection = { 1, 0 };
-					break;
-			case SDLK_SPACE:
-				Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2, 
-					pos.getY() - textura->getFrameHeight());
+	if (event.type == SDL_KEYDOWN) {
+		switch (event.key.keysym.sym) {
+		case SDLK_a:
+			isMoving = true;
+			moveDirection = { -1, 0 };
+			break;
+		case SDLK_d:
+			isMoving = true;
+			moveDirection = { 1, 0 };
+			break;
+		}
+		if (event.key.keysym.sym == SDLK_SPACE) {
+			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
+				pos.getY() - textura->getFrameHeight());
 
-				game->fireLaser(centeredPos, false);
-					break;
-			}
-			
+			game->fireLaser(centeredPos, false);
 		}
-		else if (event.type == SDL_KEYUP) {
-			
+	}
+	else if (event.type == SDL_KEYUP) {
+		switch (event.key.keysym.sym) {
+		case SDLK_a:
+		case SDLK_d:
+			isMoving = false;
 			moveDirection = { 0, 0 };
-			
+			break;
 		}
+	}
+			
+		
 }
 Point2D<int> Cannon::getPos() { return pos; }
