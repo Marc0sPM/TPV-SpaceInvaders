@@ -26,7 +26,12 @@ bool Bunker::update() {
 	
 	return lifes > 0;
 }
+Texture* Bunker::getTexture() const {
+	return textura;
+}
+
 void Bunker::hit() {
 	lifes--;
 }
 Point2D<int> Bunker:: getPos() { return pos; }
+

@@ -27,4 +27,8 @@ bool Alien::update() {
 void Alien::hit() {
 	alive = false;
 }
+Texture* Alien::getTexture() const {
+	return textura;
+}
+
 Point2D<int> Alien::getPos() { return pos; }

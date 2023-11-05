@@ -68,6 +68,8 @@ public:
 	void handleEvents();
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;
-	
+	int getRandomRange(int min, int max);
+	vector<Bunker*> getBunkers()const;
+	vector<Alien*> getAliens() const;
 	void fireLaser(Point2D<int>& pos, bool source);
 };

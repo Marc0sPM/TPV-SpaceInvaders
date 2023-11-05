@@ -74,7 +74,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 		}
 	}
 	Point2D<int> aux ( 300, 400 );
-	lasers.push_back(new Laser(aux, false, renderer));
+	lasers.push_back(new Laser(aux, false, renderer, this));
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -168,6 +168,7 @@ void Game::update() {
 			i--; //Para que no se salte el siguiente elemento por el resize del vector
 		}
 	}
+	
 	/*------------------------------
 
 
@@ -175,6 +176,8 @@ void Game::update() {
 
 
 	--------------------------------*/
+	
+
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
@@ -204,5 +207,19 @@ void Game::cannotMove() {
 
 
 void Game::fireLaser(Point2D<int>& pos, bool source) {
-	lasers.push_back(new Laser(pos/* Temporal */, source, renderer));
+	lasers.push_back(new Laser(pos/* Temporal */, source, renderer, this));
+}
+
+int Game::getRandomRange(int min, int max) {
+	mt19937_64 generator(static_cast<unsigned>(time(nullptr))); //generador que es en funcion del segundo actual(maybe hay que cambiar el time(nulptr))
+	uniform_int_distribution<int> random(min, max); //random a generar entre valores
+	return random(generator); //el random con la semilla de generator
+}
+
+vector<Bunker*> Game::getBunkers()const {
+	return bunkers;
+}
+
+vector<Alien*> Game::getAliens() const {
+	return aliens;
 }
