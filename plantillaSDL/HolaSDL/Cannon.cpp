@@ -8,9 +8,6 @@ Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
 	isMoving = false;
 	shootCounter= 0;
 	canShoot = true;
-	shootInterval = 800; // unit -> ms
-	
-	
 }
 void Cannon::render(){
 	SDL_Rect rect = { pos.getX(), pos.getY(),
@@ -20,7 +17,7 @@ void Cannon::render(){
 bool Cannon::update(const Uint32 deltaTime) {
 
 	 pos = pos + moveDirection * SPEED;
-	 if (shootCounter < shootInterval) {
+	 if (shootCounter < SHOOT_INTERVAL) {
 		 shootCounter += deltaTime;
 	 }
 	 else {

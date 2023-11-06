@@ -6,7 +6,7 @@
 #include <SDL_image.h>
 
 const int SPEED = 2;
-
+const Uint32 SHOOT_INTERVAL = 800; //tiempo entre cada disparo (0.8s)
 class Game;
 class Cannon
 {
@@ -20,7 +20,6 @@ private:
 	bool isMoving;
 	Uint32 shootCounter;
 	bool canShoot;
-	Uint32 shootInterval;
 	
 	
 public:
