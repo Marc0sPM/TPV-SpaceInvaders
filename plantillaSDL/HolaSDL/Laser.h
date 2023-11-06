@@ -3,7 +3,10 @@
 #include "Vector2D.h"
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include <vector>
+#include "Bunker.h"
+#include "Alien.h"
+#include "Cannon.h"
 
 using namespace std;
 
@@ -14,15 +17,22 @@ class Game;
 class Laser
 {
 private:
-	Point2D<int> pos; 
+	Point2D<int> pos;
 	Game* game;
 	bool src; //true -> alien | false->cannon
 	SDL_Renderer* renderer;
 public:
 	Laser(Point2D<int>& pos, bool src, SDL_Renderer* renderer, Game* game);
+	struct color {
+		int r;
+		int g;
+		int b;
+		int alpha;
+	};
 	void render();
-	bool update();
-	 
+	bool update( Cannon* cannon);
+	bool bunkerColision( vector<Bunker*> bunkers);
+	bool aliensColision(vector<Alien*> aliens);
 
 
 };

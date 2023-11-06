@@ -29,6 +29,7 @@ public:
 	void hit();
 	void handleEvents(const SDL_Event &event);
 	Point2D<int> getPos();
+	Texture* getTexture();
 
 };
 

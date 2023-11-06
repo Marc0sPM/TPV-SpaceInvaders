@@ -13,15 +13,15 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+
 using namespace std;
-
-
 
 constexpr Uint32 windowWidth = 800;
 constexpr Uint32 windowHeight = 600;
 const int NUM_TEXTURES = 4;
 const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
 const string TEXTURE_ROOT = "../images/";
+const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 
 
@@ -39,10 +39,12 @@ private:
 	Cannon* myCannon;
 	Laser* laserPrueba;
 	//Añadir laseres--------------/
-	
+	int numShootAliens;
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;
 	Texture* texturas[NUM_TEXTURES];
+
+	Uint32 shootAlienCounter;
 	
 
 	enum textureNames{

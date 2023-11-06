@@ -5,7 +5,8 @@
 
 
 using namespace std;
-Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false), TEXTURAS{
+Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false), numShootAliens(0),
+TEXTURAS{
 		{"aliens.png", 3, 2},
 		{"bunker.png", 1, 4},
 		{"spaceship.png", 1, 1},
@@ -61,6 +62,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 				entrada >> posY;
 				int subtipo;
 				entrada >> subtipo;
+				if (subtipo == 0) numShootAliens++;
 				Point2D<int> pos = { posX, posY };
 				aliens.push_back(new Alien(pos, texturas[alien], subtipo, this));
 
@@ -69,11 +71,13 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 				entrada >> posX;
 				entrada >> posY;
 				Point2D<int> pos = { posX, posY };
-				bunkers.push_back(new Bunker(pos, 8, texturas[bunker]));
+				bunkers.push_back(new Bunker(pos, 4, texturas[bunker]));
 
 			}
+
 		}
 	}
+	shootAlienCounter = 0;
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -115,7 +119,6 @@ void Game::run() {
 		handleEvents();
 		update(deltaTime);
 		render();
-		cout << deltaTime <<endl;
 	}
 }
 void Game::render() {
@@ -138,7 +141,17 @@ void Game::render() {
 	}
 	SDL_RenderPresent(renderer);
 }
-void Game::update(const Uint32 deltTime) {
+void Game::update(const Uint32 deltaTime) {
+	//Contador para disparo alien
+	if (shootAlienCounter < SHOOT_ALIEN_INTERVAL) {
+		shootAlienCounter += deltaTime;
+	}
+	else {
+		shootAlienCounter = 0;
+		Alien* randomAlien = aliens[getRandomRange(0, numShootAliens)];
+		Point2D<int> alienCenteredPos(randomAlien->getPos().getX() + (texturas[alien]->getFrameWidth() / 2), randomAlien->getPos().getY());
+		fireLaser(alienCenteredPos, true);
+	}
 	//Update aliens
 	for (int i = 0; i < aliens.size(); i++) {
 		if (!aliens[i]->update()) { 
@@ -163,13 +176,13 @@ void Game::update(const Uint32 deltTime) {
 	
 	//Update lasers
 	for (int i = 0; i < lasers.size(); i++) {
-		if (!lasers[i]->update()) {
+		if (!lasers[i]->update(myCannon)) {
 			delete lasers[i];
 			lasers.erase(lasers.begin() + i);
 			i--; //Para que no se salte el siguiente elemento por el resize del vector
 		}
 	}
-
+	
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;

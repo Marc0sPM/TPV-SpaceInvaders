@@ -63,3 +63,4 @@ void Cannon::handleEvents(const SDL_Event &event) {
 		
 }
 Point2D<int> Cannon::getPos() { return pos; }
+Texture* Cannon::getTexture() { return textura; }

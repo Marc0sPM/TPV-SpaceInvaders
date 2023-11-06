@@ -19,6 +19,6 @@ public:
 	bool update();
 	void hit();
 	Texture* getTexture() const;
-	Point2D<int> getPos();
+	Point2D<int> getPos() const;
 };
 
