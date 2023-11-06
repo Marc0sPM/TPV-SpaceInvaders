@@ -4,9 +4,10 @@
 #include "texture.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include "checkML.h"
 
 const int SPEED = 2;
-const Uint32 SHOOT_INTERVAL = 800; //tiempo entre cada disparo (0.8s)
+const Uint32 SHOOT_INTERVAL = 700; //tiempo entre cada disparo (0.8s)
 class Game;
 class Cannon
 {
@@ -20,6 +21,7 @@ private:
 	bool isMoving;
 	Uint32 shootCounter;
 	bool canShoot;
+	SDL_Rect* rect;
 	
 	
 public:
@@ -30,6 +32,7 @@ public:
 	void handleEvents(const SDL_Event &event);
 	Point2D<int> getPos();
 	Texture* getTexture();
+	SDL_Rect* getRect();
 
 };
 

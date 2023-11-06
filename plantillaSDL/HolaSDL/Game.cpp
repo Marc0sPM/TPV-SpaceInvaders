@@ -5,7 +5,7 @@
 
 
 using namespace std;
-Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false), numShootAliens(0),
+Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false),
 TEXTURAS{
 		{"aliens.png", 3, 2},
 		{"bunker.png", 1, 4},
@@ -15,33 +15,35 @@ TEXTURAS{
 
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		cerr << "Error al inicializar SDL: " << SDL_Error;
+		throw "Error al inicializar SDL" ;
 		return;
 	}
-
+	 
 	window = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	if (window == nullptr) {
-		cerr << "Error al cargar ventana: " << SDL_Error;
+		throw  "ERROR: SDL_Window not found";
+		SDL_QUIT;
 		return;
 	}
 	renderer = SDL_CreateRenderer(window, -1,
 		SDL_RENDERER_ACCELERATED);
 	if (renderer == nullptr) {
-		cerr << "Error al cargar renderer: " << SDL_Error;
+		throw "ERROR: SDL_Renderer not found" ;
 		return;
 	}
 
 	//Carga texturas
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
-		texturas[i] = new Texture(renderer,  (TEXTURE_ROOT + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols);
+		 texturas[i] = new Texture(renderer, (TEXTURE_ROOT + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols);
+		
 	}
 
 	//inicialización por lectura
 	ifstream entrada;
 	entrada.open("../mapas/original.txt");
-	if (!entrada.is_open()) cout << "ERROR: entrada no encontrada.";
+	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
 		int tipo, posX, posY;
 		//inicialización de vectores de aliens y bunkers
@@ -77,7 +79,6 @@ TEXTURAS{
 
 		}
 	}
-	shootAlienCounter = 0;
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -142,24 +143,14 @@ void Game::render() {
 	SDL_RenderPresent(renderer);
 }
 void Game::update(const Uint32 deltaTime) {
-	//Contador para disparo alien
-	if (shootAlienCounter < SHOOT_ALIEN_INTERVAL) {
-		shootAlienCounter += deltaTime;
-	}
-	else {
-		shootAlienCounter = 0;
-		Alien* randomAlien = aliens[getRandomRange(0, numShootAliens)];
-		Point2D<int> alienCenteredPos(randomAlien->getPos().getX() + (texturas[alien]->getFrameWidth() / 2), randomAlien->getPos().getY());
-		fireLaser(alienCenteredPos, true);
-	}
 	//Update aliens
+
 	for (int i = 0; i < aliens.size(); i++) {
-		if (!aliens[i]->update()) { 
+		if (!aliens[i]->update(deltaTime)) { 
 			delete aliens[i]; 
 			aliens.erase(aliens.begin() + i); 
 			i--; //Para que no se salte el siguiente elemento por el resize del vector
 		}
-		
 	}
 	//Update bunkers
 	for (int i = 0; i < bunkers.size(); i++) {
@@ -171,18 +162,15 @@ void Game::update(const Uint32 deltaTime) {
 		}
 	}
 	//Update cannon
-	if(!myCannon->update(deltaTime)) exit = true;
-	
-	
+	if (!myCannon->update(deltaTime)) exit = true;
 	//Update lasers
 	for (int i = 0; i < lasers.size(); i++) {
-		if (!lasers[i]->update(myCannon)) {
+		if (!lasers[i]->update(aliens, bunkers, lasers, myCannon)) {
 			delete lasers[i];
 			lasers.erase(lasers.begin() + i);
 			i--; //Para que no se salte el siguiente elemento por el resize del vector
 		}
 	}
-	
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
@@ -215,20 +203,12 @@ void Game::cannotMove() {
 
 
 void Game::fireLaser(Point2D<int>& pos, bool source) {
-	lasers.push_back(new Laser(pos/* Temporal */, source, renderer, this));
+	
+	lasers.push_back(new Laser(pos , source, renderer, this));
 }
 
 int Game::getRandomRange(int min, int max) {
-	mt19937_64 generator(static_cast<unsigned>(time(nullptr))); //generador que es en funcion del segundo actual(maybe hay que cambiar el time(nulptr))
-	uniform_int_distribution<int> random(min, max); //random a generar entre valores
-	return random(generator); //el random con la semilla de generator
-}
-
-vector<Bunker*> Game::getBunkers()const {
-	return bunkers;
-}
-
-vector<Alien*> Game::getAliens() const {
-	return aliens;
+	
+	return uniform_int_distribution<int>(min, max)(rendomGenerator);
 }
 

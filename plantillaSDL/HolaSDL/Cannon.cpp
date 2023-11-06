@@ -8,11 +8,13 @@ Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
 	isMoving = false;
 	shootCounter= 0;
 	canShoot = true;
+	rect = new SDL_Rect{ pos.getX(), pos.getY(), 
+		textura->getFrameWidth(), textura->getFrameHeight() }; 
 }
 void Cannon::render(){
-	SDL_Rect rect = { pos.getX(), pos.getY(),
+	(*rect) = {pos.getX(), pos.getY(),
 		textura->getFrameWidth(), textura->getFrameHeight() };
-	textura->render(rect);
+	textura->render(*rect);
 }
 bool Cannon::update(const Uint32 deltaTime) {
 
@@ -62,5 +64,4 @@ void Cannon::handleEvents(const SDL_Event &event) {
 			
 		
 }
-Point2D<int> Cannon::getPos() { return pos; }
-Texture* Cannon::getTexture() { return textura; }
+SDL_Rect* Cannon::getRect() { return rect;}

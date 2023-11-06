@@ -7,6 +7,7 @@
 #include "Bunker.h"
 #include "Alien.h"
 #include "Cannon.h"
+#include "checkML.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ private:
 	Game* game;
 	bool src; //true -> alien | false->cannon
 	SDL_Renderer* renderer;
+	SDL_Rect* rect;
+	bool canSelfDestroy;
 public:
 	Laser(Point2D<int>& pos, bool src, SDL_Renderer* renderer, Game* game);
 	struct color {
@@ -30,10 +33,15 @@ public:
 		int alpha;
 	};
 	void render();
-	bool update( Cannon* cannon);
-	bool bunkerColision( vector<Bunker*> bunkers);
-	bool aliensColision(vector<Alien*> aliens);
-
+	bool update(const vector<Alien*>& aliens, const vector<Bunker*>& bunkers,
+		const vector<Laser*>& lasers, Cannon* cannon);
+	bool bunkerColision( const vector<Bunker*>& bunkers);
+	bool laserColision(const vector<Laser*>& lasers, bool srcOpposite);
+	bool alienColision(const vector<Alien*>& aliens);
+	bool cannonColision(Cannon* cannon);
+	SDL_Rect* getRect();
+	bool getSource();
+	void setSelfDestroy();
 
 };
 

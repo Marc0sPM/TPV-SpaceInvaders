@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include "checkML.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 class Game {
 private:
+	default_random_engine rendomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Uint32 deltaTime;
@@ -43,8 +45,6 @@ private:
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;
 	Texture* texturas[NUM_TEXTURES];
-
-	Uint32 shootAlienCounter;
 	
 
 	enum textureNames{

@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <iostream>
+#include "checkML.h"
 
 /**
  * Object-oriented wrapper for SDL textures with frame support.
