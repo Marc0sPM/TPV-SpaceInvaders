@@ -18,6 +18,8 @@ bool Laser::update() {
 	//src == false -> cannon
     else {
         pos = pos - LASER_SPEED;
+
+        //Comproacion de colisiones
         for (int i = 0; i < game->getAliens().size(); i++) {
             Alien* alien = game->getAliens()[i];
             Point2D<int> alienPos = alien->getPos();

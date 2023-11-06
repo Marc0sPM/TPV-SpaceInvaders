@@ -5,7 +5,10 @@ Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
 	lifes = 3;
 	remainingTime = 1;
 	moveDirection = { 0,0 };
-	bool isMoving = false;
+	isMoving = false;
+	shootCounter= 0;
+	canShoot = true;
+	shootInterval = 800; // unit -> ms
 	
 	
 }
@@ -14,8 +17,15 @@ void Cannon::render(){
 		textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->render(rect);
 }
-bool Cannon::update() {
+bool Cannon::update(const Uint32 deltaTime) {
+
 	 pos = pos + moveDirection * SPEED;
+	 if (shootCounter < shootInterval) {
+		 shootCounter += deltaTime;
+	 }
+	 else {
+		 canShoot = true;
+	 }
 	return lifes > 0;
 }
 void Cannon::hit() {
@@ -34,11 +44,13 @@ void Cannon::handleEvents(const SDL_Event &event) {
 			moveDirection = { 1, 0 };
 			break;
 		}
-		if (event.key.keysym.sym == SDLK_SPACE) {
+		if (event.key.keysym.sym == SDLK_SPACE && canShoot) {
 			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
 				pos.getY() - textura->getFrameHeight());
 
 			game->fireLaser(centeredPos, false);
+			shootCounter = 0;
+			canShoot = false;
 		}
 	}
 	else if (event.type == SDL_KEYUP) {

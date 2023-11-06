@@ -30,6 +30,7 @@ class Game {
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	Uint32 deltaTime;
 	bool exit;
 	bool cantMove;
 	vector<Alien*> aliens; //no array dinamico
@@ -64,7 +65,7 @@ public:
 	~Game();
 	void run();
 	void render();
-	void update();
+	void update(const Uint32 deltTime);
 	void handleEvents();
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;

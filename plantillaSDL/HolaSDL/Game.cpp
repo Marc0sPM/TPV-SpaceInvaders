@@ -12,6 +12,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 		{"stars.png", 1, 1}
 } {
 
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		cerr << "Error al inicializar SDL: " << SDL_Error;
 		return;
@@ -73,8 +74,6 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 			}
 		}
 	}
-	Point2D<int> aux ( 300, 400 );
-	lasers.push_back(new Laser(aux, false, renderer, this));
 }
 Game :: ~Game() {
 	//Liberar memoria alien y bunker
@@ -106,7 +105,7 @@ void Game::run() {
 		//Establecemos juego a 60 FPS
 		Uint32 currentFrameTime = SDL_GetTicks();
 		Uint32 frameTime = currentFrameTime - lastFrameTime;
-
+		deltaTime = frameTime;
 		if (frameTime < FRAME_DELAY) {
 			SDL_Delay(FRAME_DELAY - frameTime);
 		}
@@ -114,8 +113,9 @@ void Game::run() {
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();
-		update();
+		update(deltaTime);
 		render();
+		cout << deltaTime <<endl;
 	}
 }
 void Game::render() {
@@ -138,7 +138,7 @@ void Game::render() {
 	}
 	SDL_RenderPresent(renderer);
 }
-void Game::update() {
+void Game::update(const Uint32 deltTime) {
 	//Update aliens
 	for (int i = 0; i < aliens.size(); i++) {
 		if (!aliens[i]->update()) { 
@@ -158,7 +158,8 @@ void Game::update() {
 		}
 	}
 	//Update cannon
-	myCannon->update();
+	if(!myCannon->update(deltaTime)) exit = true;
+	
 	
 	//Update lasers
 	for (int i = 0; i < lasers.size(); i++) {
@@ -168,20 +169,14 @@ void Game::update() {
 			i--; //Para que no se salte el siguiente elemento por el resize del vector
 		}
 	}
-	
-	/*------------------------------
-
-
-	COMPROBACION DE COLISIONES DE LA SIGUIENTE ITERACION
-
-
-	--------------------------------*/
-	
 
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
 		cantMove = false;
+	}
+	if (aliens.size() <= 0) {
+		exit = true;
 	}
 }
 void Game::handleEvents() {
@@ -223,3 +218,4 @@ vector<Bunker*> Game::getBunkers()const {
 vector<Alien*> Game::getAliens() const {
 	return aliens;
 }
+

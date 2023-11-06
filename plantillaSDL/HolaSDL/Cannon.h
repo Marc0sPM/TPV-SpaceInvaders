@@ -18,12 +18,15 @@ private:
 	int remainingTime;
 	Vector2D<int> moveDirection;
 	bool isMoving;
+	Uint32 shootCounter;
+	bool canShoot;
+	Uint32 shootInterval;
 	
 	
 public:
 	Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game);
 	void render();
-	bool update();
+	bool update(const Uint32 deltaTime);
 	void hit();
 	void handleEvents(const SDL_Event &event);
 	Point2D<int> getPos();
