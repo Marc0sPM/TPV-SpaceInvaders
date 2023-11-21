@@ -76,8 +76,9 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ShooterAlien.cpp" />
     <ClCompile Include="texture.cpp" />
-    <ClCompile Include="TextureObject.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -87,8 +88,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Laser.h" />
+    <ClInclude Include="ShooterAlien.h" />
     <ClInclude Include="texture.h" />
-    <ClInclude Include="TextureObject.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

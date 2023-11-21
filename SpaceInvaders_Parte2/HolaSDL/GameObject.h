@@ -1,17 +1,18 @@
 #pragma once
-#include "Game.h"
 #include <iostream>
+#include <ostream>
 
+class Game;
 class GameObject
 {
 protected:
 	Game* game;
 public:
-	GameObject();
+	GameObject(Game* game);
 	~GameObject();
 	virtual void render() = 0;
 	virtual bool update() = 0;
-	virtual void save(ostream& os) = 0; //rellenar
+	//virtual void save(ostream& os) = 0; //rellenar
 
 };
 

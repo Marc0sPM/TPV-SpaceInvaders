@@ -18,8 +18,9 @@ void Alien::render() {
 	*rect ={ pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->renderFrame(*rect, subtipo, 0);
 }
-bool Alien::update(const Uint32 deltaTime) {
-	
+bool Alien::update() {
+	const Uint32 deltaTime = 9; //no se si se usara esto en elgun momento (aqui esta mal)
+
 	if (moveCounter < MOVE_INTERVAL) {
 		moveCounter += deltaTime;
 	}
@@ -31,12 +32,7 @@ bool Alien::update(const Uint32 deltaTime) {
 		moveCounter = 0;
 	}
 		
-	if (game->getRandomRange(0, 2000) == 1 && subtipo == 0) {
-		Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
-			pos.getY());
-
-		game->fireLaser(centeredPos, true);
-	}
+	
 	return alive; 
 }
 void Alien::hit() {

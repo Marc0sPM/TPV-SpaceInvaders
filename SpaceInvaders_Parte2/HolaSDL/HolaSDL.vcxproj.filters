@@ -39,7 +39,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="TextureObject.cpp">
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="ShooterAlien.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +74,10 @@
     <ClInclude Include="GameObject.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="TextureObject.h">
+    <ClInclude Include="SceneObject.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ShooterAlien.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
