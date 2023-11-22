@@ -13,7 +13,7 @@ bool ShooterAlien::update(Uint32 deltaTime) {
 		Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
 			pos.getY());
 
-		game->fireLaser(centeredPos, true);
+		game->fireLaser(centeredPos, true); //cambiar firelaser
 	}
 
 	return Alien::update(deltaTime); //retorna el update de alien para el movimiento
