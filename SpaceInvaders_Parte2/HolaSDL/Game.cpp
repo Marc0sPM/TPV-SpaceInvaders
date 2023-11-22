@@ -135,6 +135,7 @@ void Game::update(const Uint32 deltaTime) {
 	//		i--; //Para que no se salte el siguiente elemento por el resize del vector
 	//	}
 	//}
+	
 	//Update de sceneObjects
 	for (auto i = sceneObjects.begin(); i != sceneObjects.end(); i++) {
 		(*i)->update();
@@ -172,7 +173,7 @@ void Game::cannotMove() {
 
 void Game::fireLaser(Point2D<int>& pos, bool source) {
 	
-	lasers.push_back(new Laser(pos , source, renderer, this));
+	sceneObjects.push_back(new Laser(pos , source, this));
 }
 
 int Game::getRandomRange(int min, int max) {
@@ -220,7 +221,7 @@ void Game::readGame() {
 			else if (tipo == 4) {
 				entrada >> lifes;
 				Point2D<int> pos = { posX, posY };
-				sceneObjects.push_back(new Bunker(pos, lifes, texturas[bunker]));
+				sceneObjects.push_back(new Bunker(this,pos, lifes, texturas[bunker]));
 			}
 			//ovni
 			else if (tipo == 5) {
@@ -234,39 +235,39 @@ void Game::readGame() {
 	}
 }
 
-bool Game::bunkerColision(SDL_Rect* laserRect) {
-	for (int i = 0; i < bunkers.size(); i++) {
-
-		if (SDL_HasIntersection(bunkers[i]->getRect(), laserRect)) {
-			bunkers[i]->hit(); 
-			return false;
-		}
-	}
-	return true;
-}
-bool Game::laserColision(SDL_Rect* laserRect, bool laserSrcOppo) {
-	for (int i = 0; i < lasers.size(); i++) {
-		if (SDL_HasIntersection(lasers[i]->getRect(), laserRect) && lasers[i]->getSource() == laserSrcOppo) {
-			lasers[i]->setSelfDestroy();
-			return true;
-		}
-	}
-	return false;
-}
-bool Game::alienColision(SDL_Rect* laserRect) { 
-	for (int i = 0; i < aliens.size(); i++) {
-
-		if (SDL_HasIntersection(aliens[i]->getRect(), laserRect)) {
-			aliens[i]->hit();
-			return true;
-		}
-	}
-	return false;
-}
-bool Game::cannonColision(SDL_Rect* laserRect) {
-	if (SDL_HasIntersection(myCannon->getRect(), laserRect)) {
-		myCannon->hit();
-		return true;
-	}
-	return false;
-}
+//bool Game::bunkerColision(SDL_Rect* laserRect) {
+//	for (int i = 0; i < bunkers.size(); i++) {
+//
+//		if (SDL_HasIntersection(bunkers[i]->getRect(), laserRect)) {
+//			bunkers[i]->hit(); 
+//			return false;
+//		}
+//	}
+//	return true;
+//}
+//bool Game::laserColision(SDL_Rect* laserRect, bool laserSrcOppo) {
+//	for (int i = 0; i < lasers.size(); i++) {
+//		if (SDL_HasIntersection(lasers[i]->getRect(), laserRect) && lasers[i]->getSource() == laserSrcOppo) {
+//			lasers[i]->setSelfDestroy();
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+//bool Game::alienColision(SDL_Rect* laserRect) { 
+//	for (int i = 0; i < aliens.size(); i++) {
+//
+//		if (SDL_HasIntersection(aliens[i]->getRect(), laserRect)) {
+//			aliens[i]->hit();
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+//bool Game::cannonColision(SDL_Rect* laserRect) {
+//	if (SDL_HasIntersection(myCannon->getRect(), laserRect)) {
+//		myCannon->hit();
+//		return true;
+//	}
+//	return false;
+//}

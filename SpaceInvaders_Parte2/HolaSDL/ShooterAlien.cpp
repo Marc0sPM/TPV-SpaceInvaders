@@ -16,5 +16,5 @@ bool ShooterAlien::update(Uint32 deltaTime) {
 		game->fireLaser(centeredPos, true); //cambiar firelaser
 	}
 
-	return Alien::update(deltaTime); //retorna el update de alien para el movimiento
+	return Alien::update(); //retorna el update de alien para el movimiento
 }

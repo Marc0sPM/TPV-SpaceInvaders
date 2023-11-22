@@ -13,24 +13,24 @@ Point2D<int> Alien::getPos()const {
 }
 
 void Alien::render() const{ //no funca el rect
-    rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
+   SDL_Rect rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->renderFrame(rect, subtipo, 0);
 }
 bool Alien::update(){  //no le metas esto Uint32 deltaTime al update porque si no no funciona el override
 
 
 	//Esta logica de movimiento va en el mothership
-	if (moveCounter < MOVE_INTERVAL) {
+	/*if (moveCounter < MOVE_INTERVAL) {
 		moveCounter += deltaTime;
 	}
-	else {
+	else*/ {
 		pos = pos + (game->getDirection() * ALIEN_SPEED);
 		if (pos.getX() <=  ALIEN_SPEED ||
 			pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED))
 			game->cannotMove();
 		moveCounter = 0;
 	}
-	return lives > 0;
+	return lifes > 0;
 }
 void Alien::hit(SDL_Rect attackRect, bool src) {
 	//POR DETERMINAR QUE VA AQUI 

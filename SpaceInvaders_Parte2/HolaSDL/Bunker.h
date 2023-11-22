@@ -2,23 +2,24 @@
 #include "Vector2D.h"
 #include "texture.h"
 #include "checkML.h"
+#include "SceneObject.h"
 using namespace std;
-class Bunker
+class Bunker : public SceneObject
 {
-private:
-	Point2D<int> pos;
-	int lifes;
+protected:
+	
 	Texture* textura;
 	int currentFrame;
 	int maxLife;
 	int lifePercentage;
 	SDL_Rect* rect;
+	
 
 public:
 	Bunker();
-	Bunker(Point2D<int>& _pos, int _lifes, Texture* _textura);
-	void render() ;
-	bool update();
+	Bunker(Game* _game, Point2D<int>& _pos, int _lifes, Texture* _textura);
+	void render()const override;
+	bool update() override;
 	void hit();
 	SDL_Rect* getRect() const { return rect; }
 };

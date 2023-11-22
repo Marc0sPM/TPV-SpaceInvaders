@@ -1,14 +1,16 @@
 #include "Laser.h"
 #include "Game.h"
 
-Laser::Laser(Point2D<int>& _pos, bool _src, SDL_Renderer* _renderer, Game* _game) :
-	pos(_pos), src(_src), renderer(_renderer), game(_game) {
+Laser::Laser(Point2D<int>& _pos, char _src, Game* _game) :
+	
+    src(_src), 
+    SceneObject(game, _pos, 1, width, height) {
     rect = new SDL_Rect{ pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
     canSelfDestroy = false; //En caso de chocar con otro laser
-    
+    renderer = game->getRenderer();
 }
 
-void Laser::render()  {
+void Laser::render() const {
 	*rect = { pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
     color color;
     if (src) color = { 0, 0, 255, 255 }; //color setted blue -> from aliens

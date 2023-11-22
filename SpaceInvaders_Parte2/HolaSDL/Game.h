@@ -43,7 +43,7 @@ private:
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers; 
 	vector<Laser*> lasers;
-	//Cannon* myCannon;
+	Cannon* myCannon;
 	//HASTA AQUI
 	
 	int numShootAliens;
@@ -85,4 +85,5 @@ public:
 	bool laserColision(SDL_Rect* laserRect, bool laserSrc);
 	bool alienColision(SDL_Rect* laserRect);
 	bool cannonColision(SDL_Rect* laserRect);
+	SDL_Renderer* getRenderer(){ return renderer; }
 };

@@ -1,8 +1,8 @@
 #include "Cannon.h"
 #include "Game.h"
 Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, int _lives, int _remainingTime, Game* _game) :
-	pos(_pos), textura(_textura), game(_game) {
-	lifes = _lives;
+	textura(_textura), SceneObject(_game, _pos, _lives, textura->getFrameWidth(), textura->getFrameHeight()) {
+	
 	remainingTime = _remainingTime;
 	moveDirection = { 0,0 };
 	isMoving = false;
@@ -19,10 +19,10 @@ void Cannon::render() const{
 bool Cannon::update() {
 
 	 pos = pos + moveDirection * SPEED;
-	 if (shootCounter < SHOOT_INTERVAL) {
+	 /*if (shootCounter < SHOOT_INTERVAL) {
 		 shootCounter += deltaTime;
 	 }
-	 else {
+	 else*/ {
 		 canShoot = true;
 	 }
 	return lifes > 0;

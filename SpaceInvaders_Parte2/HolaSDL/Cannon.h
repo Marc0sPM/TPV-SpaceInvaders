@@ -10,13 +10,10 @@
 const int SPEED = 2;
 const Uint32 SHOOT_INTERVAL = 700; //tiempo entre cada disparo (0.8s)
 class Game;
-class Cannon
+class Cannon : public SceneObject
 {
 private:
-	Point2D<int> pos;
 	Texture* textura;
-	Game* game;
-	int lifes;
 	int remainingTime;
 	Vector2D<int> moveDirection;
 	bool isMoving;
