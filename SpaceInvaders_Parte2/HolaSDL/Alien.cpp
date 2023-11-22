@@ -4,8 +4,9 @@
 Alien::Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo) :
 	textura(_textura),
 	subtipo(_subtipo),
-	SceneObject(game, _pos, 1, textura->getFrameWidth(), textura->getFrameHeight()),
+	SceneObject(game, _pos, 1, _textura->getFrameWidth(), _textura->getFrameHeight()),
 	moveCounter(0){
+	rect = new SDL_Rect{ pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 }
 Point2D<int> Alien::getPos()const {
 	
@@ -13,8 +14,8 @@ Point2D<int> Alien::getPos()const {
 }
 
 void Alien::render() const{ //no funca el rect
-   SDL_Rect rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
-	textura->renderFrame(rect, subtipo, 0);
+   *rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
+	textura->renderFrame(*rect, subtipo, 0);
 }
 bool Alien::update(){  //no le metas esto Uint32 deltaTime al update porque si no no funciona el override
 

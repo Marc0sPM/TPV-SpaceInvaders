@@ -4,7 +4,7 @@
 Laser::Laser(Point2D<int>& _pos, char _src, Game* _game) :
 	
     src(_src), 
-    SceneObject(game, _pos, 1, width, height) {
+    SceneObject(_game, _pos, 1, LASER_WIDTH, LASER_HEIGHT) {
     rect = new SDL_Rect{ pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
     canSelfDestroy = false; //En caso de chocar con otro laser
     renderer = game->getRenderer();

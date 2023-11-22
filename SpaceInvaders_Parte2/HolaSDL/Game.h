@@ -73,8 +73,8 @@ public:
 	Game();
 	~Game();
 	void run();
-	void render();
-	void update(const Uint32 deltTime);
+	void render()const ;
+	void update();
 	void handleEvents();
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;
