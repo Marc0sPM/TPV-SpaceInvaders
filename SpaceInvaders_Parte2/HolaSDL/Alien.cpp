@@ -1,16 +1,16 @@
 #include "Alien.h"
 #include "Game.h"
-Alien::Alien() : pos(), textura(), subtipo(), game() {}
-Alien::Alien(Point2D<int>& _pos, Texture* _textura, int _subtipo, Game* _game) :
-	pos(_pos),
+
+Alien::Alien(Point2D<int>& _pos, Texture* _textura, int _subtipo) :
 	textura(_textura),
 	subtipo(_subtipo),
-	game(_game),
+	SceneObject( _pos, 1, textura->getFrameWidth(), textura->getFrameHeight()),
 	moveCounter(0){
-	alive = true;
+	
 	rect = new  SDL_Rect{ pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 }
 Point2D<int> Alien::getPos()const {
+	
 	return pos;
 }
 
@@ -19,7 +19,7 @@ void Alien::render() {
 	textura->renderFrame(*rect, subtipo, 0);
 }
 bool Alien::update() {
-	const Uint32 deltaTime = 9; //no se si se usara esto en elgun momento (aqui esta mal)
+	const Uint32 deltaTime = 16; //no se si se usara esto en elgun momento (aqui esta mal)
 
 	if (moveCounter < MOVE_INTERVAL) {
 		moveCounter += deltaTime;
@@ -31,12 +31,10 @@ bool Alien::update() {
 			game->cannotMove();
 		moveCounter = 0;
 	}
-		
-	
-	return alive; 
+	return lives > 0;
 }
-void Alien::hit() {
-	alive = false;
+void Alien::hit(SDL_Rect attackRect, bool src) {
+	//POR DETERMINAR QUE VA AQUI 
 }
 
 

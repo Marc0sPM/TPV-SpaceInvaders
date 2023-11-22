@@ -47,38 +47,38 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="checkML.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Alien.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="Bunker.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="Cannon.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
+    </ClInclude>
+    <ClInclude Include="checkML.h">
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2D.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="SceneObject.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="ShooterAlien.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de código fuente</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Archivos de código fuente</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Archivos de código fuente</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

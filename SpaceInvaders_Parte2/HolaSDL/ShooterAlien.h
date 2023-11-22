@@ -3,8 +3,8 @@
 class ShooterAlien : public Alien
 {
 protected:
-	int remainingTime;
-private:
+	int remainingTime = 2000;
+public:
 	bool update();
 };
 
