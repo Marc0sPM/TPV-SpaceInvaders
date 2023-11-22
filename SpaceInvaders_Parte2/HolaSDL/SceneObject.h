@@ -10,7 +10,7 @@ protected:
 	int lives, width, height;
 
 public:
-	SceneObject(Point2D<int> _pos, int _lives, int _width, int _height);
-	virtual void hit(SDL_Rect attackRect, bool src);
+	SceneObject(Game* _game, Point2D<int> _pos, int _lives, int _width, int _height);
+	virtual void hit(SDL_Rect attackRect, char src);
 };
 

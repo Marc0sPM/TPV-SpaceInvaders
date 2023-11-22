@@ -9,22 +9,20 @@ const Uint32 MOVE_INTERVAL = 800;
 class Game;
 class Alien : public SceneObject
 {
-protected:
+private:
 	int subtipo;
-	Texture* textura;
 	int currentFrame;
-	
-	SDL_Rect* rect ;
+	SDL_Rect rect;
 	Uint32 moveCounter;
-	
-	
+protected:
+	Texture* textura;
 public:
 
-	Alien(Point2D<int>& _pos, Texture* _textura, int _subtipo);
+	Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo);
 	Point2D<int> getPos () const;
 	void render() ;
-	bool update();
+	bool update(Uint32 deltaTime);
 	void hit(SDL_Rect attackRect, bool src) override;
-	SDL_Rect* getRect() const { return rect; }
+	SDL_Rect getRect() const { return rect; }
 };
 
