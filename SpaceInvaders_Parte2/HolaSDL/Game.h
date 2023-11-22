@@ -6,14 +6,17 @@
 #include "Bunker.h"
 #include "Texture.h"
 #include "Vector2D.h"
+#include "SceneObject.h"
 #include "Cannon.h"
 #include "Laser.h"
+#include "ShooterAlien.h"
 #include <vector>
 #include <random>
 #include <fstream>
 #include <string>
 #include <cstring>
 #include "checkML.h"
+#include <list>
 
 using namespace std;
 
@@ -35,17 +38,21 @@ private:
 	Uint32 deltaTime;
 	bool exit;
 	bool cantMove;
+	
+	//HAY QUE QUITAR LOS VECTORES
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers; 
 	vector<Laser*> lasers;
-	Cannon* myCannon;
-	Laser* laserPrueba;
-	//Añadir laseres--------------/
+	//Cannon* myCannon;
+	//HASTA AQUI
+	
 	int numShootAliens;
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;
 	Texture* texturas[NUM_TEXTURES];
 	
+	//Lista de objetos
+	list<SceneObject*> sceneObjects;
 
 	enum textureNames{
 		alien,

@@ -1,9 +1,9 @@
 #include "Cannon.h"
 #include "Game.h"
-Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
+Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, int _lives, int _remainingTime, Game* _game) :
 	pos(_pos), textura(_textura), game(_game) {
-	lifes = 3;
-	remainingTime = 1;
+	lifes = _lives;
+	remainingTime = _remainingTime;
 	moveDirection = { 0,0 };
 	isMoving = false;
 	shootCounter= 0;
@@ -11,12 +11,12 @@ Cannon::Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game) :
 	rect = new SDL_Rect{ pos.getX(), pos.getY(), 
 		textura->getFrameWidth(), textura->getFrameHeight() }; 
 }
-void Cannon::render(){
+void Cannon::render() const{
 	(*rect) = {pos.getX(), pos.getY(),
 		textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->render(*rect);
 }
-bool Cannon::update(const Uint32 deltaTime) {
+bool Cannon::update() {
 
 	 pos = pos + moveDirection * SPEED;
 	 if (shootCounter < SHOOT_INTERVAL) {

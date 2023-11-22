@@ -99,7 +99,7 @@ void Game::render() {
 		bunkers[i]->render();
 	}
 	//Render cañon
-	myCannon->render();
+	//myCannon->render();
 	//Render lasers
 	for (int i = 0; i < lasers.size(); i++) {
 		lasers[i]->render();
@@ -126,15 +126,15 @@ void Game::update(const Uint32 deltaTime) {
 		}
 	}
 	//Update cannon
-	if (!myCannon->update(deltaTime)) exit = true;
-	//Update lasers
-	for (int i = 0; i < lasers.size(); i++) {
-		if (!lasers[i]->update()) {
-			delete lasers[i];
-			lasers.erase(lasers.begin() + i);
-			i--; //Para que no se salte el siguiente elemento por el resize del vector
-		}
-	}
+	//if (!myCannon->update(deltaTime)) exit = true;
+	////Update lasers
+	//for (int i = 0; i < lasers.size(); i++) {
+	//	if (!lasers[i]->update()) {
+	//		delete lasers[i];
+	//		lasers.erase(lasers.begin() + i);
+	//		i--; //Para que no se salte el siguiente elemento por el resize del vector
+	//	}
+	//}
 	//Comprobacion de cambio de direccion de aliens
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
@@ -150,7 +150,7 @@ void Game::handleEvents() {
 		if (event.type == SDL_QUIT) {
 			exit = true;
 		}
-		myCannon->handleEvents(event);
+		//myCannon->handleEvents(event);
 	}
 }
 
@@ -180,38 +180,73 @@ void Game::readGame() {
 	entrada.open("../mapas/original.txt");
 	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
-		int tipo, posX, posY;
+		int tipo, posX, posY, lifes, remainingTime;
 		//inicialización de vectores de aliens y bunkers
 
-		while (!entrada.eof()) {
+		while (!entrada.eof()) { //habia que cambiar esto
 			//lectura de variables
 			entrada >> tipo;
+			entrada >> posX;
+			entrada >> posY;
+			//if (tipo == 0) {
+			//	//Inicializacion canñon
+			//	entrada >> posX;
+			//	entrada >> posY;
+			//	Point2D<int> posC = { posX, posY };
+			//	myCannon = new Cannon(posC, texturas[cannon], this);
+			//}
+			//else if (tipo == 1) {
+			//	entrada >> posX;
+			//	entrada >> posY;
+			//	int subtipo;
+			//	entrada >> subtipo;
+			//	if (subtipo == 0) numShootAliens++;
+			//	Point2D<int> pos = { posX, posY };
+			//	aliens.push_back(new Alien(pos, texturas[alien], subtipo, this));
 
+			//}
+			//else if (tipo == 2) {
+			//	entrada >> posX;
+			//	entrada >> posY;
+			//	Point2D<int> pos = { posX, posY };
+			//	bunkers.push_back(new Bunker(pos, 4, texturas[bunker]));
+
+			//}
+
+			//cannon
 			if (tipo == 0) {
-				//Inicializacion canñon
-				entrada >> posX;
-				entrada >> posY;
+				entrada >> lifes >> remainingTime;
 				Point2D<int> posC = { posX, posY };
-				myCannon = new Cannon(posC, texturas[cannon], this);
+				sceneObjects.push_back(new Cannon(posC, texturas[cannon], lifes, remainingTime, this));
 			}
+			//aliens
 			else if (tipo == 1) {
-				entrada >> posX;
-				entrada >> posY;
-				int subtipo;
-				entrada >> subtipo;
-				if (subtipo == 0) numShootAliens++;
-				Point2D<int> pos = { posX, posY };
-				aliens.push_back(new Alien(pos, texturas[alien], subtipo, this));
-
+				entrada >> tipo;
+				Point2D<int> posC = { posX, posY };
+				sceneObjects.push_back(new Alien(this, posC, texturas[alien], tipo));
 			}
 			else if (tipo == 2) {
-				entrada >> posX;
-				entrada >> posY;
-				Point2D<int> pos = { posX, posY };
-				bunkers.push_back(new Bunker(pos, 4, texturas[bunker]));
+				entrada >> tipo;
+				Point2D<int> posC = { posX, posY };
+				sceneObjects.push_back(new ShooterAlien(this, posC, texturas[alien], tipo));
+			}
+			else if (tipo == 3) {
+				//nave nodriza
 
 			}
+			else if (tipo == 4) {
+				//bunker
+				entrada >> lifes;
+				Point2D<int> pos = { posX, posY };
+				sceneObjects.push_back(new Bunker(pos, lifes, texturas[bunker]));
+			}
+			else if (tipo == 5) {
+				//ovni
+			}
+			else if (tipo == 6) {
+				//laser
 
+			}
 		}
 	}
 }

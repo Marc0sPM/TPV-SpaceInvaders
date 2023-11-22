@@ -4,6 +4,7 @@
 #include "texture.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include "SceneObject.h"
 #include "checkML.h"
 
 const int SPEED = 2;
@@ -25,9 +26,9 @@ private:
 	
 	
 public:
-	Cannon(Point2D<int>& _pos, Texture* _textura, Game* _game);
-	void render();
-	bool update(const Uint32 deltaTime);
+	Cannon(Point2D<int>& _pos, Texture* _textura,int _lives,int _remainingTime,Game* _game);
+	void render() const ;
+	bool update();
 	void hit();
 	void handleEvents(const SDL_Event &event);
 	SDL_Rect* getRect() { return rect; }

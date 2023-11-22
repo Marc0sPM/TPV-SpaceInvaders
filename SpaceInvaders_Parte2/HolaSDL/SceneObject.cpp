@@ -5,7 +5,7 @@ SceneObject::SceneObject(Game* _game, Point2D<int> _pos, int _lives, int _width,
 
 
 void SceneObject::hit(SDL_Rect attackRect, char src) { 
-	//Comprueba colsion y resta la vida pertinente 
+	//Comprueba colision y resta la vida pertinente 
 	
 	SDL_Rect objectRect = { pos.getX(), pos.getY(), width, height }; 
 

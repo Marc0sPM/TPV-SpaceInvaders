@@ -4,7 +4,7 @@
 Alien::Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo) :
 	textura(_textura),
 	subtipo(_subtipo),
-	SceneObject( _pos, 1, textura->getFrameWidth(), textura->getFrameHeight()),
+	SceneObject(game, _pos, 1, textura->getFrameWidth(), textura->getFrameHeight()),
 	moveCounter(0){
 }
 Point2D<int> Alien::getPos()const {
@@ -12,11 +12,11 @@ Point2D<int> Alien::getPos()const {
 	return pos;
 }
 
-void Alien::render() {
+void Alien::render() const{ //no funca el rect
     rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->renderFrame(rect, subtipo, 0);
 }
-bool Alien::update(Uint32 deltaTime) {
+bool Alien::update(){  //no le metas esto Uint32 deltaTime al update porque si no no funciona el override
 
 
 	//Esta logica de movimiento va en el mothership

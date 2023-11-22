@@ -20,9 +20,9 @@ public:
 
 	Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo);
 	Point2D<int> getPos () const;
-	void render() ;
-	bool update(Uint32 deltaTime);
-	void hit(SDL_Rect attackRect, bool src) override;
+	void render() const override;
+	bool update() override;
+	void hit(SDL_Rect attackRect, bool src);
 	SDL_Rect getRect() const { return rect; }
 };
 
