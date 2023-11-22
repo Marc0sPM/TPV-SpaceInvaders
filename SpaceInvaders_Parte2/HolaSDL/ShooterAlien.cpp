@@ -1,5 +1,7 @@
 #include "ShooterAlien.h"
 
+ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo)
+	: Alien(_game, _pos, _textura, _subtipo) {}
 
 bool ShooterAlien::update(Uint32 deltaTime) {
 
