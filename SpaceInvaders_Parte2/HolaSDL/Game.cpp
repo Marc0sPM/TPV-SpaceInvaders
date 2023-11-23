@@ -1,10 +1,15 @@
 
 #include "Game.h"
 using namespace std;
+<<<<<<< HEAD
 Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), 
 	alienDirection(Vector2D<int>(1, 0)), 
 	cantMove(false),
 	TEXTURAS{
+=======
+Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), alienDirection(Vector2D<int>(1, 0)), cantMove(false),
+TEXTURAS{
+>>>>>>> parent of d00c28f (render hechisimo ;P)
 		{"aliens.png", 3, 2},
 		{"bunker.png", 1, 4},
 		{"spaceship.png", 1, 1},
@@ -44,21 +49,48 @@ void Game::run() {
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();
+		update(deltaTime);
 		render();
+<<<<<<< HEAD
 		update();
 	}
 }
 
 void Game::render() const{
+=======
+	}
+}
+void Game::render() {
+>>>>>>> parent of d00c28f (render hechisimo ;P)
 
 	SDL_RenderClear(renderer);
 	//Render aliens
 	texturas[background]->render();
+<<<<<<< HEAD
 	for(auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->render();
 	}
 	SDL_RenderPresent(renderer);
 }
+=======
+	for (int i = 0; i < aliens.size(); i++) {
+		aliens[i]->render();
+	}
+	//Render bunkers
+	for (int i = 0; i < bunkers.size(); i++) {
+		bunkers[i]->render();
+	}
+	//Render cañon
+	//myCannon->render();
+	//Render lasers
+	for (int i = 0; i < lasers.size(); i++) {
+		lasers[i]->render();
+	}
+	SDL_RenderPresent(renderer);
+}
+void Game::update(const Uint32 deltaTime) {
+	//Update aliens
+>>>>>>> parent of d00c28f (render hechisimo ;P)
 
 void Game::update() {
 	
@@ -71,6 +103,9 @@ void Game::update() {
 	if (cantMove) {
 		alienDirection = alienDirection * -1;
 		cantMove = false; 
+	}
+	if (aliens.size() <= 0) {
+		exit = true;
 	}
 }
 void Game::handleEvents() {
@@ -97,7 +132,7 @@ void Game::hasDied(list<SceneObject*>::iterator iterator) {
 // Calcula y devuelve la dirección común de movimiento de los Aliens
 Vector2D<int> Game::getDirection() const {
 
-	return Vector2D<int>(1,0);
+	return alienDirection;
 
 }
 //Si uno de los aliens choca con los laterales de la pantalla habilita cambio direccion
@@ -146,6 +181,7 @@ void Game::readGame() {
 			entrada >> posX;
 			entrada >> posY;
 			//cannon
+<<<<<<< HEAD
 			if (object == 0) readCannon(entrada, posX, posY);
 			//aliens
 			else if (object == 1) readAliens(entrada, posX, posY);
@@ -154,6 +190,27 @@ void Game::readGame() {
 
 			//mothership
 			else if (object == 3);
+=======
+			if (tipo == 0) {
+				entrada >> lifes >> remainingTime;
+				Point2D<int> posC = { posX, posY };
+				sceneObjects.push_back(new Cannon(posC, texturas[cannon], lifes, remainingTime, this));
+			}
+			//aliens
+			else if (tipo == 1) {
+				entrada >> tipo;
+				Point2D<int> posC = { posX, posY };
+				sceneObjects.push_back(new Alien(this, posC, texturas[alien], tipo));
+			}
+			else if (tipo == 2) {
+				entrada >> tipo;
+				Point2D<int> posC = { posX, posY };
+				sceneObjects.push_back(new ShooterAlien(this, posC, texturas[alien], tipo));
+			}
+			//nave nodriza
+			else if (tipo == 3) {
+				
+>>>>>>> parent of d00c28f (render hechisimo ;P)
 
 			//bunker
 			else if (object == 4)  readBunkers(entrada, posX, posY);
@@ -169,6 +226,7 @@ void Game::readGame() {
 	}
 }
 
+<<<<<<< HEAD
 void Game::readAliens(istream& entrada, int posX, int posY) {
 	int tipo;
 	entrada >> tipo;
@@ -245,3 +303,41 @@ bool Game::cannonColision(SDL_Rect* laserRect) {
 	}
 	return false;
 }
+=======
+//bool Game::bunkerColision(SDL_Rect* laserRect) {
+//	for (int i = 0; i < bunkers.size(); i++) {
+//
+//		if (SDL_HasIntersection(bunkers[i]->getRect(), laserRect)) {
+//			bunkers[i]->hit(); 
+//			return false;
+//		}
+//	}
+//	return true;
+//}
+//bool Game::laserColision(SDL_Rect* laserRect, bool laserSrcOppo) {
+//	for (int i = 0; i < lasers.size(); i++) {
+//		if (SDL_HasIntersection(lasers[i]->getRect(), laserRect) && lasers[i]->getSource() == laserSrcOppo) {
+//			lasers[i]->setSelfDestroy();
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+//bool Game::alienColision(SDL_Rect* laserRect) { 
+//	for (int i = 0; i < aliens.size(); i++) {
+//
+//		if (SDL_HasIntersection(aliens[i]->getRect(), laserRect)) {
+//			aliens[i]->hit();
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+//bool Game::cannonColision(SDL_Rect* laserRect) {
+//	if (SDL_HasIntersection(myCannon->getRect(), laserRect)) {
+//		myCannon->hit();
+//		return true;
+//	}
+//	return false;
+//}
+>>>>>>> parent of d00c28f (render hechisimo ;P)

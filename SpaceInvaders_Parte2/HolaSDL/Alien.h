@@ -12,7 +12,7 @@ class Alien : public SceneObject
 private:
 	int subtipo;
 	int currentFrame;
-	SDL_Rect* rect;
+	SDL_Rect rect;
 	Uint32 moveCounter;
 protected:
 	Texture* textura;
@@ -23,6 +23,6 @@ public:
 	void render() const override;
 	bool update() override;
 	void hit(SDL_Rect attackRect, bool src);
-	SDL_Rect getRect() const { return *rect; }
+	SDL_Rect getRect() const { return rect; }
 };
 

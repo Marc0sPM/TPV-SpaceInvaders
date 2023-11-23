@@ -12,7 +12,7 @@ const Uint32 SHOOT_INTERVAL = 700; //tiempo entre cada disparo (0.8s)
 class Game;
 class Cannon : public SceneObject
 {
-protected:
+private:
 	Texture* textura;
 	int remainingTime;
 	Vector2D<int> moveDirection;
@@ -23,7 +23,7 @@ protected:
 	
 	
 public:
-	Cannon(Point2D<int>& _pos,int _lives,int _remainingTime,Game* _game, Texture* _textura);
+	Cannon(Point2D<int>& _pos, Texture* _textura,int _lives,int _remainingTime,Game* _game);
 	void render() const ;
 	bool update();
 	void hit();

@@ -11,5 +11,15 @@ void SceneObject::hit(SDL_Rect attackRect, char src) {
 
 	SDL_Rect objectRect = { pos.getX(), pos.getY(), width, height }; 
 
+<<<<<<< HEAD
 	if (SDL_HasIntersection(&attackRect, &objectRect))  lifes--;
+=======
+	/*----------------------
+	PROBABLEMENTE ESTA MAL, NO SE COMPRUEBA CON SRC
+
+	PROBABLEMENTE CON SRC SE EVALUE EN CADA UNA DE LAS LLAMDAS DE HIT DE LOS DISTINTOS OBJECTS
+	-------------------------*/
+	if (SDL_HasIntersection(&attackRect, &objectRect)) 
+		lifes--;
+>>>>>>> parent of d00c28f (render hechisimo ;P)
 }
