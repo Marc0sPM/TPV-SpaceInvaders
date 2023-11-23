@@ -16,7 +16,7 @@ Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SD
 	loadTextures();
 	//inicialización por lectura
 	readGame();
-	motherShip = new MotherShip(this, cantAliens);
+	
 }
 Game :: ~Game() {
 	
@@ -44,10 +44,8 @@ void Game::run() {
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();
-
-				 //
-		render();//cambiar de orden posteriormente
-		update();//
+		render();
+		update();
 	}
 }
 
@@ -59,7 +57,6 @@ void Game::render() const{
 	for(auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->render();
 	}
-	motherShip->render(); //no se que deberia de hacer la motherShip
 	SDL_RenderPresent(renderer);
 }
 
@@ -176,10 +173,9 @@ void Game::readAliens(istream& entrada, int posX, int posY) {
 	int tipo;
 	entrada >> tipo;
 	Point2D<int> posC = { posX, posY }; 
-	Alien* a = new Alien(this, posC, texturas[alien], tipo, motherShip); 
+	Alien* a = new Alien(this, posC, texturas[alien], tipo); 
 	sceneObjects.push_back(a); 
 	a->setListIterator(--sceneObjects.end()); 
-	cantAliens++;
 	
 }
 void Game::readBunkers(istream& entrada,int posX, int posY) {
@@ -205,10 +201,10 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	int reloadTime, tipo;
 	entrada >> tipo >> reloadTime;
 	Point2D<int> posC = { posX, posY };
-	ShooterAlien* s = new ShooterAlien(this, posC, texturas[alien], tipo, reloadTime, motherShip);
+	ShooterAlien* s = new ShooterAlien(this, posC, texturas[alien], tipo, reloadTime);
 	sceneObjects.push_back(s);
 	s->setListIterator(--sceneObjects.end());
-	cantAliens++;
+	
 }
 #pragma endregion
 

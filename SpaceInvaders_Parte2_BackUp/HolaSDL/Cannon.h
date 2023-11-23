@@ -24,8 +24,8 @@ protected:
 	
 public:
 	Cannon(Point2D<int>& _pos,int _lives,int _remainingTime,Game* _game, Texture* _textura);
-	void render() const override;
-	void update() override;
+	void render() const ;
+	bool update();
 	void hit();
 	void handleEvents(const SDL_Event &event);
 	SDL_Rect* getRect() const { return rect; }

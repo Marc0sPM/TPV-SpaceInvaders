@@ -18,7 +18,7 @@ void Laser::render() const {
 	SDL_SetRenderDrawColor(renderer,color.r, color.g, color.b, color.alpha );
 	SDL_RenderFillRect(renderer, rect);
 }
-void Laser::update() {
+bool Laser::update() {
 	
     if (canSelfDestroy) return false;
     //src -> alien
