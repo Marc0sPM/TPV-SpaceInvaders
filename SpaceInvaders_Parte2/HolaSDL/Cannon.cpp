@@ -1,38 +1,38 @@
 #include "Cannon.h"
 #include "Game.h"
 Cannon::Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura) :
-SceneObject(_game, _pos, _lives, _textura->getFrameWidth(), _textura->getFrameHeight()),
-textura(_textura),
-remainingTime(0){
-	
+	SceneObject(_game, _pos, _lives, _textura->getFrameWidth(), _textura->getFrameHeight()),
+	textura(_textura),
+	remainingTime(0) {
+
 	moveDirection = { 0,0 };
 	isMoving = false;
-	shootCounter= 0;
+	shootCounter = 0;
 	canShoot = true;
-	rect = new SDL_Rect{ pos.getX(), pos.getY(), 
-		textura->getFrameWidth(), textura->getFrameHeight() };  
+	rect = new SDL_Rect{ pos.getX(), pos.getY(),
+		textura->getFrameWidth(), textura->getFrameHeight() };
 }
-void Cannon::render() const{
-	(*rect) = {pos.getX(), pos.getY(),
+void Cannon::render() const {
+	(*rect) = { pos.getX(), pos.getY(),
 		textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->render(*rect);
 }
-bool Cannon::update() {
+void Cannon::update() {
 
-	 pos = pos + moveDirection * SPEED;
-	 /*if (shootCounter < SHOOT_INTERVAL) {
-		 shootCounter += deltaTime;
-	 }
-	 else*/ {
-		 canShoot = true;
-	 }
+	pos = pos + moveDirection * SPEED;
+	/*if (shootCounter < SHOOT_INTERVAL) {
+		shootCounter += deltaTime;
+	}
+	else*/ {
+		canShoot = true;
+	}
 	return lifes > 0;
 }
 void Cannon::hit() {
 	lifes--;
 }
-void Cannon::handleEvents(const SDL_Event &event) {
-	
+void Cannon::handleEvents(const SDL_Event& event) {
+
 	if (event.type == SDL_KEYDOWN) {
 		switch (event.key.keysym.sym) {
 		case SDLK_a:
@@ -61,5 +61,5 @@ void Cannon::handleEvents(const SDL_Event &event) {
 			moveDirection = { 0, 0 };
 			break;
 		}
-	}		
+	}
 }

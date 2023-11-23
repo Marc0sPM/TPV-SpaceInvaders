@@ -10,6 +10,7 @@
 #include "Cannon.h"
 #include "Laser.h"
 #include "ShooterAlien.h"
+#include "MotherShip.h"
 #include <vector>
 #include <random>
 #include <fstream>
@@ -38,23 +39,24 @@ private:
 	Uint32 deltaTime;
 	bool exit;
 	bool cantMove;
-	
+	int cantAliens = 0;
 	//HAY QUE QUITAR LOS VECTORES
 	vector<Alien*> aliens; //no array dinamico
-	vector<Bunker*> bunkers; 
+	vector<Bunker*> bunkers;
 	vector<Laser*> lasers;
 	Cannon* myCannon;
 	//HASTA AQUI
-	
+	MotherShip* motherShip;
+
 	int numShootAliens;
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;
 	Texture* texturas[NUM_TEXTURES];
-	
+
 	//Lista de objetos
 	list<SceneObject*> sceneObjects;
 
-	enum textureNames{
+	enum textureNames {
 		alien,
 		bunker,
 		cannon,
@@ -65,25 +67,36 @@ private:
 		size_t rows;
 		size_t cols;
 	};
-	
+
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
-	
+	void readGame();
+	void readAliens(istream& entrada, int posX, int posY);
+	void readBunkers(istream& entrada, int posX, int posY);
+	void readShooterAliens(istream& entrada, int posX, int posY);
+	void readCannon(istream& entrada, int posX, int posY);
+	void initializeSDL();
+	void loadTextures();
 public:
-	
+
 	Game();
 	~Game();
+
 	void run();
-	void render()const ;
+	void render()const;
 	void update();
 	void handleEvents();
-	Vector2D<int> getDirection()const; 
-	void cannotMove() ;
-	int getRandomRange(int min, int max);
-	void fireLaser(Point2D<int>& pos, bool source);
-	void readGame();
+
+	Vector2D<int> getDirection()const;
+	void cannotMove();
+	int getRandomRange(int min, int max) const;
+
 	bool bunkerColision(SDL_Rect* laserRect);
 	bool laserColision(SDL_Rect* laserRect, bool laserSrc);
 	bool alienColision(SDL_Rect* laserRect);
 	bool cannonColision(SDL_Rect* laserRect);
-	SDL_Renderer* getRenderer(){ return renderer; }
+	SDL_Renderer* getRenderer() const { return renderer; }
+
+	void fireLaser(Point2D<int>& pos, bool source);
+	void hasDied(std::list<SceneObject*>::iterator iterator);
+
 };

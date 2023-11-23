@@ -20,15 +20,15 @@ protected:
 	Uint32 shootCounter;
 	bool canShoot;
 	SDL_Rect* rect;
-	
-	
+
+
 public:
-	Cannon(Point2D<int>& _pos,int _lives,int _remainingTime,Game* _game, Texture* _textura);
-	void render() const ;
-	bool update();
+	Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura);
+	void render() const override;
+	void update() override;
 	void hit();
-	void handleEvents(const SDL_Event &event);
-	SDL_Rect* getRect() { return rect; }
+	void handleEvents(const SDL_Event& event);
+	SDL_Rect* getRect() const { return rect; }
 
 };
 

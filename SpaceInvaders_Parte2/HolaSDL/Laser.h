@@ -19,7 +19,7 @@ class Game;
 class Laser : public SceneObject
 {
 private:
-	
+
 	char src; //true -> alien | false->cannon
 	SDL_Renderer* renderer;
 	SDL_Rect* rect;
@@ -33,10 +33,10 @@ public:
 		int alpha;
 	};
 	void render() const override;
-	bool update();
-	
-	SDL_Rect* getRect() { return rect; }
-	bool getSource() { return src; }
+	void update() override;
+
+	SDL_Rect* getRect()const { return rect; }
+	bool getSource() const { return src; }
 	void setSelfDestroy();
 
 };
