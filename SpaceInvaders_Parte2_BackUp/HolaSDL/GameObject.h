@@ -11,8 +11,8 @@ public:
 	GameObject(Game* game);
 	~GameObject();
 	virtual void render() const = 0;
-	virtual bool update() = 0;
-	//virtual void save(ostream& os) = 0; //rellenar
+	virtual void update() = 0;
+	//virtual void save(ostream& os) = 0;
 
 };
 

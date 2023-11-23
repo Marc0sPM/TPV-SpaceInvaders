@@ -10,6 +10,7 @@
 #include "Cannon.h"
 #include "Laser.h"
 #include "ShooterAlien.h"
+#include "MotherShip.h"
 #include <vector>
 #include <random>
 #include <fstream>
@@ -38,14 +39,15 @@ private:
 	Uint32 deltaTime;
 	bool exit;
 	bool cantMove;
-	
+	int cantAliens = 0;
 	//HAY QUE QUITAR LOS VECTORES
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers; 
 	vector<Laser*> lasers;
 	Cannon* myCannon;
 	//HASTA AQUI
-	
+	MotherShip* motherShip;
+
 	int numShootAliens;
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;

@@ -17,8 +17,8 @@ void Bunker:: render() const{
 	*rect = {pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight()};
 	textura->renderFrame(*rect, 0 , currentFrame); 
 }
-bool Bunker::update() {
-	return lifes > 0;
+void Bunker::update() {
+	//animacion
 }
 
 

@@ -17,7 +17,7 @@ void Cannon::render() const{
 		textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->render(*rect);
 }
-bool Cannon::update() {
+void Cannon::update() {
 
 	 pos = pos + moveDirection * SPEED;
 	 /*if (shootCounter < SHOOT_INTERVAL) {

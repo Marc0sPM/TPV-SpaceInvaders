@@ -1,9 +1,9 @@
 #include "ShooterAlien.h"
 
-ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime)
+ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime, MotherShip* _motherShip)
 	: 
 	reloadTime(_reloadTime),
-	Alien(_game, _pos, _textura, _subtipo) {}
+	Alien(_game, _pos, _textura, _subtipo, _motherShip) {}
 
 bool ShooterAlien::update(Uint32 deltaTime) {
 
@@ -18,5 +18,5 @@ bool ShooterAlien::update(Uint32 deltaTime) {
 		game->fireLaser(centeredPos, true); //cambiar firelaser
 	}
 
-	return Alien::update(); //retorna el update de alien para el movimiento
+	Alien::update(); //retorna el update de alien para el movimiento
 }

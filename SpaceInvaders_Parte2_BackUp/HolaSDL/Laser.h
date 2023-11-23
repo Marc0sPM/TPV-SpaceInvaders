@@ -33,7 +33,7 @@ public:
 		int alpha;
 	};
 	void render() const override;
-	bool update();
+	void update() override;
 	
 	SDL_Rect* getRect()const { return rect; }
 	bool getSource() const { return src; }

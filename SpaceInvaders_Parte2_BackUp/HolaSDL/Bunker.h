@@ -18,8 +18,8 @@ protected:
 public:
 	Bunker();
 	Bunker(Game* _game, Point2D<int>& _pos, int _lifes, Texture* _textura);
-	void render()const override;
-	bool update() override;
+	void render() const override;
+	void update() override;
 	void hit();
 	SDL_Rect* getRect() const { return rect; }
 };
