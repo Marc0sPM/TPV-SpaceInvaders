@@ -28,7 +28,7 @@ public:
 	bool update();
 	void hit();
 	void handleEvents(const SDL_Event &event);
-	SDL_Rect* getRect() { return rect; }
+	SDL_Rect* getRect() const { return rect; }
 
 };
 

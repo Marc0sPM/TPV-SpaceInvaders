@@ -35,8 +35,8 @@ public:
 	void render() const override;
 	bool update();
 	
-	SDL_Rect* getRect() { return rect; }
-	bool getSource() { return src; }
+	SDL_Rect* getRect()const { return rect; }
+	bool getSource() const { return src; }
 	void setSelfDestroy();
 
 };

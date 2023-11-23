@@ -1,9 +1,5 @@
 
 #include "Game.h"
-
-
-
-
 using namespace std;
 Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()), 
 	alienDirection(Vector2D<int>(1, 0)), 
@@ -83,7 +79,7 @@ void Game::handleEvents() {
 		if (event.type == SDL_QUIT) {
 			exit = true;
 		}
-		myCannon->handleEvents(event);
+		//myCannon->handleEvents(event);
 	}
 }
 
@@ -93,8 +89,7 @@ void Game::fireLaser(Point2D<int>& pos, bool source) {
 	sceneObjects.push_back(new Laser(pos , source, this));
 }
 //elimina objeto de la lista
-void Game::hasDied(std::list<SceneObject*>::iterator iterator) {
-
+void Game::hasDied(list<SceneObject*>::iterator iterator) {
 	delete *iterator; 
 	sceneObjects.erase(iterator);
 }
@@ -110,10 +105,12 @@ void Game::cannotMove() {
 	cantMove = true;
 }
 
-int Game::getRandomRange(int min, int max) {
+int Game::getRandomRange(int min, int max) const {
 	
 	return uniform_int_distribution<int>(min, max)(rendomGenerator);
 }
+
+#pragma region INICIALIZACION DEL JUEGO 
 void Game::loadTextures() {
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
 		texturas[i] = new Texture(renderer, (TEXTURE_ROOT + TEXTURAS[i].direccion).c_str(), TEXTURAS[i].rows, TEXTURAS[i].cols); }
@@ -173,7 +170,7 @@ void Game::readGame() {
 }
 
 void Game::readAliens(istream& entrada, int posX, int posY) {
-	int tipo, lifes;
+	int tipo;
 	entrada >> tipo;
 	Point2D<int> posC = { posX, posY }; 
 	Alien* a = new Alien(this, posC, texturas[alien], tipo); 
@@ -209,6 +206,7 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	s->setListIterator(--sceneObjects.end());
 	
 }
+#pragma endregion
 
 //ELIMINAR MAS TARDE
 bool Game::bunkerColision(SDL_Rect* laserRect) {

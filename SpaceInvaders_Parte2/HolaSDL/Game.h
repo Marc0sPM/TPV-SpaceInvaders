@@ -86,13 +86,13 @@ public:
 
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;
-	int getRandomRange(int min, int max);
+	int getRandomRange(int min, int max) const;
 	
 	bool bunkerColision(SDL_Rect* laserRect);
 	bool laserColision(SDL_Rect* laserRect, bool laserSrc);
 	bool alienColision(SDL_Rect* laserRect);
 	bool cannonColision(SDL_Rect* laserRect);
-	SDL_Renderer* getRenderer(){ return renderer; }
+	SDL_Renderer* getRenderer() const { return renderer; }
 	
 	void fireLaser(Point2D<int>& pos, bool source);
 	void hasDied(std::list<SceneObject*>::iterator iterator);
