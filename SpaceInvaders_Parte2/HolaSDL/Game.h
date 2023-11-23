@@ -67,23 +67,34 @@ private:
 	};
 	
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
-	
+	void readGame();
+	void readAliens(istream& entrada, int posX, int posY); 
+	void readBunkers(istream& entrada, int posX, int posY);
+	void readShooterAliens(istream& entrada, int posX, int posY);
+	void readCannon(istream& entrada, int posX, int posY);
+	void initializeSDL();
+	void loadTextures();
 public:
 	
 	Game();
 	~Game();
+
 	void run();
 	void render()const ;
 	void update();
 	void handleEvents();
+
 	Vector2D<int> getDirection()const; 
 	void cannotMove() ;
 	int getRandomRange(int min, int max);
-	void fireLaser(Point2D<int>& pos, bool source);
-	void readGame();
+	
 	bool bunkerColision(SDL_Rect* laserRect);
 	bool laserColision(SDL_Rect* laserRect, bool laserSrc);
 	bool alienColision(SDL_Rect* laserRect);
 	bool cannonColision(SDL_Rect* laserRect);
 	SDL_Renderer* getRenderer(){ return renderer; }
+	
+	void fireLaser(Point2D<int>& pos, bool source);
+	void hasDied(std::list<SceneObject*>::iterator iterator);
+	
 };
