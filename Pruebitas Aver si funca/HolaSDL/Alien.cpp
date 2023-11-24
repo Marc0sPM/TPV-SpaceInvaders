@@ -12,7 +12,7 @@ Alien::Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, M
 Point2D<int> Alien::getPos()const {
 	return pos;
 }
-void Alien::render() const { //no funca el rect
+void Alien::render() const { 
 	*rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->renderFrame(*rect, subtipo, 0);
 }

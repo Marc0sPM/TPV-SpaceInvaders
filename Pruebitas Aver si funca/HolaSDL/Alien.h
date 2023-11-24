@@ -1,13 +1,13 @@
 #pragma once
+#include "checkML.h"
 #include "Vector2D.h"
 #include "texture.h"
-#include "checkML.h"
 #include "SceneObject.h"
 #include "Mothership.h"
 
 const int ALIEN_SPEED = 10; //Pixeles de movimiento
 class Game;
-class Mothership;
+//class Mothership;
 class Alien : public SceneObject
 {
 private:

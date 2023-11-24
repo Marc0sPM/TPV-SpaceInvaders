@@ -205,6 +205,12 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 }
 #pragma endregion
 
+bool Game::damage(SDL_Rect& laserRect, char& src) {
+	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
+		if((*it)->hit(laserRect, src)) return true;
+	}
+	return false;
+}
 //ELIMINAR MAS TARDE
 //bool Game::bunkerColision(SDL_Rect* laserRect) {
 //	for (int i = 0; i < bunkers.size(); i++) {
