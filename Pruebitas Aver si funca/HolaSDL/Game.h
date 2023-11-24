@@ -85,7 +85,7 @@ public:
 	bool cannonColision(SDL_Rect* laserRect);
 	SDL_Renderer* getRenderer() const { return renderer; }
 
-	bool damage(SDL_Rect& laserRect, char& src);
+	bool damage(SDL_Rect* laserRect, char& src);
 	void fireLaser(Point2D<int>& pos, bool source);
 	void hasDied(std::list<SceneObject*>::iterator iterator);
 	int getCannonPos() { return cannonY; }

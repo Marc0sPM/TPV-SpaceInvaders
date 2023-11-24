@@ -7,11 +7,11 @@ void SceneObject::setListIterator(std::list<SceneObject*>::iterator iterator) {
 	listIterator = iterator;
 }
 //Comprueba colision y resta la vida pertinente 
-bool SceneObject::hit(SDL_Rect attackRect, char src) {
+bool SceneObject::hit(SDL_Rect* attackRect, char src) {
 
 	SDL_Rect objectRect = { pos.getX(), pos.getY(), width, height };
 
-	if (SDL_HasIntersection(&attackRect, &objectRect)) {
+	if (SDL_HasIntersection(attackRect, &objectRect)) {
 		lifes--;
 		return true;
 	}

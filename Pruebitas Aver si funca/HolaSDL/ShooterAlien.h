@@ -15,5 +15,6 @@ protected:
 public:
 	ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime, Mothership* _motherShip);
 	void update() override; 
+	bool ShouldRemove() const;
 };
 

@@ -24,6 +24,7 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Rect* rect;
 	bool canSelfDestroy;
+	bool collision;
 public:
 	Laser(Point2D<int>& pos, char src, Game* game);
 	struct color {
@@ -36,6 +37,7 @@ public:
 	void update() override;
 
 	SDL_Rect* getRect()const { return rect; }
+	bool getCollision() const { return collision; }
 	bool getSource() const { return src; }
 	void setSelfDestroy();
 

@@ -45,7 +45,7 @@ void Game::run() {
 
 		handleEvents();
 
-		//
+		
 		render();//cambiar de orden posteriormente
 		update();//
 	}
@@ -205,9 +205,11 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 }
 #pragma endregion
 
-bool Game::damage(SDL_Rect& laserRect, char& src) {
+bool Game::damage(SDL_Rect* laserRect, char& src) {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
-		if((*it)->hit(laserRect, src)) return true;
+		
+		SceneObject* currentObj = *it;
+		if(currentObj->hit(*laserRect, src)) return true;
 	}
 	return false;
 }

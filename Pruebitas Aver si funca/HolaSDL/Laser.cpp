@@ -20,6 +20,13 @@ void Laser::render() const {
 }
 void Laser::update() {
 
+
+    pos = pos + Point2D<int>(1, 0);
+
+    if (game->damage(getRect(), src)) {
+        lifes--;
+    }
+    if (pos.getY() < 0 || pos.getY() > 600) lifes--;
     //if (canSelfDestroy) return false;
     ////src -> alien
     //if (src) {
@@ -37,6 +44,7 @@ void Laser::update() {
     //}
     //return (game->bunkerColision(rect) && !game->laserColision(rect, !src));
 }
+
 
 void Laser::setSelfDestroy() {
     canSelfDestroy = true;
