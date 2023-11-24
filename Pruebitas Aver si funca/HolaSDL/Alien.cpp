@@ -32,8 +32,9 @@ void Alien::update() {
 		game->hasDied(listIterator);
 	}*/
 }
-void Alien::hit(SDL_Rect attackRect, bool src) {
-	//POR DETERMINAR QUE VA AQUI 
+void Alien::hit(SDL_Rect* attackRect, bool src) {
+	if (src == 'b') return SceneObject::hit(attackRect, src);
+	return false;
 }
 
 

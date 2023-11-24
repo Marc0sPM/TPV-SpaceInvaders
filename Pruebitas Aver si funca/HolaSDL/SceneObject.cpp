@@ -17,3 +17,6 @@ bool SceneObject::hit(SDL_Rect* attackRect, char src) {
 	}
 	return false;
 }
+bool SceneObject::ShouldRemove() const {
+	return lifes <= 0;
+}
