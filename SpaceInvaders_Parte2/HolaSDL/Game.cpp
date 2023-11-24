@@ -69,12 +69,7 @@ void Game::update() {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->update();
 	}
-
-	//Comprobacion de cambio de direccion de aliens
-	if (cantMove) {
-		alienDirection = alienDirection * -1;
-		cantMove = false;
-	}
+	motherShip->update();
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -112,7 +107,6 @@ int Game::getRandomRange(int min, int max) const {
 
 	return uniform_int_distribution<int>(min, max)(rendomGenerator);
 }
-
 #pragma region INICIALIZACION DEL JUEGO 
 void Game::loadTextures() {
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
@@ -161,10 +155,8 @@ void Game::readGame() {
 
 			//bunker
 			else if (object == 4)  readBunkers(entrada, posX, posY);
-
 			//ovni
 			else if (object == 5);
-
 			//laser
 			else if (object == 6);
 
@@ -181,7 +173,6 @@ void Game::readAliens(istream& entrada, int posX, int posY) {
 	sceneObjects.push_back(a);
 	a->setListIterator(--sceneObjects.end());
 	cantAliens++;
-
 }
 void Game::readBunkers(istream& entrada, int posX, int posY) {
 	int lifes;
@@ -200,6 +191,7 @@ void Game::readCannon(istream& entrada, int posX, int posY) {
 	Cannon* c = new Cannon(posC, lifes, remainingTime, this, texturas[cannon]);
 	sceneObjects.push_back(c);
 	c->setListIterator(--sceneObjects.end());
+	cannonY = posY;
 
 }
 void Game::readShooterAliens(istream& entrada, int posX, int posY) {

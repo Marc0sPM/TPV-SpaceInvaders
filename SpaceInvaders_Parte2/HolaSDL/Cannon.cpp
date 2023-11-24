@@ -26,7 +26,7 @@ void Cannon::update() {
 	else*/ {
 		canShoot = true;
 	}
-	return lifes > 0;
+	
 }
 void Cannon::hit() {
 	lifes--;

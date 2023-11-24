@@ -40,6 +40,7 @@ private:
 	bool exit;
 	bool cantMove;
 	int cantAliens = 0;
+	int cannonY;
 	//HAY QUE QUITAR LOS VECTORES
 	vector<Alien*> aliens; //no array dinamico
 	vector<Bunker*> bunkers;
@@ -98,5 +99,6 @@ public:
 
 	void fireLaser(Point2D<int>& pos, bool source);
 	void hasDied(std::list<SceneObject*>::iterator iterator);
+	int getCannonPos() { return cannonY; }
 
 };

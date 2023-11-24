@@ -19,15 +19,16 @@ void MotherShip::alienDied() {
 
 void MotherShip::cannotMove() {
 	cantMove = true;
+	state = GoDown;
 	aliensDirection = aliensDirection * -1;
 	timeToMove -= ALIEN_INCREMENT_SPEED;
 	cantMove = false;
 
 }
+void MotherShip::update() {
+	if (state == GoDown) state = Moving;
+}
 void MotherShip::alienLanded() {
 	landed = true;
 }
-void MotherShip::update() {
 
-}
-#include "MotherShip.h"
