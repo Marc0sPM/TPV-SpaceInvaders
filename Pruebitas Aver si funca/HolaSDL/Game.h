@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include "Mothership.h"
 #include "Alien.h"
 #include "Bunker.h"
 #include "Texture.h"
@@ -10,18 +11,11 @@
 #include "Cannon.h"
 #include "Laser.h"
 #include "ShooterAlien.h"
-#include "MotherShip.h"
 #include <vector>
-#include <random>
 #include <fstream>
 #include <string>
-#include <cstring>
 #include "checkML.h"
 #include <list>
-
-#include "Mothership.h"
-
-using namespace std;
 
 constexpr Uint32 windowWidth = 800;
 constexpr Uint32 windowHeight = 600;
@@ -30,12 +24,9 @@ const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
 const string TEXTURE_ROOT = "../images/";
 const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
-
-
-
 class Game {
 private:
-	default_random_engine rendomGenerator;
+	//default_random_engine rendomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Uint32 deltaTime;
@@ -43,7 +34,7 @@ private:
 	bool cantMove;
 	int cantAliens = 0;
 	int cannonY;
-	Mothership* mothership;
+	
 
 	int numShootAliens;
 	Uint32 lastFrameTime;
@@ -52,6 +43,7 @@ private:
 
 	//Lista de objetos
 	list<SceneObject*> sceneObjects;
+	Mothership* mothership;
 
 	enum textureNames {
 		alien,

@@ -45,6 +45,9 @@
     <ClCompile Include="ShooterAlien.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="MotherShip.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h">
@@ -78,6 +81,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="MotherShip.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

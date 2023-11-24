@@ -3,11 +3,14 @@
 #include "Vector2D.h"
 #include <SDL_rect.h>
 #include <list>
+#include "checkML.h"
+
 class SceneObject : public GameObject
 {
 protected:
 	Point2D<int> pos;
 	int lifes, width, height;
+	
 	std::list<SceneObject*>::iterator listIterator;
 
 public:

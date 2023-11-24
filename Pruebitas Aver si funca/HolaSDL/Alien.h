@@ -5,17 +5,18 @@
 #include "SceneObject.h"
 #include "Mothership.h"
 
-int ALIEN_SPEED = 10; //Pixeles de movimiento
-const Uint32 MOVE_INTERVAL = 800;
+const int ALIEN_SPEED = 10; //Pixeles de movimiento
 class Game;
+class Mothership;
 class Alien : public SceneObject
 {
 private:
-	int subtipo;
 	SDL_Rect* rect;
-	Mothership* motherShip;
+	
 protected:
+	Mothership* motherShip;
 	Texture* textura;
+	int subtipo;
 	
 public:
 

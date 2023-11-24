@@ -1,13 +1,20 @@
 #pragma once
 #include "GameObject.h"
+#include "checkML.h"
+#include "Vector2D.h"
+#include "Game.h"
+
 class Game;
+
 class Mothership : public GameObject
 {
 protected:
-	int cant;
+	int alienCont;
+	
 public: 
-	Mothership(Game* _game, int _cant);
+	Mothership(Game* _game);
 	void update()override;
 	void render() const override;
+	void addAlien();
 };
 

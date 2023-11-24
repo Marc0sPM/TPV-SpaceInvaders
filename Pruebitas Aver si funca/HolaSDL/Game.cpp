@@ -1,22 +1,22 @@
 
 #include "Game.h"
-using namespace std;
+
 Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()),
 alienDirection(Vector2D<int>(1, 0)),
 cantMove(false),
+mothership(new Mothership(this)),
 TEXTURAS{
 	{"aliens.png", 3, 2},
 	{"bunker.png", 1, 4},
 	{"spaceship.png", 1, 1},
-	{"stars.png", 1, 1}
-} {
-	//Inicializacion de SDL
-	initializeSDL();
-	//Carga texturas
-	loadTextures();
+	{"stars.png", 1, 1} }
+{
+	//Inicializacion de SDL 
+	initializeSDL(); 
+	//Carga texturas 
+	loadTextures(); 
 	//inicialización por lectura
 	readGame();
-	mothership = new Mothership(this, cantAliens);
 }
 Game :: ~Game() {
 
@@ -59,7 +59,7 @@ void Game::render() const {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->render();
 	}
-	mothership->render(); //no se que deberia de hacer la mother
+	//mothership->render(); //no se que deberia de hacer la mother
 	SDL_RenderPresent(renderer);
 }
 
@@ -69,7 +69,7 @@ void Game::update() {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->update();
 	}
-	mothership->update();
+	//mothership->update();
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -103,10 +103,10 @@ void Game::cannotMove() {
 	cantMove = true;
 }
 
-int Game::getRandomRange(int min, int max) const {
-
-	return uniform_int_distribution<int>(min, max)(rendomGenerator);
-}
+//int Game::getRandomRange(int min, int max) const {
+//
+//	return uniform_int_distribution<int>(min, max)(rendomGenerator);
+//}
 #pragma region INICIALIZACION DEL JUEGO 
 void Game::loadTextures() {
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
@@ -159,7 +159,7 @@ void Game::readGame() {
 			else if (object == 5);
 			//laser
 			else if (object == 6);
-
+			
 
 		}
 	}
@@ -172,7 +172,7 @@ void Game::readAliens(istream& entrada, int posX, int posY) {
 	Alien* a = new Alien(this, posC, texturas[alien], tipo, mothership);
 	sceneObjects.push_back(a);
 	a->setListIterator(--sceneObjects.end());
-	cantAliens++;
+	mothership->addAlien();
 }
 void Game::readBunkers(istream& entrada, int posX, int posY) {
 	int lifes;
@@ -201,7 +201,7 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	ShooterAlien* s = new ShooterAlien(this, posC, texturas[alien], tipo, reloadTime, mothership);
 	sceneObjects.push_back(s);
 	s->setListIterator(--sceneObjects.end());
-	cantAliens++;
+	mothership->addAlien();
 }
 #pragma endregion
 
