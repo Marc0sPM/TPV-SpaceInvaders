@@ -16,9 +16,15 @@ void Alien::render() const {
 	*rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 	textura->renderFrame(*rect, subtipo, 0);
 }
-void Alien::update() {
+void Alien::update() { 
+	if (pos.getX() <= ALIEN_SPEED || 
+		pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED)) { 
+		motherShip->cannotMove(); 
+	}
 	if(motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
 
+	
+	
 
 	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
 	if (pos.getX() <= ALIEN_SPEED ||

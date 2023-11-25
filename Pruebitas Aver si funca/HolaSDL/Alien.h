@@ -13,6 +13,7 @@ class Alien : public SceneObject
 private:
 	SDL_Rect* rect;
 	
+	bool canChangeState = true;
 protected:
 	Mothership* motherShip;
 	Texture* textura;

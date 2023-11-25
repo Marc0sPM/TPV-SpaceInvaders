@@ -66,11 +66,12 @@ void Game::render() const {
 void Game::update() {
 
 	//Update de sceneObjects
-	mothership->update();
+	
+
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->update();
 	}
-	
+	mothership->update();
 }
 void Game::handleEvents() {
 	SDL_Event event;
