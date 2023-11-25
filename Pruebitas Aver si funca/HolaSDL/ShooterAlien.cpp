@@ -10,7 +10,7 @@ ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, i
 	Alien(_game, _pos, _textura, _subtipo, _motherShip) {}
 
 void ShooterAlien::update() {
-
+	Alien::update();
 
 	//logica de disparo que hay que ver para que funcione
 
@@ -20,5 +20,5 @@ void ShooterAlien::update() {
 		pos.getY());
 	
 
-	Alien::update(); //retorna el update de alien para el movimiento
+	 //retorna el update de alien para el movimiento
 }

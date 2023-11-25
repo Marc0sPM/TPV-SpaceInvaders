@@ -5,6 +5,9 @@
 
 
 const int DELTA_TIME = 16;
+const int SPEED_INCREMENT = 50;
+const int VERTICAL_OFFSET = 50;
+
 
 class Game;
 enum MovingStates {
@@ -17,10 +20,12 @@ protected:
 	int alienCont;
 	int timeCounter = 0;
 	int timeToMove = 1000;
+	int newTimeToMove;
 	bool shouldmove = false;
 	bool canMove = true;
 	Vector2D<int>aliensDirection = { 1,0 };
 	MovingStates state = Moving;
+	int ALIEN_SPEED = 10;
 public: 
 	Mothership(Game* _game);
 	void update()override;
@@ -35,6 +40,8 @@ public:
 	void cannotMove();
 	MovingStates getState() { return state; }
 	void setState(MovingStates _state);
-	MovingStates changeAlienState(MovingStates alienState);
+	
+	int getVerticalOffset();
+	int getAlienSpeed() { return ALIEN_SPEED; }
 };
 

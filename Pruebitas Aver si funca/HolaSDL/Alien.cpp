@@ -17,22 +17,26 @@ void Alien::render() const {
 	textura->renderFrame(*rect, subtipo, 0);
 }
 void Alien::update() { 
-	if (pos.getX() <= ALIEN_SPEED || 
-		pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED)) { 
+	
+	if (pos.getX() <= motherShip->getAlienSpeed() || 
+		pos.getX() > windowWidth - (textura->getFrameWidth() + motherShip->getAlienSpeed())) { 
 		motherShip->cannotMove(); 
 	}
-	if(motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
-
 	
-	
+	if(motherShip->shouldMove()) {
+		//Evaluamos salto
+		pos = pos + Point2D<int>(0, motherShip->getVerticalOffset());
+		pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed()) ;
+		}
 
+		
 	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
 	if (pos.getX() <= ALIEN_SPEED ||
 		pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED)) {
-		motherShip->cannotMove();
+		motherShip->cannotMove(); 
 	}
-	if (motherShip->getState() == GoDown) {
-		pos = pos + Point2D<int>(0, ALIEN_VERTICAL_SHIFT);
+	if (motherShip->getState() == GoDown) { 
+		pos = pos + Point2D<int>(0, ALIEN_VERTICAL_SHIFT); 
 	}
 	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
 
