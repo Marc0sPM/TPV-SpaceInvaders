@@ -2,11 +2,22 @@
 
 Mothership::Mothership(Game* _game) : alienCont(0), GameObject(_game){}
 void Mothership::update() {
-	if (alienCont == 0) alienCont = 0;
+	if (timeCounter < timeToMove) {
+		timeCounter += DELTA_TIME;
+		shouldmove = false;
+	}
+	else {
+		timeCounter = 0;
+		shouldmove = true;
+	}
 }
 void Mothership::render() const{
-	std::cout << "ok";
+	
 }
 void Mothership::addAlien() {
 	alienCont++;
+}
+bool Mothership::shouldMove() {
+	return shouldmove;
+	
 }

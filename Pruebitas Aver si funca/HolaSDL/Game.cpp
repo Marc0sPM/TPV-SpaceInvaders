@@ -46,8 +46,8 @@ void Game::run() {
 		handleEvents();
 
 		
-		render();//cambiar de orden posteriormente
 		update();//
+		render();//cambiar de orden posteriormente
 	}
 }
 
@@ -66,10 +66,11 @@ void Game::render() const {
 void Game::update() {
 
 	//Update de sceneObjects
+	mothership->update();
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->update();
 	}
-	//mothership->update();
+	
 }
 void Game::handleEvents() {
 	SDL_Event event;
@@ -209,7 +210,7 @@ bool Game::damage(SDL_Rect* laserRect, char& src) {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
 		
 		SceneObject* currentObj = *it;
-		if(currentObj->hit(*laserRect, src)) return true;
+		if(currentObj->hit(laserRect, src)) return true;
 	}
 	return false;
 }

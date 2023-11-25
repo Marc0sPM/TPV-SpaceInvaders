@@ -17,6 +17,9 @@ void Alien::render() const {
 	textura->renderFrame(*rect, subtipo, 0);
 }
 void Alien::update() {
+	if(motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
+
+
 	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
 	if (pos.getX() <= ALIEN_SPEED ||
 		pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED)) {
@@ -32,7 +35,7 @@ void Alien::update() {
 		game->hasDied(listIterator);
 	}*/
 }
-void Alien::hit(SDL_Rect* attackRect, bool src) {
+bool Alien::hit(SDL_Rect* attackRect, char src) {
 	if (src == 'b') return SceneObject::hit(attackRect, src);
 	return false;
 }

@@ -4,10 +4,11 @@
 #include "Vector2D.h"
 class Game;
 
-int ALIEN_VERTICAL_SHIFT = 0;
+int ALIEN_VERTICAL_SHIFT = 20;
 const Uint32 ALIEN_INCREMENT_SPEED = 5;
 enum MotherShip_States {
-	Moving,
+	Right,
+	Left,
 	GoDown
 };
 class MotherShip : public GameObject

@@ -24,7 +24,7 @@ public:
 	Point2D<int> getPos() const;
 	void render() const override;
 	void update() override;
-	void hit(SDL_Rect attackRect, bool src);
+	bool hit(SDL_Rect* attackRect, char src);
 	SDL_Rect getRect() const { return *rect; }
 };
 
