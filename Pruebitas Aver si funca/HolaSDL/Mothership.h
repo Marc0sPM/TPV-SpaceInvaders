@@ -22,6 +22,7 @@ protected:
 	int timeToMove = 1000;
 	bool shouldmove = false;
 	bool canMove = true;
+	bool landed = false;
 	Vector2D<int>aliensDirection = { 1,0 };
 	MovingStates state = Moving;
 	int ALIEN_SPEED = 10;
@@ -41,9 +42,11 @@ public:
 	void cannotMove();
 
 	MovingStates getState() { return state; }
-	void setState(MovingStates _state);
-	
 	int getVerticalOffset();
 	int getAlienSpeed() { return ALIEN_SPEED; }
+	void alienDied();
+	void alienLanded();
+	bool haveLanded() { return landed; }
+	int getCont() const { return alienCont; }
 };
 

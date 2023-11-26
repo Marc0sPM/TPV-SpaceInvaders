@@ -25,8 +25,6 @@ void Mothership::update() {
 		else state = Moving;
 		std::cout << timeToMove << std::endl;
 	}
-
-	
 }
 void Mothership::render() const{
 	
@@ -50,7 +48,11 @@ int Mothership::getVerticalOffset() {
 	if (state == goDown) return VERTICAL_OFFSET;
 	else return 0;
 }
-void Mothership::setState(MovingStates _state) {
-	state = _state;
+void Mothership::alienDied() {
+	alienCont--;
 }
+void Mothership::alienLanded() {
+	landed = true;
+}
+
 

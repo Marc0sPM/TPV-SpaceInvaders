@@ -24,7 +24,7 @@ void Alien::update() {
 			|| (pos.getX() > windowWidth - (textura->getFrameWidth() + motherShip->getAlienSpeed()) 
 				&& motherShip->getDirection().getX() > 0))
 
-		motherShip->cannotMove(); 
+		motherShip->cannotMove();  
 	}
 	
 	if(motherShip->shouldMove()) {
@@ -33,7 +33,8 @@ void Alien::update() {
 		if(motherShip->getState() == Moving)
 			pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed());
 	}
-
+	if (lifes <= 0) motherShip->alienDied();
+	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
 		
 	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
 	if (pos.getX() <= ALIEN_SPEED ||

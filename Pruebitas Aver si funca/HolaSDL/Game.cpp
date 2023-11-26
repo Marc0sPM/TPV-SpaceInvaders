@@ -1,6 +1,7 @@
 
 #include "Game.h"
 
+
 Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()),
 alienDirection(Vector2D<int>(1, 0)),
 cantMove(false),
@@ -9,7 +10,9 @@ TEXTURAS{
 	{"aliens.png", 3, 2},
 	{"bunker.png", 1, 4},
 	{"spaceship.png", 1, 1},
-	{"stars.png", 1, 1} }
+	{"stars.png", 1, 1},
+	{"ufo.png", 1, 2}, 
+	{"numbers.png", 1, 10}}
 {
 	//Inicializacion de SDL 
 	initializeSDL(); 
@@ -44,10 +47,9 @@ void Game::run() {
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();
-
-		
 		update();//
 		render();//cambiar de orden posteriormente
+		if (mothership->haveLanded()) exit = true;
 	}
 }
 
@@ -104,11 +106,20 @@ Vector2D<int> Game::getDirection() const {
 void Game::cannotMove() {
 	cantMove = true;
 }
+bool Game::damage(SDL_Rect* laserRect, char& src) {
+	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
 
+		SceneObject* currentObj = *it;
+		if (currentObj->hit(laserRect, src)) return true;
+	}
+	return false;
+}
 //int Game::getRandomRange(int min, int max) const {
 //
-//	return uniform_int_distribution<int>(min, max)(rendomGenerator);
+//	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
 //}
+
+
 #pragma region INICIALIZACION DEL JUEGO 
 void Game::loadTextures() {
 	for (int i = 0; i < NUM_TEXTURES; ++i) {
@@ -157,8 +168,8 @@ void Game::readGame() {
 
 			//bunker
 			else if (object == 4)  readBunkers(entrada, posX, posY);
-			//ovni
-			else if (object == 5);
+			//ufo
+			else if (object == 5) readUfo(entrada, posX, posY);
 			//laser
 			else if (object == 6);
 			
@@ -193,7 +204,7 @@ void Game::readCannon(istream& entrada, int posX, int posY) {
 	Cannon* c = new Cannon(posC, lifes, remainingTime, this, texturas[cannon]);
 	sceneObjects.push_back(c);
 	c->setListIterator(--sceneObjects.end());
-	cannonY = posY;
+	cannonY = c->getPos().getY();
 
 }
 void Game::readShooterAliens(istream& entrada, int posX, int posY) {
@@ -205,16 +216,17 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	s->setListIterator(--sceneObjects.end());
 	mothership->addAlien();
 }
+void Game::readUfo(istream& entrada, int posX, int posY) {
+	int randomShownTime;
+	entrada >> randomShownTime;
+	Point2D<int> posC = { posX, posY };
+	Ufo* u = new Ufo(this, posC, texturas[ufo], randomShownTime);
+	sceneObjects.push_back(u);
+	u->setListIterator(--sceneObjects.end());
+}
 #pragma endregion
 
-bool Game::damage(SDL_Rect* laserRect, char& src) {
-	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
-		
-		SceneObject* currentObj = *it;
-		if(currentObj->hit(laserRect, src)) return true;
-	}
-	return false;
-}
+
 //ELIMINAR MAS TARDE
 //bool Game::bunkerColision(SDL_Rect* laserRect) {
 //	for (int i = 0; i < bunkers.size(); i++) {

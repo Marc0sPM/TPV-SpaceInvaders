@@ -1,8 +1,15 @@
 #pragma once
 
+//#include <random>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Mothership.h"
+#include <vector>
+#include <fstream>
+#include <string>
+#include "checkML.h"
+#include <list>
+#include<random>
+
 #include "Alien.h"
 #include "Bunker.h"
 #include "Texture.h"
@@ -11,22 +18,20 @@
 #include "Cannon.h"
 #include "Laser.h"
 #include "ShooterAlien.h"
-#include <vector>
-#include <fstream>
-#include <string>
-#include "checkML.h"
-#include <list>
+#include "Ufo.h"
+
+
 
 constexpr Uint32 windowWidth = 800;
 constexpr Uint32 windowHeight = 600;
-const int NUM_TEXTURES = 4;
+const int NUM_TEXTURES = 6;
 const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
 const string TEXTURE_ROOT = "../images/";
 const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 class Game {
 private:
-	//default_random_engine rendomGenerator;
+	default_random_engine randomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Uint32 deltaTime;
@@ -49,7 +54,9 @@ private:
 		alien,
 		bunker,
 		cannon,
-		background
+		background,
+		ufo,
+		numbers
 	};
 	struct TextureSpec {
 		const char* direccion;
@@ -63,6 +70,7 @@ private:
 	void readBunkers(istream& entrada, int posX, int posY);
 	void readShooterAliens(istream& entrada, int posX, int posY);
 	void readCannon(istream& entrada, int posX, int posY);
+	void readUfo(istream& entrada, int posX, int posY);
 	void initializeSDL();
 	void loadTextures();
 public:
