@@ -18,16 +18,21 @@ void Alien::render() const {
 }
 void Alien::update() { 
 	
-	if (pos.getX() <= motherShip->getAlienSpeed() || 
-		pos.getX() > windowWidth - (textura->getFrameWidth() + motherShip->getAlienSpeed())) { 
+	if (motherShip->getState() == Moving)  { 
+		if((pos.getX() <= motherShip->getAlienSpeed() 
+			&& motherShip->getDirection().getX() < 0)
+			|| (pos.getX() > windowWidth - (textura->getFrameWidth() + motherShip->getAlienSpeed()) 
+				&& motherShip->getDirection().getX() > 0))
+
 		motherShip->cannotMove(); 
 	}
 	
 	if(motherShip->shouldMove()) {
 		//Evaluamos salto
 		pos = pos + Point2D<int>(0, motherShip->getVerticalOffset());
-		pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed()) ;
-		}
+		if(motherShip->getState() == Moving)
+			pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed());
+	}
 
 		
 	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
