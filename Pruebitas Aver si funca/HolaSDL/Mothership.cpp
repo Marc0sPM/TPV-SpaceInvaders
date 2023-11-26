@@ -9,18 +9,21 @@ void Mothership::update() {
 		timeCounter += DELTA_TIME;
 		
 
-		/*if (shouldmove && canMove) timeToMove -= 50;*/
+		
 		shouldmove = false;
 	}
 	else{
 		//cuando los aliens se mueven de verdad
 		timeCounter = 0;
+		
 		shouldmove = true;
 		if (!canMove) {
 			state = goDown;
+			timeToMove -= SPEED_INCREMENT;
 			canMove = true;
 		}
 		else state = Moving;
+		std::cout << timeToMove << std::endl;
 	}
 
 	

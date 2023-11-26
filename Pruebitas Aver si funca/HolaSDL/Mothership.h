@@ -5,8 +5,8 @@
 
 
 const int DELTA_TIME = 16;
-const int SPEED_INCREMENT = 50;
-const int VERTICAL_OFFSET = 50;
+const int SPEED_INCREMENT = 75;
+const int VERTICAL_OFFSET = 25;
 
 
 class Game;
