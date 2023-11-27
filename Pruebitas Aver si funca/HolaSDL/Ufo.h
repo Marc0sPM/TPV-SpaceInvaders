@@ -4,7 +4,7 @@
 #include "Vector2D.h"
 
 const int UFO_SPEED = 3;
-const int DEAD_FRAMES = 6;
+const int DEAD_FRAMES = 100;
 class Game;
 class Ufo : public SceneObject
 {

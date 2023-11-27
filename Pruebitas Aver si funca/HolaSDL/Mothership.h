@@ -47,6 +47,6 @@ public:
 	void alienDied();
 	void alienLanded();
 	bool haveLanded() { return landed; }
-	int getCont() const { return alienCont; }
+	int getCont() const {return alienCont; }
 };
 

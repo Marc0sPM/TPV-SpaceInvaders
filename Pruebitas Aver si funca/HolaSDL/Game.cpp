@@ -49,7 +49,7 @@ void Game::run() {
 		handleEvents();
 		update();
 		render();
-		if (mothership->haveLanded() && mothership->getCont() <= 0) exit = true;
+		if (mothership->haveLanded() || mothership->getCont() <= 0) exit = true;
 	}
 }
 
@@ -122,13 +122,6 @@ void Game::hasDied(list<SceneObject*>::iterator& iterator) {
 	sceneObjects.erase(it);
 }
 
-// Calcula y devuelve la dirección común de movimiento de los Aliens
-Vector2D<int> Game::getDirection() const {
-
-	return Vector2D<int>(1, 0);
-
-}
-
 bool Game::damage(SDL_Rect* laserRect, char& src) {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
 		SceneObject* currentObj = *it;
@@ -167,7 +160,7 @@ void Game::initializeSDL() {
 }
 void Game::readGame() {
 	ifstream entrada;
-	entrada.open("../mapas/original.txt");
+	entrada.open("../mapas/urgente.txt");
 	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
 		int object, posX, posY;

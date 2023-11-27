@@ -33,12 +33,17 @@ void Alien::update() {
 		if(motherShip->getState() == Moving)
 			pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed());
 	}
-	if (lifes <= 0) motherShip->alienDied();
 	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
 		
 }
 bool Alien::hit(SDL_Rect* otherRect, char otherSrc) {
-	if (otherSrc == 'r') return SceneObject::hit(otherRect, otherSrc);
+
+	if (otherSrc == 'r') {
+		if (SceneObject::hit(otherRect, otherSrc)) {
+			motherShip->alienDied();
+			return true;
+		}
+	}
 	return false;
 }
 
