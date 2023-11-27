@@ -36,23 +36,9 @@ void Alien::update() {
 	if (lifes <= 0) motherShip->alienDied();
 	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
 		
-	/*if (motherShip->shouldMove()) pos = pos + (motherShip->getDirection() * ALIEN_SPEED);
-	if (pos.getX() <= ALIEN_SPEED ||
-		pos.getX() > windowWidth - (textura->getFrameWidth() + ALIEN_SPEED)) {
-		motherShip->cannotMove(); 
-	}
-	if (motherShip->getState() == GoDown) { 
-		pos = pos + Point2D<int>(0, ALIEN_VERTICAL_SHIFT); 
-	}
-	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
-
-	if (lifes <= 0) {
-		motherShip->alienDied();
-		game->hasDied(listIterator);
-	}*/
 }
-bool Alien::hit(SDL_Rect* attackRect, char src) {
-	if (src == 'b') return SceneObject::hit(attackRect, src);
+bool Alien::hit(SDL_Rect* otherRect, char otherSrc) {
+	if (otherSrc == 'r') return SceneObject::hit(otherRect, otherSrc);
 	return false;
 }
 

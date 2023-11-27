@@ -47,9 +47,9 @@ void Game::run() {
 		lastFrameTime = currentFrameTime;
 
 		handleEvents();
-		update();//
-		render();//cambiar de orden posteriormente
-		if (mothership->haveLanded()) exit = true;
+		update();
+		render();
+		if (mothership->haveLanded() && mothership->getCont() <= 0) exit = true;
 	}
 }
 
@@ -61,7 +61,6 @@ void Game::render() const {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->render();
 	}
-	//mothership->render(); //no se que deberia de hacer la mother
 	SDL_RenderPresent(renderer);
 }
 
@@ -103,14 +102,16 @@ void Game::handleEvents() {
 				break;
 			}
 		}
-		//myCannon->handleEvents(event);
+		
 	}
 }
 
 //Añade un laser a la lista de objetos
-void Game::fireLaser(Point2D<int>& pos, bool source) {
-
-	sceneObjects.push_back(new Laser(pos, source, this));
+void Game::fireLaser(Point2D<int>& pos, char source) {
+	Laser* l = new Laser(pos, source, this);
+	sceneObjects.push_back(l);
+	l->setListIterator(--sceneObjects.end());
+	
 }
 //elimina objeto de la lista
 void Game::hasDied(list<SceneObject*>::iterator& iterator) {
@@ -127,22 +128,18 @@ Vector2D<int> Game::getDirection() const {
 	return Vector2D<int>(1, 0);
 
 }
-//Si uno de los aliens choca con los laterales de la pantalla habilita cambio direccion
-void Game::cannotMove() {
-	cantMove = true;
-}
+
 bool Game::damage(SDL_Rect* laserRect, char& src) {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
-
 		SceneObject* currentObj = *it;
 		if (currentObj->hit(laserRect, src)) return true;
 	}
 	return false;
 }
-//int Game::getRandomRange(int min, int max) const {
-//
-//	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
-//}
+int Game::getRandomRange(int min, int max) {
+
+	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+}
 
 
 #pragma region INICIALIZACION DEL JUEGO 
@@ -187,9 +184,6 @@ void Game::readGame() {
 			else if (object == 1) readAliens(entrada, posX, posY);
 
 			else if (object == 2)  readShooterAliens(entrada, posX, posY);
-
-			//mother
-			else if (object == 3);
 
 			//bunker
 			else if (object == 4)  readBunkers(entrada, posX, posY);

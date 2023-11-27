@@ -20,7 +20,7 @@ public:
 	Bunker(Game* _game, Point2D<int>& _pos, int _lifes, Texture* _textura);
 	void render() const override;
 	void update() override;
-	void hit();
+	bool hit(SDL_Rect* otherRect, char otherSrc);
 	SDL_Rect* getRect() const { return rect; }
 };
 

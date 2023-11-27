@@ -19,16 +19,17 @@ void Cannon::render() const {
 }
 void Cannon::update() {
 	pos = pos + moveDirection * SPEED;
-	/*if (shootCounter < SHOOT_INTERVAL) {
-		shootCounter += deltaTime;
+	if (shootCounter < SHOOT_INTERVAL) {
+		shootCounter += FRAME_DELAY;
 	}
-	else*/ {
+	else {
 		canShoot = true;
 	}
 
 }
-void Cannon::hit() {
-	lifes--;
+bool Cannon::hit(SDL_Rect* otherRect, char otherSrc) {
+	if (otherSrc == 'b') return SceneObject::hit(otherRect, otherSrc);
+	return false;
 }
 void Cannon::handleEvents(const SDL_Event& event) {
 
@@ -47,7 +48,7 @@ void Cannon::handleEvents(const SDL_Event& event) {
 			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
 				pos.getY() - textura->getFrameHeight());
 
-			game->fireLaser(centeredPos, false);
+			game->fireLaser(centeredPos, 'r');
 			shootCounter = 0;
 			canShoot = false;
 		}

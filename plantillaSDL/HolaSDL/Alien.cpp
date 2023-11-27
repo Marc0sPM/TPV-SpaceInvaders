@@ -31,7 +31,7 @@ bool Alien::update(const Uint32 deltaTime) {
 		moveCounter = 0;
 	}
 		
-	if (game->getRandomRange(0, 2000) == 1 && subtipo == 0) {
+	if (game->getRandomRange(0, 2000) == 1) {
 		Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
 			pos.getY());
 

@@ -13,11 +13,19 @@ void ShooterAlien::update() {
 	Alien::update();
 
 	//logica de disparo que hay que ver para que funcione
+	if (timeCounter < reloadTime) {
+		timeCounter += FRAME_DELAY;
+	}
+	else {
+		timeCounter = 0;
+		if (game->getRandomRange(0, 1500) < 2) {
+			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
+				pos.getY());
 
-	//SE QUITA LA COMPROBACION DE TIPO PORQUE SOLO LOS ALIENS SHOOTERS VAN A SER DE ESTA CLASE
+			game->fireLaser(centeredPos, 'b');
+		}
+	}
 	
-	Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
-		pos.getY());
 	
 
 	 //retorna el update de alien para el movimiento

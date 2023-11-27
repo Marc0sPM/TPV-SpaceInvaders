@@ -37,6 +37,5 @@ public:
     }
 
 };
-
 template <typename T>
 using Point2D = Vector2D<T>;

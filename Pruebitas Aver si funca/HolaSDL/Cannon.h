@@ -21,12 +21,11 @@ protected:
 	bool canShoot;
 	SDL_Rect* rect;
 
-
 public:
 	Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura);
 	void render() const override;
 	void update() override;
-	void hit();
+	bool hit(SDL_Rect* otherRect, char otherSrc);
 	void handleEvents(const SDL_Event& event);
 	SDL_Rect* getRect() const { return rect; }
 	Point2D<int> getPos() const { return pos; }

@@ -7,6 +7,7 @@ Ufo::Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime)
 	SceneObject(_game, _pos, 1, _texture->getFrameWidth(), _texture->getFrameHeight()),
 	randomShownTime(_randomShownTime) {
 	rect = new SDL_Rect{ pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
+	initialPos = { windowWidth, pos.getY() };
 };
 
 void Ufo::render()const {
@@ -21,26 +22,45 @@ void Ufo::render()const {
 }
 void Ufo::update() {
 	// Logica de movimiento
-	if (pos.getX() <= UFO_SPEED && movingState == LEFT) {
-		direction = direction * -1;
-		movingState = RIGHT;
+	if (state == SHOWN) {
+		pos = pos + direction * UFO_SPEED;
+		checkLimits();
 	}
-	else if(pos.getX() > windowWidth - (texture->getFrameWidth() + UFO_SPEED) && movingState == RIGHT){
-		direction = direction * -1;
-		movingState = LEFT;
+	else if (state == HIDE) {
+		canShow();
 	}
-	cout<< pos.getX()<<endl; 
-	pos = pos + direction * UFO_SPEED;
+	if (lifes <= 0)state = DEAD;
+	
 	if (timeCont < randomShownTime) {
 		timeCont += FRAME_DELAY;
 	}
 	else {
-		// muerto
 		timeCont = 0;
-		if (state == SHOWN) state = HIDE;
-		else if (state == HIDE) state = SHOWN;
-		//randomShownTime = game->getRandomRange(100, 2000);
+		if(state == DEAD){
+			if (deadFramesCont < DEAD_FRAMES) {
+				deadFramesCont++;
+			}
+			else {
+				deadFramesCont = 0;
+				state = HIDE;
+			}
+		}
 	}
-	if (lifes <= 0)state = DEAD;
 	
+	
+}
+void Ufo::checkLimits() {
+	if (pos.getX() <= UFO_SPEED) {
+		pos = initialPos;
+		state = HIDE;
+	}
+	
+}
+void Ufo::canShow() {
+	if (game->getRandomRange(0, 1000) < 2) state = SHOWN;
+}
+
+bool Ufo::hit(SDL_Rect* otherRect, char otherSrc) {
+	if (otherSrc == 'r') return SceneObject::hit(otherRect, otherSrc);
+	return false;
 }

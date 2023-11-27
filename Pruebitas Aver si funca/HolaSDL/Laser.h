@@ -40,6 +40,7 @@ public:
 	bool getCollision() const { return collision; }
 	bool getSource() const { return src; }
 	void setSelfDestroy();
+	bool hit(SDL_Rect* otherRect, char src)override;
 
 };
 

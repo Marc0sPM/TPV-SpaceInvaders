@@ -84,17 +84,14 @@ public:
 	void handleEvents();
 
 	Vector2D<int> getDirection()const;
-	void cannotMove();
-	int getRandomRange(int min, int max) const;
+	
+	int getRandomRange(int min, int max) ;
 
-	bool bunkerColision(SDL_Rect* laserRect);
-	bool laserColision(SDL_Rect* laserRect, bool laserSrc);
-	bool alienColision(SDL_Rect* laserRect);
-	bool cannonColision(SDL_Rect* laserRect);
+	
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 	bool damage(SDL_Rect* laserRect, char& src);
-	void fireLaser(Point2D<int>& pos, bool source);
+	void fireLaser(Point2D<int>& pos, char source);
 	void hasDied(std::list<SceneObject*>::iterator& iterator);
 	int getCannonPos() { return cannonY; }
 

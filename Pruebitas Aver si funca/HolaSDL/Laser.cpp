@@ -13,39 +13,28 @@ Laser::Laser(Point2D<int>& _pos, char _src, Game* _game) :
 void Laser::render() const {
     *rect = { pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
     color color;
-    if (src) color = { 0, 0, 255, 255 }; //color setted blue -> from aliens
-    else color = { 255, 0, 0, 255 };//color setted red -> from cannon
+    if (src == 'b') color = {0, 0, 255, 255}; //color setted blue -> from aliens
+    else if(src == 'r')color = {255, 0, 0, 255};//color setted red -> from cannon
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.alpha);
     SDL_RenderFillRect(renderer, rect);
 }
 void Laser::update() {
-
-
-    pos = pos + Point2D<int>(1, 0);
-
-    if (game->damage(getRect(), src)) {
+    if (src == 'b')
+        pos = pos + LASER_SPEED;
+    else if (src == 'r') pos = pos + LASER_SPEED * -1;
+    if (game->damage(rect, src)) {
         lifes--;
     }
-    if (pos.getY() < 0 || pos.getY() > 600) lifes--;
-    //if (canSelfDestroy) return false;
-    ////src -> alien
-    //if (src) {
-    //    pos = pos + LASER_SPEED;
-
-    //    if (pos.getY() > windowHeight || game->cannonColision(rect)) return false;
-    //}
-    ////src -> cannon
-    //else {
-    //    pos = pos - LASER_SPEED;
-
-    //    if (pos.getY() < 0 ||
-    //        game->alienColision(rect)) return false;
-
-    //}
-    //return (game->bunkerColision(rect) && !game->laserColision(rect, !src));
+    if (pos.getY() < 0 || pos.getY() > windowHeight) lifes--;
+    
 }
-
 
 void Laser::setSelfDestroy() {
     canSelfDestroy = true;
+}
+bool Laser::hit(SDL_Rect* otherRect, char otherSrc) {
+    if (otherSrc != src) {
+        return SceneObject::hit(otherRect, otherSrc);
+    }
+    return false;
 }
