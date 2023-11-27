@@ -95,7 +95,7 @@ public:
 
 	bool damage(SDL_Rect* laserRect, char& src);
 	void fireLaser(Point2D<int>& pos, bool source);
-	void hasDied(std::list<SceneObject*>::iterator iterator);
+	void hasDied(std::list<SceneObject*>::iterator& iterator);
 	int getCannonPos() { return cannonY; }
 
 };

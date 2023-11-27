@@ -20,7 +20,7 @@ void Ufo::render()const {
 	}
 }
 void Ufo::update() {
-	//Logica de 
+	// Logica de movimiento
 	if (pos.getX() <= UFO_SPEED && movingState == LEFT) {
 		direction = direction * -1;
 		movingState = RIGHT;
@@ -35,6 +35,7 @@ void Ufo::update() {
 		timeCont += FRAME_DELAY;
 	}
 	else {
+		// muerto
 		timeCont = 0;
 		if (state == SHOWN) state = HIDE;
 		else if (state == HIDE) state = SHOWN;

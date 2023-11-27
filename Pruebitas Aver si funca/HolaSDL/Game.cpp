@@ -74,12 +74,34 @@ void Game::update() {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->update();
 	}
+
+
+
+	auto it = sceneObjects.begin();
+	while (it != sceneObjects.end()) {
+		auto currentObj = *it;
+		
+		
+		if (currentObj->ShouldRemove()) {
+			hasDied(it);
+		}
+		else ++it;
+	}
 }
 void Game::handleEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0) {
 		if (event.type == SDL_QUIT) {
 			exit = true;
+		}
+		for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
+			SceneObject* currentObj = *it;
+
+			if (dynamic_cast<Cannon*>(currentObj) != nullptr) {
+				Cannon* cannon = dynamic_cast<Cannon*>(currentObj);
+				cannon->handleEvents(event);
+				break;
+			}
 		}
 		//myCannon->handleEvents(event);
 	}
@@ -91,9 +113,12 @@ void Game::fireLaser(Point2D<int>& pos, bool source) {
 	sceneObjects.push_back(new Laser(pos, source, this));
 }
 //elimina objeto de la lista
-void Game::hasDied(list<SceneObject*>::iterator iterator) {
-	delete* iterator;
-	sceneObjects.erase(iterator);
+void Game::hasDied(list<SceneObject*>::iterator& iterator) {
+	auto it = iterator;
+	iterator++;
+
+	delete* it;
+	sceneObjects.erase(it);
 }
 
 // Calcula y devuelve la dirección común de movimiento de los Aliens

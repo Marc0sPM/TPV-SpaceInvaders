@@ -18,7 +18,6 @@ void Cannon::render() const {
 	textura->render(*rect);
 }
 void Cannon::update() {
-
 	pos = pos + moveDirection * SPEED;
 	/*if (shootCounter < SHOOT_INTERVAL) {
 		shootCounter += deltaTime;
