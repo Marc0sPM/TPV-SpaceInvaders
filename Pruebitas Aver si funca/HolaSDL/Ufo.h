@@ -14,8 +14,13 @@ private:
 		SHOWN,
 		DEAD
 	};
+	enum MovingStates {
+		RIGHT,
+		LEFT
+	};
 	Vector2D<int> direction = { 1,0 };
-	States state = HIDE;
+	States state = SHOWN;
+	MovingStates movingState = RIGHT;
 	Texture* texture;
 	int randomShownTime;
 	SDL_Rect* rect;

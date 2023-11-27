@@ -23,7 +23,7 @@ void Mothership::update() {
 			canMove = true;
 		}
 		else state = Moving;
-		std::cout << timeToMove << std::endl;
+		
 	}
 }
 void Mothership::render() const{
