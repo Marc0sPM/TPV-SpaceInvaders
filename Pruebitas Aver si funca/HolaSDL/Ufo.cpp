@@ -36,8 +36,8 @@ void Ufo::update() {
 	}
 	else {
 		timeCont = 0;
-		/*if (state == SHOWN) state = HIDE;
-		else if (state == HIDE) state = SHOWN;*/
+		if (state == SHOWN) state = HIDE;
+		else if (state == HIDE) state = SHOWN;
 		//randomShownTime = game->getRandomRange(100, 2000);
 	}
 	if (lifes <= 0)state = DEAD;
