@@ -27,4 +27,7 @@ bool Bunker::hit(SDL_Rect* otherRect, char otherSrc) {
 	
 	return SceneObject::hit(otherRect, otherSrc);
 }
+void Bunker::save(std::ostream& os) const {
+	os << "4 " << pos.getX() << " " << pos.getY() << " " << lifes ;
+}
 

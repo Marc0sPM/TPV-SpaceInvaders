@@ -30,3 +30,8 @@ void ShooterAlien::update() {
 
 	 //retorna el update de alien para el movimiento
 }
+void ShooterAlien::save(std::ostream& os) const {
+	os << "2 ";
+	Alien::save(os);
+	os << " " << reloadTime;
+}

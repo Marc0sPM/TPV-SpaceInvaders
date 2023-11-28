@@ -24,20 +24,24 @@ void InfoBar::render()const {
 							destRectLifes->w,
 							destRectLifes->h };
 		lifesTexture->renderFrame(lifeRect, 0, 0);
-
-		//reset del rect
-		*rectScore = { posScore.getX(), posScore.getY(),
-		pointsTexture->getFrameWidth(), pointsTexture->getFrameHeight() };
-
-		std::string scoreText = std::to_string(score);
-		for (char e : scoreText) {
-			int aux = e - '0';
-			pointsTexture->renderFrame(*rectScore, 0, aux);
-			rectScore->x += pointsTexture->getFrameWidth();
-		}
 	}
+
+	//reset del rect
+	*rectScore = { posScore.getX(), posScore.getY(),
+	pointsTexture->getFrameWidth(), pointsTexture->getFrameHeight() };
+
+	std::string scoreText = std::to_string(score);
+	for (char e : scoreText) {
+		int aux = e - '0';
+		pointsTexture->renderFrame(*rectScore, 0, aux);
+		rectScore->x += pointsTexture->getFrameWidth();
+	}
+	
 }
 void InfoBar::update(){}
 void InfoBar::addScore(int points) {
 	score += points;
+}
+void InfoBar::save(std::ostream& os) const {
+	os << "7 " << score ;
 }

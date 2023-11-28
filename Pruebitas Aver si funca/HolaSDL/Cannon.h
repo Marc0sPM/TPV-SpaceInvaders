@@ -25,6 +25,7 @@ public:
 	Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura);
 	void render() const override;
 	void update() override;
+	void save(std::ostream& os) const override;
 	bool hit(SDL_Rect* otherRect, char otherSrc);
 	void handleEvents(const SDL_Event& event);
 	SDL_Rect* getRect() const { return rect; }

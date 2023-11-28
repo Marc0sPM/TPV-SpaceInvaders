@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
-#include <ostream>
+#include<iostream>
+#include<ostream>
 #include "checkML.h"
 
 class Game;
@@ -13,7 +13,7 @@ public:
 	~GameObject();
 	virtual void render() const = 0;
 	virtual void update() = 0;
-	//virtual void save(ostream& os) = 0;
+	virtual void save(std::ostream& os)const = 0;
 
 };
 

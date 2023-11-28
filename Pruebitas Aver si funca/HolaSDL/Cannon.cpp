@@ -63,3 +63,6 @@ void Cannon::handleEvents(const SDL_Event& event) {
 		}
 	}
 }
+void Cannon::save(std::ostream& os) const {
+	os << "0 " << pos.getX() << " " << pos.getY() << " " << lifes << " " << remainingTime ;
+}
