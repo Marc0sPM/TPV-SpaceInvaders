@@ -32,7 +32,6 @@ void Ufo::update() {
 	case HIDE:
 		if (timeCont < randomShownTime) {
 			timeCont += FRAME_DELAY;
-			std::cout << timeCont << std::endl;
 		}
 		else {
 			timeCont = 0;
@@ -40,7 +39,6 @@ void Ufo::update() {
 		}
 		break;
 	case DEAD:
-		cout << "Muerto";
 		if (deadFramesCont < DEAD_FRAMES * FRAME_DELAY) {
 			deadFramesCont += FRAME_DELAY;
 		}
@@ -94,6 +92,7 @@ bool Ufo::hit(SDL_Rect* otherRect, char otherSrc) {
 			if (SceneObject::hit(otherRect, otherSrc)) {
 				state = DEAD;
 				lifes++;
+				game->increaseScore(*listIterator);
 				return true;
 			}
 		}

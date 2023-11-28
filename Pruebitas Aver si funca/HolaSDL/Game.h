@@ -77,6 +77,7 @@ private:
 	void readInfoBar(istream& entrada);
 	void initializeSDL();
 	void loadTextures();
+	
 public:
 
 	Game();
@@ -90,7 +91,7 @@ public:
 	int getRandomRange(int min, int max) ;
 
 	SDL_Renderer* getRenderer() const { return renderer; }
-
+	void increaseScore(SceneObject* object);
 	bool damage(SDL_Rect* laserRect, char& src);
 	void fireLaser(Point2D<int>& pos, char source);
 	void hasDied(std::list<SceneObject*>::iterator& iterator);

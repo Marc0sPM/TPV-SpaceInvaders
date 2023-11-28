@@ -118,7 +118,7 @@ void Game::fireLaser(Point2D<int>& pos, char source) {
 void Game::hasDied(list<SceneObject*>::iterator& iterator) {
 	auto it = iterator;
 	iterator++;
-
+	increaseScore(*it);
 	delete* it;
 	sceneObjects.erase(it);
 }
@@ -133,6 +133,17 @@ bool Game::damage(SDL_Rect* laserRect, char& src) {
 int Game::getRandomRange(int min, int max) {
 
 	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+}
+void Game::increaseScore(SceneObject* object) {
+	if (dynamic_cast<Alien*>(object)) {
+		Alien* alien = dynamic_cast<Alien*>(object);
+		if (alien->getType() == 0) infoBar->addScore(30); 
+		else if (alien->getType() == 1) infoBar->addScore(20);
+		else if (alien->getType() == 2) infoBar->addScore(10);
+	}
+	else if (dynamic_cast<Ufo*>(object)) {
+		infoBar->addScore(100);
+	}
 }
 
 
@@ -167,26 +178,26 @@ void Game::readGame() {
 		int object, posX, posY;
 		//inicialización de vectores de aliens y bunkers
 
-		while (!entrada.eof()) { //habia que cambiar esto
+		while (entrada >> object) { //habia que cambiar esto
 			//lectura de variables
-			entrada >> object;
-			entrada >> posX;
-			entrada >> posY;
-			//cannon
-			if (object == 0) readCannon(entrada, posX, posY);
-			//aliens
-			else if (object == 1) readAliens(entrada, posX, posY);
-
-			else if (object == 2)  readShooterAliens(entrada, posX, posY);
-
-			//bunker
-			else if (object == 4)  readBunkers(entrada, posX, posY);
-			//ufo
-			else if (object == 5) readUfo(entrada, posX, posY);
-			//laser
 			
-			else if (object == 7) readInfoBar(entrada);
+			if (object == 7) readInfoBar(entrada);
+			else {
+				entrada >> posX;
+				entrada >> posY;
+				//cannon
+				if (object == 0) readCannon(entrada, posX, posY);
+				//aliens
+				else if (object == 1) readAliens(entrada, posX, posY);
 
+				else if (object == 2)  readShooterAliens(entrada, posX, posY);
+
+				//bunker
+				else if (object == 4)  readBunkers(entrada, posX, posY);
+				//ufo
+				else if (object == 5) readUfo(entrada, posX, posY);
+				//laser
+			}
 		}
 	}
 }
@@ -240,6 +251,7 @@ void Game::readUfo(istream& entrada, int posX, int posY) {
 void Game::readInfoBar(istream& entrada) {
 	int score;
 	entrada >> score;
+	cout << score << endl;
 	infoBar = new InfoBar(this,  texturas[numbers], texturas[cannon], _cannon, score);
 }
 #pragma endregion

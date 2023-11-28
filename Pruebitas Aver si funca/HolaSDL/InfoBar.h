@@ -23,6 +23,6 @@ public:
 	~InfoBar();
 	void update()override;
 	void render()const override;
-	
+	void addScore(int points);
 };
 

@@ -25,5 +25,6 @@ public:
 	void update() override;
 	bool hit(SDL_Rect* attackRect, char src);
 	SDL_Rect getRect() const { return *rect; }
+	int getType() { return subtipo; }
 };
 
