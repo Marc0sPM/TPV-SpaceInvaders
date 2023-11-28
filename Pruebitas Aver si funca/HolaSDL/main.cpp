@@ -1,5 +1,5 @@
 #include "checkML.h"
-
+#include "Exceptions.h"
 #include "SDL.h"
 #include "SDL_image.h"
 #include "Game.h"
@@ -13,8 +13,13 @@ using uint = unsigned int;
 
 int main(int argc, char* argv[])
 {
-	Game game;
-	game.run();
+	try {
+		Game game;
+		game.run();
+	}
+	catch (const InvadersError& e){
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
 
 	return 0;
 }

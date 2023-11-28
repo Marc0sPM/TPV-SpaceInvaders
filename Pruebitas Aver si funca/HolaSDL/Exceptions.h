@@ -10,15 +10,15 @@ public:
 
 class SDLError : public InvadersError {
 public:
-    SDLError(const std::string& message) : InvadersError("SDL error: " + message + SDL_GetError()) {}
+    SDLError(const std::string& message) : InvadersError("SDL error " + message + " " + SDL_GetError()) {}
 };
 
 class FileNotFoundError : public InvadersError {
 public:
-    FileNotFoundError(const std::string& filename) : InvadersError("File not found: " + filename) {}
+    FileNotFoundError(const std::string& filename) : InvadersError("File not found " + filename) {}
 };
 
 class FileFormatError : public InvadersError {
 public:
-    FileFormatError(const std::string& message) : InvadersError(message) {}
+    FileFormatError(const std::string& filename, int lineNumber, const std::string& message) : InvadersError("Error in file " + filename + " at line " + std::to_string(lineNumber) + ": " + message) {}
 };
