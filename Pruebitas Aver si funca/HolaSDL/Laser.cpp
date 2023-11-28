@@ -29,12 +29,13 @@ void Laser::update() {
     
 }
 
-void Laser::setSelfDestroy() {
-    canSelfDestroy = true;
-}
+
 bool Laser::hit(SDL_Rect* otherRect, char otherSrc) {
     if (otherSrc != src) {
         return SceneObject::hit(otherRect, otherSrc);
     }
     return false;
+}
+void Laser::save(std::ostream& os) const {
+    os << "6 " << pos.getX() << " " << pos.getY() << " " << src ;
 }

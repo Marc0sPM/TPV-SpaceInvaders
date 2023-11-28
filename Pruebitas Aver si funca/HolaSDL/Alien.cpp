@@ -46,5 +46,8 @@ bool Alien::hit(SDL_Rect* otherRect, char otherSrc) {
 	}
 	return false;
 }
+void Alien::save(std::ostream& os) const {
+	os << "1 " << pos.getX() << " " << pos.getY() << " " << subtipo ;
+}
 
 

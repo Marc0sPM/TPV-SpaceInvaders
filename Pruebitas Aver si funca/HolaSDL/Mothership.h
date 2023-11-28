@@ -30,6 +30,7 @@ public:
 	Mothership(Game* _game);
 	void update()override;
 	void render() const override;
+	void save(std::ostream& os) const override;
 	void addAlien();
 	//Retorna la direccion de los aliens 
 	Vector2D<int> getDirection() const { return aliensDirection; }

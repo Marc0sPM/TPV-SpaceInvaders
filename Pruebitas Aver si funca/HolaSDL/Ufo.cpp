@@ -51,29 +51,6 @@ void Ufo::update() {
 	}
 
 }
-	/*if (state == SHOWN) {
-		pos = pos + direction * UFO_SPEED;
-		checkLimits();
-	}
-	if (timeCont < randomShownTime) {
-		timeCont += FRAME_DELAY;
-		cout << timeCont << endl;
-	}
-	else {
-		timeCont = 0;
-		if (state == HIDE) {
-			canShow();
-		}
-		if (state == DEAD) {
-			if (deadFramesCont < DEAD_FRAMES) {
-				deadFramesCont++;
-			}
-			else {
-				deadFramesCont = 0;
-				pos = initialPos;
-				state = HIDE;
-			}
-		}*/
 		
 
 void Ufo::checkLimits() {
@@ -98,4 +75,7 @@ bool Ufo::hit(SDL_Rect* otherRect, char otherSrc) {
 		}
 	}
 	return false;
+}
+void Ufo::save(std::ostream& os) const {
+	os << "5 " << initialPos.getX() << " " << initialPos.getY() << " " << state << " " << randomShownTime;
 }

@@ -16,6 +16,7 @@ public:
 	virtual bool hit(SDL_Rect* attackRect, char src);
 	void setListIterator(std::list<SceneObject*>::iterator iterator);
 	bool ShouldRemove() const;
+	
 
 };
 

@@ -23,6 +23,7 @@ public:
 	~InfoBar();
 	void update()override;
 	void render()const override;
+	void save(std::ostream& os)const  override;
 	void addScore(int points);
 };
 

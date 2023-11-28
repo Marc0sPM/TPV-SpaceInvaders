@@ -32,6 +32,7 @@ public:
 
 	void update()override;
 	void render() const override;
+	void save(std::ostream& os) const  override;
 	bool hit(SDL_Rect* otherRect, char otherSrc) override;
 };
 

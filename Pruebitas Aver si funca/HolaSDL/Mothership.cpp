@@ -54,5 +54,7 @@ void Mothership::alienDied() {
 void Mothership::alienLanded() {
 	landed = true;
 }
+void Mothership::save(std::ostream& os) const {
 
+}
 

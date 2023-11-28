@@ -251,7 +251,6 @@ void Game::readUfo(istream& entrada, int posX, int posY) {
 void Game::readInfoBar(istream& entrada) {
 	int score;
 	entrada >> score;
-	cout << score << endl;
 	infoBar = new InfoBar(this,  texturas[numbers], texturas[cannon], _cannon, score);
 }
 #pragma endregion
