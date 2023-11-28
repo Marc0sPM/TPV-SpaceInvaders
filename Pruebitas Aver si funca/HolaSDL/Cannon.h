@@ -29,6 +29,7 @@ public:
 	void handleEvents(const SDL_Event& event);
 	SDL_Rect* getRect() const { return rect; }
 	Point2D<int> getPos() const { return pos; }
+	int getLifes() { return lifes; }
 
 };
 

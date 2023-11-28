@@ -19,6 +19,7 @@
 #include "Laser.h"
 #include "ShooterAlien.h"
 #include "Ufo.h"
+#include "InfoBar.h"
 
 
 
@@ -40,7 +41,7 @@ private:
 	int cantAliens = 0;
 	int cannonY;
 	
-
+	
 	int numShootAliens;
 	Uint32 lastFrameTime;
 	Vector2D<int> alienDirection;
@@ -49,6 +50,8 @@ private:
 	//Lista de objetos
 	list<SceneObject*> sceneObjects;
 	Mothership* mothership;
+	Cannon* _cannon;
+	InfoBar* infoBar;
 
 	enum textureNames {
 		alien,
@@ -63,7 +66,7 @@ private:
 		size_t rows;
 		size_t cols;
 	};
-
+	
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
 	void readGame();
 	void readAliens(istream& entrada, int posX, int posY);
@@ -71,6 +74,7 @@ private:
 	void readShooterAliens(istream& entrada, int posX, int posY);
 	void readCannon(istream& entrada, int posX, int posY);
 	void readUfo(istream& entrada, int posX, int posY);
+	void readInfoBar(istream& entrada);
 	void initializeSDL();
 	void loadTextures();
 public:
@@ -82,17 +86,14 @@ public:
 	void render()const;
 	void update();
 	void handleEvents();
-
-	Vector2D<int> getDirection()const;
 	
 	int getRandomRange(int min, int max) ;
 
-	
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 	bool damage(SDL_Rect* laserRect, char& src);
 	void fireLaser(Point2D<int>& pos, char source);
 	void hasDied(std::list<SceneObject*>::iterator& iterator);
-	int getCannonPos() { return cannonY; }
+	int getCannonPos() { return _cannon->getPos().getY(); }
 
 };

@@ -3,8 +3,8 @@
 #include "texture.h"
 #include "Vector2D.h"
 
-const int UFO_SPEED = 3;
-const int DEAD_FRAMES = 100;
+const int UFO_SPEED = 2;
+const int DEAD_FRAMES = 70;
 class Game;
 class Ufo : public SceneObject
 {
@@ -15,7 +15,7 @@ private:
 		DEAD
 	};
 	Vector2D<int> direction = { -1,0 };
-	States state = SHOWN;
+	States state;
 	Texture* texture;
 	int randomShownTime;
 	int deadFramesCont = 0;
@@ -27,7 +27,7 @@ private:
 	//randomiza el cambio de estado de SHOWN a HIDE y viceversa
 	void canShow();
 public:
-	Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime);
+	Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime,int _state);
 	~Ufo();
 
 	void update()override;

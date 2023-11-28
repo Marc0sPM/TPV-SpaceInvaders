@@ -18,7 +18,7 @@ void ShooterAlien::update() {
 	}
 	else {
 		timeCounter = 0;
-		if (game->getRandomRange(0, 1500) < 2) {
+		if (game->getRandomRange(0, reloadTime) < 1) {
 			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
 				pos.getY());
 

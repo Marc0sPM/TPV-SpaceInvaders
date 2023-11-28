@@ -2,8 +2,9 @@
 #include "Game.h"
 
 
-Ufo::Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime) :
+Ufo::Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime, int _state) :
 	texture(_texture),
+	state(States(_state)),
 	SceneObject(_game, _pos, 1, _texture->getFrameWidth(), _texture->getFrameHeight()),
 	randomShownTime(_randomShownTime) {
 	rect = new SDL_Rect{ pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
@@ -35,9 +36,7 @@ void Ufo::update() {
 		}
 		else {
 			timeCont = 0;
-			if (state == HIDE) {
-				canShow();
-			}
+			canShow();
 		}
 		break;
 	case DEAD:
@@ -87,7 +86,7 @@ void Ufo::checkLimits() {
 	
 }
 void Ufo::canShow() {
-	if (game->getRandomRange(0, 1500) < 2) state = SHOWN;
+	if (game->getRandomRange(0, randomShownTime) < 10) state = SHOWN;
 }
 bool Ufo::hit(SDL_Rect* otherRect, char otherSrc) {
 	if (state == SHOWN) {

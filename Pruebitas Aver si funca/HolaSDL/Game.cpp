@@ -49,7 +49,7 @@ void Game::run() {
 		handleEvents();
 		update();
 		render();
-		if (mothership->haveLanded() || mothership->getCont() <= 0) exit = true;
+		if (mothership->haveLanded() || mothership->getCont() <= 0 ||_cannon->getLifes() <= 0) exit = true;
 	}
 }
 
@@ -61,6 +61,7 @@ void Game::render() const {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 		(*it)->render();
 	}
+	infoBar->render();
 	SDL_RenderPresent(renderer);
 }
 
@@ -160,7 +161,7 @@ void Game::initializeSDL() {
 }
 void Game::readGame() {
 	ifstream entrada;
-	entrada.open("../mapas/urgente.txt");
+	entrada.open("../mapas/original.txt");
 	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
 		int object, posX, posY;
@@ -183,8 +184,8 @@ void Game::readGame() {
 			//ufo
 			else if (object == 5) readUfo(entrada, posX, posY);
 			//laser
-			else if (object == 6);
 			
+			else if (object == 7) readInfoBar(entrada);
 
 		}
 	}
@@ -213,10 +214,10 @@ void Game::readCannon(istream& entrada, int posX, int posY) {
 	entrada >> lifes;
 	entrada >> remainingTime;
 	Point2D<int> posC = { posX, posY };
-	Cannon* c = new Cannon(posC, lifes, remainingTime, this, texturas[cannon]);
-	sceneObjects.push_back(c);
-	c->setListIterator(--sceneObjects.end());
-	cannonY = c->getPos().getY();
+	_cannon = new Cannon(posC, lifes, remainingTime, this, texturas[cannon]);
+	sceneObjects.push_back(_cannon);
+	_cannon->setListIterator(--sceneObjects.end());
+	cannonY = _cannon->getPos().getY();
 
 }
 void Game::readShooterAliens(istream& entrada, int posX, int posY) {
@@ -229,50 +230,16 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	mothership->addAlien();
 }
 void Game::readUfo(istream& entrada, int posX, int posY) {
-	int randomShownTime;
-	entrada >> randomShownTime;
+	int randomShownTime, state;
+	entrada >> state >> randomShownTime;
 	Point2D<int> posC = { posX, posY };
-	Ufo* u = new Ufo(this, posC, texturas[ufo], randomShownTime);
+	Ufo* u = new Ufo(this, posC, texturas[ufo], randomShownTime, state);
 	sceneObjects.push_back(u);
 	u->setListIterator(--sceneObjects.end());
 }
+void Game::readInfoBar(istream& entrada) {
+	int score;
+	entrada >> score;
+	infoBar = new InfoBar(this,  texturas[numbers], texturas[cannon], _cannon, score);
+}
 #pragma endregion
-
-
-//ELIMINAR MAS TARDE
-//bool Game::bunkerColision(SDL_Rect* laserRect) {
-//	for (int i = 0; i < bunkers.size(); i++) {
-//
-//		if (SDL_HasIntersection(bunkers[i]->getRect(), laserRect)) {
-//			bunkers[i]->hit();
-//			return false;
-//		}
-//	}
-//	return true;
-//}
-//bool Game::laserColision(SDL_Rect* laserRect, bool laserSrcOppo) {
-//	for (int i = 0; i < lasers.size(); i++) {
-//		if (SDL_HasIntersection(lasers[i]->getRect(), laserRect) && lasers[i]->getSource() == laserSrcOppo) {
-//			lasers[i]->setSelfDestroy();
-//			return true;
-//		}
-//	}
-//	return false;
-//}
-//bool Game::alienColision(SDL_Rect* laserRect) {
-//	for (int i = 0; i < aliens.size(); i++) {
-//
-//		/*if (SDL_HasIntersection(aliens[i]->getRect(), laserRect)) {
-//			aliens[i]->hit();
-//			return true;
-//		}*/
-//	}
-//	return false;
-//}
-//bool Game::cannonColision(SDL_Rect* laserRect) {
-//	if (SDL_HasIntersection(myCannon->getRect(), laserRect)) {
-//		myCannon->hit();
-//		return true;
-//	}
-//	return false;
-//}
