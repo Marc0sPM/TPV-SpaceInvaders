@@ -22,7 +22,6 @@
 #include "InfoBar.h"
 
 
-
 constexpr Uint32 windowWidth = 800;
 constexpr Uint32 windowHeight = 600;
 const int NUM_TEXTURES = 6;
@@ -32,6 +31,8 @@ const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 class Game {
 private:
+	string originalMap = "../mapas/original.txt";
+
 	default_random_engine randomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -68,7 +69,7 @@ private:
 	};
 	
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
-	void readGame();
+	void readGame(string& filename);
 	void readAliens(istream& entrada, int posX, int posY);
 	void readBunkers(istream& entrada, int posX, int posY);
 	void readShooterAliens(istream& entrada, int posX, int posY);

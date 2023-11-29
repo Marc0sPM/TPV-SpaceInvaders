@@ -19,7 +19,7 @@ TEXTURAS{
 	//Carga texturas 
 	loadTextures(); 
 	//inicialización por lectura
-	readGame();
+	readGame(originalMap);
 }
 Game :: ~Game() {
 
@@ -170,9 +170,11 @@ void Game::initializeSDL() {
 		throw "ERROR: SDL_Renderer not found";
 	}
 }
-void Game::readGame() {
+void Game::readGame(string& filename) {
 	ifstream entrada;
-	entrada.open("../mapas/original.txt");
+	if (filename == originalMap) entrada.open(originalMap);
+	else entrada.open(filename);
+
 	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
 		int object, posX, posY;
