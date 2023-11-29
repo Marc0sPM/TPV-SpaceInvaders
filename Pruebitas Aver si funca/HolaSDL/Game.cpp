@@ -103,9 +103,31 @@ void Game::handleEvents() {
 				break;
 			}
 		}
-		
+		if (event.type == SDL_KEYDOWN) {
+			if (event.key.keysym.sym == SDLK_s) {
+				// Pedir al usuario que ingrese un número
+				int inputNumber;
+				std::cout << "Ingrese un número: ";
+				std::cin >> inputNumber;
+				for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
+					SceneObject* currentObj = *it;
+					ofstream os(saved + std::to_string(inputNumber));
+					currentObj->save(os);
+				}
+			}
+			if (event.key.keysym.sym == SDLK_l) {
+				int inputNumber;
+				std::cout << "Ingrese un número: ";
+				std::cin >> inputNumber;
+				readGame(saved + std::to_string(inputNumber));
+			}
+		}
 	}
 }
+		
+		
+	
+
 
 //Añade un laser a la lista de objetos
 void Game::fireLaser(Point2D<int>& pos, char source) {

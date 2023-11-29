@@ -43,6 +43,7 @@ void Cannon::handleEvents(const SDL_Event& event) {
 			isMoving = true;
 			moveDirection = { 1, 0 };
 			break;
+			
 		}
 		if (event.key.keysym.sym == SDLK_SPACE && canShoot) {
 			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,

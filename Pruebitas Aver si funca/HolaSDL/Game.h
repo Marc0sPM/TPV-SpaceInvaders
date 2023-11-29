@@ -32,6 +32,7 @@ const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 class Game {
 private:
 	string originalMap = "../mapas/original.txt";
+	string saved = "saved";
 
 	default_random_engine randomGenerator;
 	SDL_Window* window;
