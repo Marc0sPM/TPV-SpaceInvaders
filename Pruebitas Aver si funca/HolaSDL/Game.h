@@ -31,8 +31,9 @@ const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 class Game {
 private:
-	string originalMap = "../mapas/original.txt";
 	string saved = "saved";
+	bool wait;
+	int saveNum;
 
 	default_random_engine randomGenerator;
 	SDL_Window* window;
@@ -70,7 +71,7 @@ private:
 	};
 	
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
-	void readGame(string& filename);
+	void readGame();
 	void readAliens(istream& entrada, int posX, int posY);
 	void readBunkers(istream& entrada, int posX, int posY);
 	void readShooterAliens(istream& entrada, int posX, int posY);
@@ -79,6 +80,7 @@ private:
 	void readInfoBar(istream& entrada);
 	void initializeSDL();
 	void loadTextures();
+	void saveGame(ofstream& os, bool& wait, int& saveNum);
 	
 public:
 

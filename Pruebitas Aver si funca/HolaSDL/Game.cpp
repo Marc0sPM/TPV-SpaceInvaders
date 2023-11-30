@@ -19,7 +19,7 @@ TEXTURAS{
 	//Carga texturas 
 	loadTextures(); 
 	//inicialización por lectura
-	readGame(originalMap);
+	readGame();
 }
 Game :: ~Game() {
 
@@ -90,6 +90,7 @@ void Game::update() {
 }
 void Game::handleEvents() {
 	SDL_Event event;
+	ofstream os;
 	while (SDL_PollEvent(&event) != 0) {
 		if (event.type == SDL_QUIT) {
 			exit = true;
@@ -104,28 +105,62 @@ void Game::handleEvents() {
 			}
 		}
 		if (event.type == SDL_KEYDOWN) {
-			if (event.key.keysym.sym == SDLK_s) {
-				// Pedir al usuario que ingrese un número
-				int inputNumber;
-				std::cout << "Ingrese un número: ";
-				std::cin >> inputNumber;
-				for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
-					SceneObject* currentObj = *it;
-					ofstream os(saved + std::to_string(inputNumber));
-					currentObj->save(os);
+			switch (event.key.keysym.sym) {
+			case SDLK_s:
+				//para que espere
+				wait = true;
+				saveNum = -1;
+				std::cout << "Presiona un numero del 0 al 9 para guardar: ";
+				break;
+			case SDLK_l:
+				//para que espere
+				wait = true;
+				saveNum = -1;
+				std::cout << "Presiona un numero del 0 al 9 para cargar: ";
+				break;
+			case SDLK_0:
+			case SDLK_1:
+			case SDLK_2:
+			case SDLK_3:
+			case SDLK_4:
+			case SDLK_5:
+			case SDLK_6:
+			case SDLK_7:
+			case SDLK_8:
+			case SDLK_9:
+				if (wait) {
+					saveNum = event.key.keysym.sym - SDLK_0;
+					saveGame(os, wait, saveNum);
 				}
-			}
-			if (event.key.keysym.sym == SDLK_l) {
-				int inputNumber;
-				std::cout << "Ingrese un número: ";
-				std::cin >> inputNumber;
-				readGame(saved + std::to_string(inputNumber));
+				else if (wait) {
+					saveNum = event.key.keysym.sym - SDLK_0;
+					//loadGame(saveNum, wait);
+				}
+				break;
 			}
 		}
 	}
 }
 		
-		
+void Game::saveGame(ofstream& os, bool& wait, int& saveNum) {
+	string file = "saved" + std::to_string(saveNum) + ".txt";
+	os.open("../mapas/save/" + file);
+	if (os.is_open()) {
+		for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
+			(*it)->save(os);
+		}
+		infoBar->save(os);
+		os.close();
+		std::cout << "SAVED" << std::endl;
+
+		//se cierra igual como el año pasado
+		os.close();
+	}
+	else {
+		std::cerr << "ERROR: el juego no se ha podido guardar" << std::endl;
+	}
+	wait = false;
+}
 	
 
 
@@ -192,7 +227,7 @@ void Game::initializeSDL() {
 		throw "ERROR: SDL_Renderer not found";
 	}
 }
-void Game::readGame(string& filename) {
+void Game::readGame() {
 	ifstream entrada;
 	if (filename == originalMap) entrada.open(originalMap);
 	else entrada.open(filename);
