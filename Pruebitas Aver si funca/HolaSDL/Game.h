@@ -31,8 +31,7 @@ const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
 
 class Game {
 private:
-	string saved = "saved";
-	bool wait;
+	bool save, load;
 	int saveNum;
 
 	default_random_engine randomGenerator;
@@ -71,16 +70,18 @@ private:
 	};
 	
 	const TextureSpec TEXTURAS[NUM_TEXTURES];
-	void readGame();
+	void readGame(string file);
 	void readAliens(istream& entrada, int posX, int posY);
 	void readBunkers(istream& entrada, int posX, int posY);
 	void readShooterAliens(istream& entrada, int posX, int posY);
 	void readCannon(istream& entrada, int posX, int posY);
 	void readUfo(istream& entrada, int posX, int posY);
 	void readInfoBar(istream& entrada);
+	void readLasers(istream& entrada, int posX, int posY);
 	void initializeSDL();
 	void loadTextures();
 	void saveGame(ofstream& os, bool& wait, int& saveNum);
+	void loadGame(int& saveNum, bool& wait);
 	
 public:
 

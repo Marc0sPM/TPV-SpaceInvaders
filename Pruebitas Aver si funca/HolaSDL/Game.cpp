@@ -19,7 +19,7 @@ TEXTURAS{
 	//Carga texturas 
 	loadTextures(); 
 	//inicialización por lectura
-	readGame();
+	readGame("../mapas/original.txt");
 }
 Game :: ~Game() {
 
@@ -27,7 +27,6 @@ Game :: ~Game() {
 	for (auto& it : sceneObjects) {
 		delete it;
 	}
-
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -107,14 +106,14 @@ void Game::handleEvents() {
 		if (event.type == SDL_KEYDOWN) {
 			switch (event.key.keysym.sym) {
 			case SDLK_s:
-				//para que espere
-				wait = true;
+				//para que solo sea en save
+				save = true;
 				saveNum = -1;
 				std::cout << "Presiona un numero del 0 al 9 para guardar: ";
 				break;
 			case SDLK_l:
-				//para que espere
-				wait = true;
+				//para que solo sea en load
+				load = true;
 				saveNum = -1;
 				std::cout << "Presiona un numero del 0 al 9 para cargar: ";
 				break;
@@ -128,13 +127,13 @@ void Game::handleEvents() {
 			case SDLK_7:
 			case SDLK_8:
 			case SDLK_9:
-				if (wait) {
+				if (save) {
 					saveNum = event.key.keysym.sym - SDLK_0;
-					saveGame(os, wait, saveNum);
+					saveGame(os, save, saveNum);
 				}
-				else if (wait) {
+				else if (load) {
 					saveNum = event.key.keysym.sym - SDLK_0;
-					//loadGame(saveNum, wait);
+					loadGame(saveNum, load);
 				}
 				break;
 			}
@@ -142,24 +141,37 @@ void Game::handleEvents() {
 	}
 }
 		
-void Game::saveGame(ofstream& os, bool& wait, int& saveNum) {
+void Game::saveGame(ofstream& os, bool& save, int& saveNum) {
 	string file = "saved" + std::to_string(saveNum) + ".txt";
 	os.open("../mapas/save/" + file);
 	if (os.is_open()) {
 		for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
 			(*it)->save(os);
+			os << std::endl;
 		}
 		infoBar->save(os);
 		os.close();
 		std::cout << "SAVED" << std::endl;
 
-		//se cierra igual como el año pasado
+		//Se cierra igual como el año pasado
 		os.close();
 	}
 	else {
 		std::cerr << "ERROR: el juego no se ha podido guardar" << std::endl;
 	}
-	wait = false;
+	save = false;
+}
+
+void Game::loadGame(int& saveNum, bool& load) {
+	string file = "saved" + std::to_string(saveNum) + ".txt";
+	//Eliminar objetos
+	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
+		delete* it;
+	}
+	sceneObjects.clear();
+	//delete infoBar //NO VA Y PETA EL JUEGO, SE SUPONE QUE LOS METODOS ESTAN BIEN
+	load = false;
+	readGame("../mapas/save/" + file);
 }
 	
 
@@ -227,10 +239,10 @@ void Game::initializeSDL() {
 		throw "ERROR: SDL_Renderer not found";
 	}
 }
-void Game::readGame() {
+void Game::readGame(string file) {
 	ifstream entrada;
-	if (filename == originalMap) entrada.open(originalMap);
-	else entrada.open(filename);
+	
+	entrada.open(file);
 
 	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
 	else {
@@ -256,6 +268,7 @@ void Game::readGame() {
 				//ufo
 				else if (object == 5) readUfo(entrada, posX, posY);
 				//laser
+				else if (object == 6) readLasers(entrada, posX, posY);
 			}
 		}
 	}
@@ -311,5 +324,16 @@ void Game::readInfoBar(istream& entrada) {
 	int score;
 	entrada >> score;
 	infoBar = new InfoBar(this,  texturas[numbers], texturas[cannon], _cannon, score);
+}
+void Game::readLasers(istream& entrada, int posX, int posY) {
+	char color;
+	entrada >> color;
+
+	entrada >> posX;
+	entrada >> posY;
+	Point2D<int> pos = { posX, posY };
+	Laser* l = new Laser(pos, color, this);
+	sceneObjects.push_back(l);
+	l->setListIterator(--sceneObjects.end());
 }
 #pragma endregion
