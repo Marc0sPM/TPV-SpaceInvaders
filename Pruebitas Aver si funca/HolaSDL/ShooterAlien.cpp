@@ -32,6 +32,5 @@ void ShooterAlien::update() {
 }
 void ShooterAlien::save(std::ostream& os) const {
 	os << "2 ";
-	Alien::save(os);
-	os << " " << reloadTime;
+	os << pos.getX() << " " << pos.getY() << " " << subtipo << " " << reloadTime;
 }
