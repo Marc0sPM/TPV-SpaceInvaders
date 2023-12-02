@@ -44,11 +44,14 @@ void Game::run() {
 		}
 
 		lastFrameTime = currentFrameTime;
-
 		handleEvents();
-		update();
-		render();
-		if (mothership->haveLanded() || mothership->getCont() <= 0 ||_cannon->getLifes() <= 0) exit = true;
+		if (!isPause) {
+			
+			update();
+			render();
+			if (mothership->haveLanded() || mothership->getCont() <= 0 || _cannon->getLifes() <= 0) exit = true;
+		}
+		
 	}
 }
 
@@ -94,25 +97,23 @@ void Game::handleEvents() {
 		if (event.type == SDL_QUIT) {
 			exit = true;
 		}
-		for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
-			SceneObject* currentObj = *it;
-
-			if (dynamic_cast<Cannon*>(currentObj) != nullptr) {
-				Cannon* cannon = dynamic_cast<Cannon*>(currentObj);
-				cannon->handleEvents(event);
-				break;
-			}
-		}
+		_cannon->handleEvents(event);
 		if (event.type == SDL_KEYDOWN) {
 			switch (event.key.keysym.sym) {
+			case SDLK_p: isPause = !isPause; 
+				break;
+			case SDLK_q: exit = true;
+				break;
 			case SDLK_s:
 				//para que solo sea en save
+				isPause = true;
 				save = true;
 				saveNum = -1;
 				std::cout << "Presiona un numero del 0 al 9 para guardar: ";
 				break;
 			case SDLK_l:
 				//para que solo sea en load
+				isPause = true;
 				load = true;
 				saveNum = -1;
 				std::cout << "Presiona un numero del 0 al 9 para cargar: ";
@@ -155,6 +156,7 @@ void Game::saveGame(ofstream& os, bool& save, int& saveNum) {
 
 		//Se cierra igual como el año pasado
 		os.close();
+		isPause = false;
 	}
 	else {
 		std::cerr << "ERROR: el juego no se ha podido guardar" << std::endl;
@@ -165,13 +167,15 @@ void Game::saveGame(ofstream& os, bool& save, int& saveNum) {
 void Game::loadGame(int& saveNum, bool& load) {
 	string file = "saved" + std::to_string(saveNum) + ".txt";
 	//Eliminar objetos
-	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); it++) {
+	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
 		delete* it;
 	}
 	sceneObjects.clear();
+	
 	//delete infoBar //NO VA Y PETA EL JUEGO, SE SUPONE QUE LOS METODOS ESTAN BIEN
 	load = false;
 	readGame("../mapas/save/" + file);
+	isPause = false;
 }
 	
 
@@ -249,10 +253,11 @@ void Game::readGame(string file) {
 		int object, posX, posY;
 		//inicialización de vectores de aliens y bunkers
 
-		while (entrada >> object) { //habia que cambiar esto
+		while (entrada >> object) {
 			//lectura de variables
 			
-			if (object == 7) readInfoBar(entrada);
+			if (object == 7) 
+				readInfoBar(entrada);
 			else {
 				entrada >> posX;
 				entrada >> posY;
@@ -260,9 +265,8 @@ void Game::readGame(string file) {
 				if (object == 0) readCannon(entrada, posX, posY);
 				//aliens
 				else if (object == 1) readAliens(entrada, posX, posY);
-
+				//shooter alien
 				else if (object == 2)  readShooterAliens(entrada, posX, posY);
-
 				//bunker
 				else if (object == 4)  readBunkers(entrada, posX, posY);
 				//ufo
@@ -271,6 +275,7 @@ void Game::readGame(string file) {
 				else if (object == 6) readLasers(entrada, posX, posY);
 			}
 		}
+		entrada.close();
 	}
 }
 
@@ -328,9 +333,6 @@ void Game::readInfoBar(istream& entrada) {
 void Game::readLasers(istream& entrada, int posX, int posY) {
 	char color;
 	entrada >> color;
-
-	entrada >> posX;
-	entrada >> posY;
 	Point2D<int> pos = { posX, posY };
 	Laser* l = new Laser(pos, color, this);
 	sceneObjects.push_back(l);

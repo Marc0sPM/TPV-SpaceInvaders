@@ -40,6 +40,7 @@ private:
 	Uint32 deltaTime;
 	bool exit;
 	bool cantMove;
+	bool isPause = false;
 	int cantAliens = 0;
 	int cannonY;
 	
