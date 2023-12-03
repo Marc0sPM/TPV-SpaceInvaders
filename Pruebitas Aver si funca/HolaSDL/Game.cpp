@@ -128,13 +128,17 @@ void Game::handleEvents() {
 			case SDLK_7:
 			case SDLK_8:
 			case SDLK_9:
-				if (save) {
-					saveNum = event.key.keysym.sym - SDLK_0;
-					saveGame(os, save, saveNum);
-				}
-				else if (load) {
-					saveNum = event.key.keysym.sym - SDLK_0;
-					loadGame(saveNum, load);
+				try {
+					if (save) {
+						saveNum = event.key.keysym.sym - SDLK_0;
+						saveGame(os, save, saveNum);
+					}
+					else if (load) {
+						saveNum = event.key.keysym.sym - SDLK_0;
+						loadGame(saveNum, load);
+					}
+				}catch (const InvadersError& e) {
+					std::cerr << "Error: " << e.what() << std::endl;
 				}
 				break;
 			}
@@ -228,19 +232,19 @@ void Game::loadTextures() {
 }
 void Game::initializeSDL() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		throw "Error al inicializar SDL";
+		throw SDLError("Error al inicializar SDL");
 	}
 
 	window = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 	if (window == nullptr) {
-		throw  "ERROR: SDL_Window not found";
+		throw  SDLError("ERROR: SDL_Window not found");
 	}
 	renderer = SDL_CreateRenderer(window, -1,
 		SDL_RENDERER_ACCELERATED);
 	if (renderer == nullptr) {
-		throw "ERROR: SDL_Renderer not found";
+		throw SDLError("ERROR: SDL_Renderer not found");
 	}
 }
 void Game::readGame(string file) {
@@ -248,7 +252,7 @@ void Game::readGame(string file) {
 	
 	entrada.open(file);
 
-	if (!entrada.is_open()) throw "ERROR: entrada no encontrada.";
+	if (!entrada.is_open()) throw FileNotFoundError("ERROR: entrada no encontrada.");
 	else {
 		int object, posX, posY;
 		//inicialización de vectores de aliens y bunkers

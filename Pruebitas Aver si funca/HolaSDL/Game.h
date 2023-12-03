@@ -20,6 +20,7 @@
 #include "ShooterAlien.h"
 #include "Ufo.h"
 #include "InfoBar.h"
+#include "Exceptions.h"
 
 
 constexpr Uint32 windowWidth = 800;
