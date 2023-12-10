@@ -4,10 +4,11 @@
 
 
 
-ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime, Mothership* _motherShip) 
+ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime, Mothership* _motherShip)
 	:
 	reloadTime(_reloadTime),
 	Alien(_game, _pos, _textura, _subtipo, _motherShip) {}
+
 
 void ShooterAlien::update() {
 	Alien::update();

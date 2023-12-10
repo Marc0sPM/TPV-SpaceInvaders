@@ -3,12 +3,9 @@
 Cannon::Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura) :
 	SceneObject(_game, _pos, _lives, _textura->getFrameWidth(), _textura->getFrameHeight()),
 	textura(_textura),
-	remainingTime(0) {
+	remainingTime(_remainingTime) {
 
-	moveDirection = { 0,0 };
-	isMoving = false;
-	shootCounter = 0;
-	canShoot = true;
+	
 	rect = new SDL_Rect{ pos.getX(), pos.getY(),
 		textura->getFrameWidth(), textura->getFrameHeight() };
 }

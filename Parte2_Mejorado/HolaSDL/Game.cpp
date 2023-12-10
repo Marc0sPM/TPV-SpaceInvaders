@@ -5,14 +5,7 @@
 Game::Game() : window(nullptr), renderer(nullptr), exit(false), lastFrameTime(SDL_GetTicks()),
 alienDirection(Vector2D<int>(1, 0)),
 cantMove(false),
-mothership(new Mothership(this)),
-TEXTURAS{
-	{"aliens.png", 3, 2},
-	{"bunker.png", 1, 4},
-	{"spaceship.png", 1, 1},
-	{"stars.png", 1, 1},
-	{"ufo.png", 1, 2}, 
-	{"numbers.png", 1, 10}}
+mothership(new Mothership(this))
 {
 	//Inicializacion de SDL 
 	initializeSDL(); 
@@ -78,70 +71,73 @@ void Game::update() {
 	}
 
 
-
-	auto it = sceneObjects.begin();
-	while (it != sceneObjects.end()) {
-		auto currentObj = *it;
-		
-		
-		if (currentObj->ShouldRemove()) {
-			hasDied(it);
-		}
-		else ++it;
+	for (auto it = toDelete.begin(); it != toDelete.end(); ++it) {
+		delete* (*it);
+		sceneObjects.erase(*it);
 	}
+	toDelete.clear(); 
+
 }
 void Game::handleEvents() {
 	SDL_Event event;
-	ofstream os;
+	
 	while (SDL_PollEvent(&event) != 0) {
 		if (event.type == SDL_QUIT) {
 			exit = true;
 		}
 		_cannon->handleEvents(event);
-		if (event.type == SDL_KEYDOWN) {
-			switch (event.key.keysym.sym) {
-			case SDLK_p: isPause = !isPause; 
-				break;
-			case SDLK_q: exit = true;
-				break;
-			case SDLK_s:
-				//para que solo sea en save
-				isPause = true;
-				save = true;
-				saveNum = -1;
-				std::cout << "Presiona un numero del 0 al 9 para guardar: ";
-				break;
-			case SDLK_l:
-				//para que solo sea en load
-				isPause = true;
-				load = true;
-				saveNum = -1;
-				std::cout << "Presiona un numero del 0 al 9 para cargar: ";
-				break;
-			case SDLK_0:
-			case SDLK_1:
-			case SDLK_2:
-			case SDLK_3:
-			case SDLK_4:
-			case SDLK_5:
-			case SDLK_6:
-			case SDLK_7:
-			case SDLK_8:
-			case SDLK_9:
-				try {
-					if (save) {
-						saveNum = event.key.keysym.sym - SDLK_0;
-						saveGame(os, save, saveNum);
-					}
-					else if (load) {
-						saveNum = event.key.keysym.sym - SDLK_0;
-						loadGame(saveNum, load);
-					}
-				}catch (const InvadersError& e) {
-					std::cerr << "Error: " << e.what() << std::endl;
+		playerInput(event);
+		
+	}
+}
+
+void Game::playerInput(const SDL_Event& event) {
+	
+	if (event.type == SDL_KEYDOWN) {
+		switch (event.key.keysym.sym) {
+		case SDLK_p: isPause = !isPause;
+			break;
+		case SDLK_q: exit = true;
+			break;
+		case SDLK_s:
+			//para que solo sea en save
+			isPause = true;
+			save = true;
+			saveNum = -1;
+			std::cout << "Presiona un numero del 0 al 9 para guardar: ";
+			break;
+		case SDLK_l:
+			//para que solo sea en load
+			isPause = true;
+			load = true;
+			saveNum = -1;
+			std::cout << "Presiona un numero del 0 al 9 para cargar: ";
+			break;
+		case SDLK_0:
+		case SDLK_1:
+		case SDLK_2:
+		case SDLK_3:
+		case SDLK_4:
+		case SDLK_5:
+		case SDLK_6:
+		case SDLK_7:
+		case SDLK_8:
+		case SDLK_9:
+			try {
+				if (save) {
+					ofstream os;
+					saveNum = event.key.keysym.sym - SDLK_0;
+					saveGame(os, save, saveNum);
 				}
-				break;
+				else if (load) {
+					saveNum = event.key.keysym.sym - SDLK_0;
+					loadGame(saveNum, load);
+				}
 			}
+			catch (const InvadersError& e) {
+				std::cerr << "Error: " << e.what() << std::endl;
+			}
+			break;
 		}
 	}
 }
@@ -193,33 +189,28 @@ void Game::fireLaser(Point2D<int>& pos, char source) {
 }
 //elimina objeto de la lista
 void Game::hasDied(list<SceneObject*>::iterator& iterator) {
-	auto it = iterator;
-	iterator++;
-	increaseScore(*it);
-	delete* it;
-	sceneObjects.erase(it);
+	toDelete.push_back(iterator);
+	increaseScore(*iterator);
 }
 
 bool Game::damage(SDL_Rect* laserRect, char& src) {
 	for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
-		SceneObject* currentObj = *it;
-		if (currentObj->hit(laserRect, src)) return true;
+		if ((*it)->hit(laserRect, src)) return true;
 	}
 	return false;
 }
 int Game::getRandomRange(int min, int max) {
-
 	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
 }
 void Game::increaseScore(SceneObject* object) {
 	if (dynamic_cast<Alien*>(object)) {
 		Alien* alien = dynamic_cast<Alien*>(object);
-		if (alien->getType() == 0) infoBar->addScore(30); 
-		else if (alien->getType() == 1) infoBar->addScore(20);
-		else if (alien->getType() == 2) infoBar->addScore(10);
+		if (alien->getType() == 0) infoBar->addScore(SHOOTER_POINTS); 
+		else if (alien->getType() == 1) infoBar->addScore(GREEN_POINTS);
+		else if (alien->getType() == 2) infoBar->addScore(RED_POINTS);
 	}
 	else if (dynamic_cast<Ufo*>(object)) {
-		infoBar->addScore(100);
+		infoBar->addScore(UFO_POITNS);
 	}
 }
 
@@ -259,8 +250,8 @@ void Game::readGame(string file) {
 
 		while (entrada >> object) {
 			//lectura de variables
-			
-			if (object == 7) 
+
+			if (object == 7)
 				readInfoBar(entrada);
 			else {
 				entrada >> posX;
@@ -283,13 +274,17 @@ void Game::readGame(string file) {
 	}
 }
 
+void Game::setToList(SceneObject* object) {
+	sceneObjects.push_back(object);
+	object->setListIterator(--sceneObjects.end());
+}
+
 void Game::readAliens(istream& entrada, int posX, int posY) {
 	int tipo;
 	entrada >> tipo;
 	Point2D<int> posC = { posX, posY };
 	Alien* a = new Alien(this, posC, texturas[alien], tipo, mothership);
-	sceneObjects.push_back(a);
-	a->setListIterator(--sceneObjects.end());
+	setToList(a);
 	mothership->addAlien();
 }
 void Game::readBunkers(istream& entrada, int posX, int posY) {
@@ -297,8 +292,7 @@ void Game::readBunkers(istream& entrada, int posX, int posY) {
 	entrada >> lifes;
 	Point2D<int> pos = { posX, posY };
 	Bunker* b = new Bunker(this, pos, lifes, texturas[bunker]);
-	sceneObjects.push_back(b);
-	b->setListIterator(--sceneObjects.end());
+	setToList(b);
 
 }
 void Game::readCannon(istream& entrada, int posX, int posY) {
@@ -307,9 +301,8 @@ void Game::readCannon(istream& entrada, int posX, int posY) {
 	entrada >> remainingTime;
 	Point2D<int> posC = { posX, posY };
 	_cannon = new Cannon(posC, lifes, remainingTime, this, texturas[cannon]);
-	sceneObjects.push_back(_cannon);
-	_cannon->setListIterator(--sceneObjects.end());
-	cannonY = _cannon->getPos().getY();
+	setToList(_cannon);
+	
 
 }
 void Game::readShooterAliens(istream& entrada, int posX, int posY) {
@@ -317,8 +310,7 @@ void Game::readShooterAliens(istream& entrada, int posX, int posY) {
 	entrada >> tipo >> reloadTime;
 	Point2D<int> posC = { posX, posY };
 	ShooterAlien* s = new ShooterAlien(this, posC, texturas[alien], tipo, reloadTime, mothership);
-	sceneObjects.push_back(s);
-	s->setListIterator(--sceneObjects.end());
+	setToList(s);
 	mothership->addAlien();
 }
 void Game::readUfo(istream& entrada, int posX, int posY) {
@@ -326,20 +318,18 @@ void Game::readUfo(istream& entrada, int posX, int posY) {
 	entrada >> state >> randomShownTime;
 	Point2D<int> posC = { posX, posY };
 	Ufo* u = new Ufo(this, posC, texturas[ufo], randomShownTime, state);
-	sceneObjects.push_back(u);
-	u->setListIterator(--sceneObjects.end());
+	setToList(u);
 }
 void Game::readInfoBar(istream& entrada) {
 	int score;
 	entrada >> score;
-	infoBar = new InfoBar(this,  texturas[numbers], texturas[cannon], _cannon, score);
+	infoBar = new InfoBar(this, texturas[numbers], texturas[cannon], _cannon, score);
 }
 void Game::readLasers(istream& entrada, int posX, int posY) {
 	char color;
 	entrada >> color;
 	Point2D<int> pos = { posX, posY };
 	Laser* l = new Laser(pos, color, this);
-	sceneObjects.push_back(l);
-	l->setListIterator(--sceneObjects.end());
+	setToList(l);
 }
 #pragma endregion

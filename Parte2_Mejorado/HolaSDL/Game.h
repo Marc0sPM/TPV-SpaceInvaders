@@ -29,7 +29,24 @@ const int NUM_TEXTURES = 6;
 const int FRAME_DELAY = 16; // 60 FPS (1000 ms / 60)
 const string TEXTURE_ROOT = "../images/";
 const Uint32 SHOOT_ALIEN_INTERVAL = 800; // unit -> ms
+struct TextureSpec {
+	const char* direccion;
+	size_t rows;
+	size_t cols;
+};
 
+const TextureSpec TEXTURAS [] = {
+	{"aliens.png", 3, 2},
+	{"bunker.png", 1, 4},
+	{"spaceship.png", 1, 1},
+	{"stars.png", 1, 1},
+	{"ufo.png", 1, 2},
+	{"numbers.png", 1, 10} };
+
+const int RED_POINTS = 10;
+const int GREEN_POINTS = 20;
+const int SHOOTER_POINTS = 30;
+const int UFO_POITNS = 100;
 class Game {
 private:
 	bool save, load;
@@ -43,7 +60,6 @@ private:
 	bool cantMove;
 	bool isPause = false;
 	int cantAliens = 0;
-	int cannonY;
 	
 	
 	int numShootAliens;
@@ -53,6 +69,8 @@ private:
 
 	//Lista de objetos
 	list<SceneObject*> sceneObjects;
+	//Lista de iteradores por borrar
+	list<list<SceneObject*>::iterator> toDelete;
 	Mothership* mothership;
 	Cannon* _cannon;
 	InfoBar* infoBar;
@@ -65,13 +83,9 @@ private:
 		ufo,
 		numbers
 	};
-	struct TextureSpec {
-		const char* direccion;
-		size_t rows;
-		size_t cols;
-	};
 	
-	const TextureSpec TEXTURAS[NUM_TEXTURES];
+	
+	
 	void readGame(string file);
 	void readAliens(istream& entrada, int posX, int posY);
 	void readBunkers(istream& entrada, int posX, int posY);
@@ -84,6 +98,8 @@ private:
 	void loadTextures();
 	void saveGame(ofstream& os, bool& wait, int& saveNum);
 	void loadGame(int& saveNum, bool& wait);
+	void playerInput(const SDL_Event& event);
+	void setToList(SceneObject* object);
 	
 public:
 

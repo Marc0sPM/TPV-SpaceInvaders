@@ -34,6 +34,7 @@ void Alien::update() {
 			pos = pos + (motherShip->getDirection() * motherShip->getAlienSpeed());
 	}
 	if (pos.getY() >= game->getCannonPos()) motherShip->alienLanded();
+	SceneObject::update();
 		
 }
 bool Alien::hit(SDL_Rect* otherRect, char otherSrc) {

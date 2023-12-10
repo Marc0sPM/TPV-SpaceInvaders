@@ -10,12 +10,12 @@ class Alien : public SceneObject
 {
 private:
 	SDL_Rect* rect;
-	
+
 protected:
 	Mothership* motherShip;
 	Texture* textura;
 	int subtipo;
-	
+
 public:
 
 	Alien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, Mothership* _motherShip);

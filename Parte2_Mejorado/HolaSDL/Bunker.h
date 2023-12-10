@@ -3,6 +3,7 @@
 #include "texture.h"
 #include "checkML.h"
 #include "SceneObject.h"
+#include <istream>
 using namespace std;
 class Bunker : public SceneObject
 {

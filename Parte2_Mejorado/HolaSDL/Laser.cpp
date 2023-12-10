@@ -1,15 +1,12 @@
 #include "Laser.h"
 #include "Game.h"
 
-Laser::Laser(Point2D<int>& _pos, char _src, Game* _game) :
 
-    src(_src),
-    SceneObject(_game, _pos, 1, LASER_WIDTH, LASER_HEIGHT) {
+Laser::Laser(Point2D<int>& _pos, char _src, Game* _game) : src(_src), SceneObject(_game, _pos, 1, LASER_WIDTH, LASER_HEIGHT) {
     rect = new SDL_Rect{ pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
-    canSelfDestroy = false; //En caso de chocar con otro laser
-    renderer = game->getRenderer();
-}
 
+    renderer = game->getRenderer();
+};
 void Laser::render() const {
     *rect = { pos.getX(), pos.getY(), LASER_WIDTH, LASER_HEIGHT };
     color color;
@@ -26,7 +23,7 @@ void Laser::update() {
         lifes--;
     }
     if (pos.getY() < 0 || pos.getY() > windowHeight) lifes--;
-    
+    SceneObject::update();
 }
 
 

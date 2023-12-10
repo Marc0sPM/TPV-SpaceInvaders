@@ -28,7 +28,7 @@ private:
 	//randomiza el cambio de estado de SHOWN a HIDE y viceversa
 	void canShow();
 public:
-	Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime,int _state);
+	Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime, int _state);
 	~Ufo();
 
 	void update()override;

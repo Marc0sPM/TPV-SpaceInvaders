@@ -9,6 +9,7 @@
 #include "Cannon.h"
 #include "checkML.h"
 #include "SceneObject.h"
+#include <istream>
 
 using namespace std;
 
@@ -20,11 +21,9 @@ class Laser : public SceneObject
 {
 private:
 
-	char src; //true -> alien | false->cannon
+	char src; //b -> alien | r->cannon
 	SDL_Renderer* renderer;
 	SDL_Rect* rect;
-	bool canSelfDestroy;
-	bool collision;
 public:
 	Laser(Point2D<int>& pos, char src, Game* game);
 	struct color {
@@ -37,7 +36,6 @@ public:
 	void update() override;
 
 	SDL_Rect* getRect()const { return rect; }
-	bool getCollision() const { return collision; }
 	bool getSource() const { return src; }
 
 	bool hit(SDL_Rect* otherRect, char src)override;

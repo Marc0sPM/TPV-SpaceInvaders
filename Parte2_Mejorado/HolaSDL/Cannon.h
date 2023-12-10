@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include "SceneObject.h"
 #include "checkML.h"
+#include <istream>
 
 const int SPEED = 2;
 const Uint32 SHOOT_INTERVAL = 700; //tiempo entre cada disparo (0.8s)
@@ -15,10 +16,10 @@ class Cannon : public SceneObject
 protected:
 	Texture* textura;
 	int remainingTime;
-	Vector2D<int> moveDirection;
-	bool isMoving;
-	Uint32 shootCounter;
-	bool canShoot;
+	Vector2D<int> moveDirection = { 0,0 };
+	bool isMoving = false;
+	Uint32 shootCounter = 0;
+	bool canShoot = true;
 	SDL_Rect* rect;
 
 public:

@@ -5,6 +5,7 @@
 #include <list>
 #include "checkML.h"
 
+
 class SceneObject : public GameObject
 {
 protected:
@@ -15,8 +16,7 @@ public:
 	SceneObject(Game* _game, Point2D<int> _pos, int _lifes, int _width, int _height);
 	virtual bool hit(SDL_Rect* attackRect, char src);
 	void setListIterator(std::list<SceneObject*>::iterator iterator);
-	bool ShouldRemove() const;
-	
+	void update() override;
 
 };
 

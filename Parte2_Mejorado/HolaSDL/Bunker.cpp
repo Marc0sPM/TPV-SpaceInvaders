@@ -20,6 +20,7 @@ void Bunker::render() const {
 void Bunker::update() {
 	//Ver luego me da pereza, funciona bien detallitos
 	currentFrame = maxLife - lifes;
+	SceneObject::update();
 }
 
 

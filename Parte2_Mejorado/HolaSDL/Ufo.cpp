@@ -48,8 +48,9 @@ void Ufo::update() {
 			state = HIDE;
 		}
 		break;
-	}
 
+	}
+	SceneObject::update();
 }
 		
 

@@ -1,5 +1,5 @@
 #include "SceneObject.h"
-
+#include "Game.h"
 SceneObject::SceneObject(Game* _game, Point2D<int> _pos, int _lifes, int _width, int _height) : GameObject(_game), pos(_pos), lifes(_lifes), width(_width), height(_height) {}
 
 
@@ -17,6 +17,8 @@ bool SceneObject::hit(SDL_Rect* attackRect, char src) {
 	}
 	return false;
 }
-bool SceneObject::ShouldRemove() const {
-	return lifes <= 0;
+void SceneObject:: update() {
+	if (lifes <= 0) {
+		game->hasDied(listIterator);
+	}
 }
