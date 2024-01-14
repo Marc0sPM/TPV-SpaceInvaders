@@ -4,6 +4,9 @@
 #include "EventHandler.h"
 #include <list>
 
+//Rutas para cargar partidas mediante entrada .txt
+const std::string NEWGAME_ROOT = "../mapas/default/original.txt";
+const std::string LOADGAME_ROOT = "../mapas/save/";
 
 class Game;
 class GameState
@@ -11,11 +14,11 @@ class GameState
 protected:
 	Game* game;
 	GameList<GameObject, true> gameObjects;
-	std::list<EventHandler*> eventHandlers;
+	std::list<EventHandler*> eventListeners;
 public:
 	//Constructora 
 	GameState(Game* game) : game(game){}
-
+	~GameState();
 	virtual void render()const = 0; 
 	virtual void update() = 0;
 	virtual void handleEvent(const SDL_Event& event) = 0;

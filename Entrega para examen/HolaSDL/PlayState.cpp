@@ -10,6 +10,7 @@ PlayState::PlayState(Game* game, std::string in)
 	addObject(mothership);
 	readGame(in);
 }
+
 void PlayState::update() {
 	if(mothership->getCont() <= 0) { /*lanzar estado de EndState -> true*/ }
 	if(mothership->haveLanded() || cannon->getLifes()<= 0) {/*Lanzar estado de EndState -> false*/ }
@@ -22,5 +23,5 @@ void PlayState::update() {
 }
 
 void PlayState::render()const {
-	game->getTexture
+	
 }

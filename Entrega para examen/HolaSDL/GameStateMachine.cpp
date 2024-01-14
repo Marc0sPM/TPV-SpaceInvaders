@@ -1,6 +1,8 @@
 #include "GameStateMachine.h"
 
 GameStateMachine::GameStateMachine(){}
+GameStateMachine::~GameStateMachine() {
+}
 void GameStateMachine::pushState(GameState* state) {
 	gameStates.push(state);
 }
@@ -29,4 +31,5 @@ void GameStateMachine::handleEvent(const SDL_Event& event){
 void GameStateMachine::replace() {
 	popState();
 	pushState(stateToPush);
+	shouldReplace = false;
 }

@@ -7,14 +7,14 @@ class GameObject
 {
 protected:
 	Game* game;
-	GameList<GameObject, true>::anchor anchor;
+	GameList<GameObject, true>::anchor an;
 public:
 	GameObject(Game* game);
-	~GameObject();
+	virtual ~GameObject();
 	virtual void render() const = 0;
 	virtual void update() = 0;
 	virtual void save(std::ostream& os)const = 0;
-	void setGameObjectAnchor(GameList<GameObject, true>::anchor objAnchor);
+	void setListAnchor(GameList<GameObject, true>::anchor objAnchor);
 
 };
 

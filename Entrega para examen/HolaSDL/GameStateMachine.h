@@ -10,6 +10,7 @@ private:
 	GameState* stateToPush;
 public:
 	GameStateMachine();
+	~GameStateMachine();
 	//Añade estado a la pila
 	void pushState(GameState* pState);
 	//Elimina estado a la pila
@@ -19,6 +20,6 @@ public:
 	void update();
 	void render() const;
 	void handleEvent(const SDL_Event& event);
-	void replace()
+	void replace();
 };
 

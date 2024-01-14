@@ -5,7 +5,9 @@
 
 GameObject::GameObject(Game* _game) : game(_game) {}
 
-GameObject::~GameObject() {}
-void GameObject::setGameObjectAnchor(GameList<GameObject, true>::anchor objAnchor) {
-	anchor = objAnchor;
+GameObject::~GameObject() {
+	delete game;
+}
+void GameObject::setListAnchor(GameList<GameObject, true>::anchor objAnchor) {
+	an = objAnchor;
 }

@@ -2,6 +2,7 @@
 
 #include "GameStateMachine.h"
 #include "MainMenuState.h"
+#include "Exceptions.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -72,7 +73,7 @@ private:
 	Texture* textures[NUM_TEXTURES];
 	GameStateMachine* stateMachine;
 
-	void intitSDL();
+	void initSDL();
 	void loadTextures();
 	
 public:
@@ -80,20 +81,16 @@ public:
 	Game();
 	~Game();
 	void run();
-	void handleEvent();
+	void handleEvents();
 	void update();
 	void render() const;
 
-	Texture* getTexture(TextureNames name) {
-		return textures[name];
-	}
+	Texture* getTexture(TextureNames name) {return textures[name];}
 
-	GameStateMachine* getGameStateMachine() {
-		return stateMachine;
-	}
+	GameStateMachine* getGameStateMachine() { return stateMachine;}
 
 	SDL_Renderer* getRenderer() { return renderer; }
 	SDL_Window* getWindow() { return window; }
-	void exitGame();
+	void exitGame() { exit = true; }
 
 };
