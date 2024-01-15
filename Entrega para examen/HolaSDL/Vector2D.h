@@ -1,41 +1,52 @@
 #pragma once
-#include "checkML.h"
-
-template <typename T>
-class Vector2D {
+#include <iostream>
+template<typename T>
+class Vector2D
+{
 private:
-    T x, y;
-
+	T x;
+	T y;
 public:
-    Vector2D():x(T()), y(T()){}
-    Vector2D(T x1, T y1) : x(x1), y(y1) {}
+	Vector2D() : x(), y() {}
+	Vector2D(T x, T y) : x(x), y(y) {}
 
-    T getX() const { return x; }
-    T getY() const { return y; }
-    
+	T getX() const {
+		return x;
+	}
+	T getY() const {
+		return y;
+	}
+	void setX(T newX) {
+		x = newX;
+	}
+	void setY(T newY) {
+		y = newY;
+	}
+	Vector2D<T> operator+(const Vector2D<T>& otroVector) const {
+		return Vector2D<T>(x + otroVector.x, y + otroVector.y);
+	}
+	Vector2D<T> operator-(const Vector2D<T>& otroVector) const {
+		return Vector2D<T>(x - otroVector.x, y - otroVector.y);
+	}
+	T operator*(const Vector2D<T>& otroVector) const {
+		return x * otroVector.x + y * otroVector.y;
+	}
 
-    Vector2D<T> operator+(const Vector2D<T>& other) const {
-        return Vector2D<T>(x + other.x, y + other.y);
-    }
-
-    Vector2D<T> operator-(const Vector2D<T>& other) const {
-        return Vector2D<T>(x - other.x, y - other.y);
-    }
-    //Producto escalar
-    T operator*(const Vector2D<T>& other) const {
-        return x * other.x + y * other.y;
-    }
-    //Escalar * vector
-    Vector2D<T> operator*(const T esc) const {
-        return Vector2D<T>(x * esc, y * esc);
-    }
-    bool operator>=(const T other) const {
-        return x >= other;
-    }
-    bool operator<(const T other) const {
-        return x < other;
-    }
+	Vector2D<T> operator*(const T& escalar) const {
+		return Vector2D<T>(x * escalar, y * escalar);
+	}
+	Vector2D<T>& operator*=(const T& escalar) {
+		x *= escalar;
+		y *= escalar;
+		return *this;
+	}
+	Vector2D<T>& operator+=(const Vector2D<T>& otroVector) {
+		x += otroVector.x;
+		y += otroVector.y;
+		return *this;
+	}
 
 };
-template <typename T>
+template<typename T>
 using Point2D = Vector2D<T>;
+

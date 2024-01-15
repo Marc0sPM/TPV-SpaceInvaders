@@ -1,23 +1,32 @@
+#include "checkML.h"
 #include "Ufo.h"
 #include "Game.h"
+#include "PlayState.h"
 
 
-Ufo::Ufo(Game* _game, Point2D<int>_pos, Texture* _texture, int _randomShownTime, int _state) :
+Ufo::Ufo(PlayState* playState,std::istream& entrada,Texture* _texture) :
 	texture(_texture),
-	state(States(_state)),
-	SceneObject(_game, _pos, 1, _texture->getFrameWidth(), _texture->getFrameHeight()),
-	randomShownTime(_randomShownTime) {
-	rect = new SDL_Rect{ pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
-	initialPos = { windowWidth, pos.getY() };
+	SceneObject(playState, entrada),
+	rect(std::make_unique<SDL_Rect>(SDL_Rect{ pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() }))
+{
+	int aux;
+	if (!(entrada >> aux))throw FileFormatError("error al leer estado de UFO", 12);
+	else state = States(aux);
+
+	if (!(entrada >> randomShownTime))throw FileFormatError("error al leer randomShowTime de UFO", 15);
+
+	setTexture(texture);
+	
+	initialPos = { WINDOW_WIDTH, pos.getY() };
 };
 
+
 void Ufo::render()const {
-	if (state == SHOWN) {
-		*rect = { pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
+	*rect = { pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
+	if (state == States::SHOWN) {
 		texture->renderFrame(*rect, 0, 0);
 	}
-	else if (state == DEAD) {
-		*rect = { pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
+	else if (state == States::DEAD) {
 		texture->renderFrame(*rect, 0, 1);
 	}
 }
@@ -45,38 +54,32 @@ void Ufo::update() {
 		else {
 			deadFramesCont = 0;
 			pos = initialPos;
-			state = HIDE;
+			state = States::HIDE;
 		}
 		break;
-
 	}
-	SceneObject::update();
 }
-		
-
 void Ufo::checkLimits() {
 	if (pos.getX() <= UFO_SPEED) {
 		pos = initialPos;
 		state = HIDE;
 	}
-	
 }
 void Ufo::canShow() {
-	if (game->getRandomRange(0, randomShownTime) < 10) state = SHOWN;
+	if (playState->getRandomRange(0, randomShownTime) < 10) state = SHOWN;
 }
 bool Ufo::hit(SDL_Rect* otherRect, char otherSrc) {
-	if (state == SHOWN) {
-		if (otherSrc == 'r') {
-			if (SceneObject::hit(otherRect, otherSrc)) {
-				state = DEAD;
-				lifes++;
-				game->increaseScore(*listIterator);
+	
+		if (state == SHOWN && otherSrc == 'b') {
+        		if (SceneObject::hit(otherRect, otherSrc)) {
+    				state = States::DEAD;
+				playState->increasePunctuation(UFO_POINTS);
+				playState->GenerateUFOObject(pos);
 				return true;
 			}
 		}
-	}
-	return false;
+		return false;
 }
 void Ufo::save(std::ostream& os) const {
-	os << "5 " << initialPos.getX() << " " << initialPos.getY() << " " << state << " " << randomShownTime;
+	os << "5 " << initialPos.getX() << " " << initialPos.getY() << " " << state << " " << randomShownTime<<endl;
 }

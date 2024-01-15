@@ -1,87 +1,80 @@
-
+#include "checkML.h"
 #include "Game.h"
+#include "Exceptions.h"
 
 
-Game::Game() 
-	: 
-	window(nullptr), 
-	renderer(nullptr), 
-	lastFrameTime(SDL_GetTicks())
-{
-	//Inicializacion de SDL 
-	initSDL(); 
-	//Carga texturas 
-	loadTextures(); 
 
+ 
+
+Game::Game() :  window(nullptr), renderer(nullptr), stateMachine(nullptr){
+	lastFrameTime = SDL_GetTicks();
+	initSDL();
+	loadTextures();
 	stateMachine = new GameStateMachine();
 }
-Game :: ~Game() {
-	delete stateMachine;
-	for (auto& tex : textures) {
-		delete tex;
-	}
+Game::~Game() {
+
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	
 }
+void Game::initSDL() {
 
-void Game::run() {
+	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
+	window = SDL_CreateWindow("SpaceInvaders", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	font = TTF_OpenFont(FONT_ROOT.c_str(), 24);
 
-	stateMachine->pushState(new MainMenuState(this));
+	//Prevencion ante fallos al cargar SDL
+	if (window == nullptr) throw SDLError("Fallo al cargar la ventana");
+	if (renderer == nullptr) throw SDLError("Fallo al cargar el renderer");
+	if(font == nullptr) throw SDLError("Error al cargar la fuente");
+}
+void Game::loadTextures() {
+	for (int i = 0; i < NUM_TEXTURES; ++i) {
 
-	while (!exit) {
-		//Establecemos juego a 60 FPS
-		Uint32 currentFrameTime = SDL_GetTicks();
-		Uint32 deltaTime = currentFrameTime - lastFrameTime;
-		if (deltaTime < FRAME_DELAY) {
-			SDL_Delay(FRAME_DELAY - deltaTime);
-		}
-		lastFrameTime = currentFrameTime;
-		handleEvents();
-		update();
-		render();
+		textures[i] = new Texture(renderer, (TEXTURE_ROOT + TEXTURES[i].filename).c_str(), TEXTURES[i].numRows, TEXTURES[i].numCols);
 	}
 }
+void Game::run()
+{
+	stateMachine->pushState(std::make_shared<MainMenuState>(this));
 
+	while (!exit) {
+		Uint32 currentFrameTime = SDL_GetTicks();
+		Uint32 frameTime = currentFrameTime - lastFrameTime;
+
+		if (frameTime < FRAME_DELAY) {
+			SDL_Delay(FRAME_DELAY - frameTime);
+		}
+		lastFrameTime = currentFrameTime;
+		handleEvent();
+		render();
+		update();
+	}
+	
+}
+void Game::handleEvent() {
+	SDL_Event event;
+	while (SDL_PollEvent(&event) != 0) {
+		if (event.type == SDL_QUIT)  exit = true;
+		stateMachine->handleEvent(event);
+	}
+}
+void Game:: update() {
+	stateMachine->update();
+}
 void Game::render() const {
 	SDL_RenderClear(renderer);
+
 	stateMachine->render();
+
 	SDL_RenderPresent(renderer);
 }
 
-void Game::update() {
-	stateMachine->update();
-
+void Game::exitGame() {
+		exit = true;
 }
-void Game::handleEvents() {
-	SDL_Event event;
-	
-	while (SDL_PollEvent(&event) != 0) {
-		if (event.type == SDL_QUIT) exit = true;
-		
-		stateMachine->handleEvent(event);
-		
-	}
-}
-
-void Game::loadTextures() {
-	for (int i = 0; i < NUM_TEXTURES; ++i) {
-		textures[i] = new Texture(renderer, (TEXTURE_ROOT + TEXTURES[i].direccion).c_str(), TEXTURES[i].rows, TEXTURES[i].cols);
-	}
-}
-void Game::initSDL() {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		throw SDLError("Error al inicializar SDL");
-	}
-
-	window = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-	renderer = SDL_CreateRenderer(window, -1,
-		SDL_RENDERER_ACCELERATED);
-	if (window == nullptr ||renderer == nullptr) {
-		throw  SDLError("ERROR: Window or renderer failed");
-	}
-	
-}
-

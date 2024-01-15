@@ -1,25 +1,18 @@
 #pragma once
-#include "GameState.h"
 #include <stack>
-#include "SDL.h"
+#include "GameState.h"
 class GameStateMachine
 {
 private:
-	bool shouldReplace = false;
-	std::stack<GameState*> gameStates;
-	GameState* stateToPush;
+	
+	std::stack<std::shared_ptr<GameState>> gameStates;
 public:
 	GameStateMachine();
-	~GameStateMachine();
-	//Añade estado a la pila
-	void pushState(GameState* pState);
-	//Elimina estado a la pila
+	void pushState(std::shared_ptr<GameState> pState);
 	void popState();
-	//Remplaza un estado por el actual
-	void replaceState(GameState* pState);
+	void replaceState(std::shared_ptr<GameState> pState);
 	void update();
 	void render() const;
 	void handleEvent(const SDL_Event& event);
-	void replace();
 };
 

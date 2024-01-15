@@ -1,37 +1,38 @@
 #pragma once
-
+#include "SceneObject.h"
+#include "EventHandler.h"
 #include "Vector2D.h"
 #include "texture.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include "SceneObject.h"
-#include "checkML.h"
-#include <istream>
-
-const int SPEED = 2;
-const Uint32 SHOOT_INTERVAL = 700; //tiempo entre cada disparo (0.8s)
+#include <iostream>
 class Game;
-class Cannon : public SceneObject
-{
-protected:
-	Texture* textura;
-	int remainingTime;
-	Vector2D<int> moveDirection = { 0,0 };
-	bool isMoving = false;
-	Uint32 shootCounter = 0;
-	bool canShoot = true;
-	SDL_Rect* rect;
+class PlayState;
 
+const int CANNON_SPEED = 3;
+class Cannon : public SceneObject, public EventHandler
+{
+private:
+	Texture* texture = nullptr;
+	Point2D<int> currentMovement;
+	int remainingTime;
+	bool isShoot = false;
+	bool hasShield = false;
+	std::unique_ptr<SDL_Rect> rect; 
 public:
-	Cannon(Point2D<int>& _pos, int _lives, int _remainingTime, Game* _game, Texture* _textura);
+	Cannon(PlayState* playState, std::istream& entrada, Texture* texture);
+	int getTime() const;
+	void setTime(int newTime);
 	void render() const override;
 	void update() override;
 	void save(std::ostream& os) const override;
-	bool hit(SDL_Rect* otherRect, char otherSrc);
-	void handleEvents(const SDL_Event& event);
-	SDL_Rect* getRect() const { return rect; }
-	Point2D<int> getPos() const { return pos; }
+	bool hit(SDL_Rect* attackRect, char laserType) override;
+	void handleEvent(const SDL_Event& event)override ;
+
+	void setShield();
+
 	int getLifes() { return lifes; }
+	Point2D<int> getPos() { return pos; }
+	SDL_Rect* getRect() const { return rect.get(); }
+	Texture* getTexture() const { return texture; }
 
 };
 

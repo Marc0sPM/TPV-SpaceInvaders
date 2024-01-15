@@ -1,34 +1,50 @@
+#include "checkML.h"
 #include "Bunker.h"
+#include "Game.h"
+#include "PlayState.h"
 
-
-using namespace std;
-//Constructora
-Bunker::Bunker(Game* _game, Point2D<int>& _pos, int _lifes, Texture* _textura) :
-
-	textura(_textura),
-	SceneObject(_game, _pos, _lifes, _textura->getFrameWidth(), _textura->getFrameHeight()) {
-	currentFrame = 0;
-	lifePercentage = 100;
-	rect = new SDL_Rect{ pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
-	maxLife = lifes;
-}
+Bunker::Bunker(PlayState* playState, std::istream& entrada, Texture* texture) :
+	SceneObject(playState, entrada),
+	texture(texture),
+	rect(std::make_unique< SDL_Rect>(SDL_Rect{ pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() }) ){
+	setTexture(texture);
+	if (!(entrada >> lifes) || lifes < 0)
+		throw FileFormatError("error al leer las vidas del búnker", 11);
+};
 
 void Bunker::render() const {
-	*rect = { pos.getX(), pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
-	textura->renderFrame(*rect, 0, currentFrame);
+	if (texture) {
+		*rect = { pos.getX(), pos.getY(), texture->getFrameWidth(), texture->getFrameHeight() };
+		switch (lifes)
+		{
+		case 4: 
+			texture->renderFrame(*rect, 0, 0);
+			break;
+		case 3:
+			texture->renderFrame(*rect, 0, 1);
+			break;
+		case 2:
+			texture->renderFrame(*rect, 0, 2);
+			break;
+		case 1:
+			texture->renderFrame(*rect, 0, 3);
+			break;
+		}
+		
+	}
 }
 void Bunker::update() {
-	//Ver luego me da pereza, funciona bien detallitos
-	currentFrame = maxLife - lifes;
 	SceneObject::update();
 }
-
-
-bool Bunker::hit(SDL_Rect* otherRect, char otherSrc) {
-	
-	return SceneObject::hit(otherRect, otherSrc);
+void Bunker::save(ostream& os) const {
+	os << "4 " << pos.getX() << " " << pos.getY() << " " << lifes << endl;
+};
+bool Bunker::hit(SDL_Rect* attackRect, char laserType) {
+	if (SceneObject::hit(attackRect, laserType)) {
+		lifes--;
+		return true;
+	}
 }
-void Bunker::save(std::ostream& os) const {
-	os << "4 " << pos.getX() << " " << pos.getY() << " " << lifes ;
+SDL_Rect* Bunker::getRect() const{
+	return rect.get();
 }
-

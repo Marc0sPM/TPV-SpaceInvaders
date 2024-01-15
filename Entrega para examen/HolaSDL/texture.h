@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include <iostream>
-#include "checkML.h"
 
 /**
  * Object-oriented wrapper for SDL textures with frame support.
@@ -32,8 +31,6 @@ public:
 	int getNumRows() const;
 	/// Number of frames in each column
 	int getNumColumns() const;
-	/// Return texture
-	SDL_Texture* getTexture() const;
 
 	/// Render the whole picture filling the entire screen
 	void render() const;
@@ -41,19 +38,20 @@ public:
 	void render(const SDL_Rect& target) const;
 	/// Render the whole picture with additional options from SDL_RenderCopyEx
 	void render(const SDL_Rect& target,
-	            double angle,
-	            const SDL_Point* center = nullptr,
-	            SDL_RendererFlip flip = SDL_FLIP_NONE) const;
+		double angle,
+		const SDL_Point* center = nullptr,
+		SDL_RendererFlip flip = SDL_FLIP_NONE) const;
 
 	/// Render a frame to the given rectangle
 	void renderFrame(const SDL_Rect& target, int row, int col) const;
 	/// Render a frame with additional options from SDL_RenderCopyEx
 	void renderFrame(const SDL_Rect& target,
-	                 int row,
-	                 int col,
-	                 double angle,
-	                 const SDL_Point* center = nullptr,
-	                 SDL_RendererFlip flip = SDL_FLIP_NONE) const;
+		int row,
+		int col,
+		double angle,
+		const SDL_Point* center = nullptr,
+		SDL_RendererFlip flip = SDL_FLIP_NONE) const;
+	SDL_Texture* getTexture() { return texture; }
 };
 
 inline int
@@ -78,10 +76,6 @@ inline int
 Texture::getNumColumns() const
 {
 	return ncolumns;
-}
-inline SDL_Texture*
-Texture::getTexture() const {
-	return texture;
 }
 
 #endif // TEXTURE_H

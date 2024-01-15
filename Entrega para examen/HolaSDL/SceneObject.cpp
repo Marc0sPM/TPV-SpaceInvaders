@@ -1,27 +1,35 @@
+#include "checkML.h"
 #include "SceneObject.h"
 #include "Game.h"
 #include "PlayState.h"
-
-//Constructora por lectura desde entrada
-SceneObject::SceneObject(PlayState* playState, std::istream& in)
-	:
-	GameObject(playState->getGame()),
-	playState(playState)
-{
-	int posX, posY;
-	in >> posX >> posY;
-	pos = { posX, posY };
+SceneObject::SceneObject(PlayState* playState,std::istream& entrada)
+    : GameObject(playState->getGame()), playState(playState){
+    int x, y;
+    entrada >> x >> y;
+    pos = {x ,y };
 }
-	
-//Constructora por instancia de objecto en escena
-SceneObject::SceneObject(PlayState* playState, Point2D<int> pos, int width, int height)
-	:
-	GameObject(playState->getGame()),
-	playState(playState),
-	pos(pos),
-	width(width),
-	height(height){}
+SceneObject::SceneObject(PlayState* playState, Point2D<int>& pos, int width, int height) : 
+    pos(pos), 
+    playState(playState),
+    width(width),
+    height(height),
+    GameObject(playState->getGame()){}
 
-void SceneObject::setSceneAnchor(GameList<SceneObject>::anchor anchor) {
-	sceneAnchor = anchor;
+SceneObject::~SceneObject(){}
+bool SceneObject::hit(SDL_Rect* attackRect, char laserType) {
+    SDL_Rect rect = { pos.getX(), pos.getY(), width, height };
+    return SDL_HasIntersection(attackRect, &rect);
+}
+void SceneObject::setListAnchor(GameList<SceneObject>::anchor anchor) {
+    sceneAnchor = anchor;
+}
+void SceneObject::update() {
+    if (lifes <= 0) 
+        playState->hasDied(sceneAnchor);
+}
+void SceneObject::render()const {}
+void SceneObject::save(std::ostream& os) const {}
+void SceneObject::setTexture(Texture* texture) {
+    width = texture->getFrameWidth();
+    height = texture->getFrameHeight();
 }

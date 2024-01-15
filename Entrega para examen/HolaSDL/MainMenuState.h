@@ -4,27 +4,33 @@
 #include <string>
 #include <ostream>
 
-class MainMenuState : public GameState
+//class PlayState;
+class MainMenuState: public GameState
 {
-private:
-	//bool asking -> preguntar numero en load
+private: 
+	bool asking = false;
 	bool stateChanged = false;
-	//Botones de la escena
-	std::unique_ptr<Button> newGameButton;
-	std::unique_ptr<Button> loadGameButton;
-	std::unique_ptr<Button> exitButton;
+	bool loadMode = false;
+	bool escribir = false;
+	std::string codigoString;
+	Button* newGameButton;
+	Button* loadGameButton;
+	Button* exitButton; 
+	std::unique_ptr<SDL_Rect> rectBox;
+	std::unique_ptr<SDL_Rect> rectCode;
+	
 public:
 	MainMenuState(Game* game);
-	//Destructora
-	~MainMenuState();
-	void update() override;
+	void update() override;	
 	void render() const override;
 	void handleEvent(const SDL_Event& event) override;
-	void save(std::ostream&) const/* override*/;
-	void hasDied(GameList<GameObject, true>::anchor) /*override*/;
-	// Metodo auxiliar para cargar cualquier nivel dado el nombre del archivo de entrada
+	void save(std::ostream&) const override;
+	void hasDied(GameList<GameObject, true>::anchor) override;
+
 	void changeNewLevel(std::string name);
 	void createButtons();
 	std::string askLoadNumber();
+	void renderTextBox() const;
+	void renderTextCodigo() const;
 };
 

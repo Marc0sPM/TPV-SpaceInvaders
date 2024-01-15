@@ -1,27 +1,30 @@
 #pragma once
 #include "GameObject.h"
-#include "Vector2D.h"
-#include <SDL.h>
+
 #include "gameList.h"
 #include "texture.h"
-#include "checkML.h"
-
+#include <SDL.h>
+#include "Vector2D.h"
+#include <list>
 class PlayState;
-class SceneObject : public GameObject
+class SceneObject: public GameObject
 {
 protected:
 	Point2D<int> pos;
-	int lifes = 1, width, height;
-	GameList<SceneObject>::anchor sceneAnchor;
+	int width, height, lifes = 1;
 	PlayState* playState;
+	GameList<SceneObject,false>::anchor sceneAnchor;
 public:
-	//Constructora por lectura desde entrada
-	SceneObject(PlayState* playState, std::istream& in);
-	//Constructora por instancia de objecto en escena
-	SceneObject(PlayState* playState, Point2D<int> pos, int width, int height);
-	void setSceneAnchor(GameList<SceneObject>::anchor anchor);
-	virtual bool hit(SDL_Rect* attackRect, char laserSrc);
+	SceneObject(PlayState* playState, std::istream& entrada);
+	//Para los laseres
+	SceneObject(PlayState* playState, Point2D<int>& pos, int width, int height);
+	virtual ~SceneObject();
+	void setListAnchor(GameList<SceneObject, false>::anchor anchor);
+	virtual bool hit(SDL_Rect* attackRect, char laserType); 
 	virtual void update() override;
-
+	virtual void render()const override;
+	virtual void save(std::ostream& os)const override;
+	void setTexture(Texture* texture);
+	
 };
 

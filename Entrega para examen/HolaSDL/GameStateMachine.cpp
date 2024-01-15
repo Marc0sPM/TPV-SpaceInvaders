@@ -1,35 +1,37 @@
+#include "checkML.h"
 #include "GameStateMachine.h"
+GameStateMachine:: GameStateMachine() {}
 
-GameStateMachine::GameStateMachine(){}
-GameStateMachine::~GameStateMachine() {
-}
-void GameStateMachine::pushState(GameState* state) {
-	gameStates.push(state);
+void GameStateMachine::pushState(std::shared_ptr<GameState> pState) {
+	gameStates.push(pState);
 }
 void GameStateMachine::popState() {
 	if (!gameStates.empty()) {
-		delete gameStates.top();
 		gameStates.pop();
 	}
 }
-void GameStateMachine::replaceState(GameState* state) {
-	stateToPush = state;
-	shouldReplace = true;
-}
-void GameStateMachine::update() {
+void GameStateMachine::replaceState(std::shared_ptr<GameState> pState) {
 	if (!gameStates.empty()) {
-		if (shouldReplace) replace();
-		gameStates.top()->update();
+		gameStates.pop();
+		gameStates.push(pState);
+
 	}
 }
+void GameStateMachine::update() { 
+	if (!gameStates.empty()) {
+		std::shared_ptr<GameState> currentState = gameStates.top();
+		currentState->update();
+	}
+} 
 void GameStateMachine::render() const {
-	if (!gameStates.empty()) gameStates.top()->render();
+	if (!gameStates.empty()) {
+		gameStates.top()->render();
+	}
 }
-void GameStateMachine::handleEvent(const SDL_Event& event){
-	if (!gameStates.empty()) gameStates.top()->handleEvent(event);
-}
-void GameStateMachine::replace() {
-	popState();
-	pushState(stateToPush);
-	shouldReplace = false;
+void GameStateMachine::handleEvent(const SDL_Event& event) {
+	if (!gameStates.empty()) {
+		
+		std::shared_ptr<GameState> currentState = gameStates.top();
+		currentState->handleEvent(event);
+	}
 }

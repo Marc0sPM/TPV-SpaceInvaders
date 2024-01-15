@@ -43,7 +43,10 @@
     <Import Project="..\ProyectosSDL.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -52,6 +55,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -69,20 +73,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Bunker.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="EndState.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="InfoBar.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="Mothership.cpp" />
+    <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="PlayState.cpp" />
+    <ClCompile Include="Reward.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="ShooterAlien.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="Ufo.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alien.h" />
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Bunker.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Cannon.h" />
     <ClInclude Include="checkML.h" />
+    <ClInclude Include="EndState.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Game.h" />
@@ -90,9 +114,17 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="InfoBar.h" />
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="Mothership.h" />
+    <ClInclude Include="PauseState.h" />
+    <ClInclude Include="PlayState.h" />
+    <ClInclude Include="Reward.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="ShooterAlien.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="Ufo.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

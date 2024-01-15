@@ -1,33 +1,28 @@
-#include "Game.h"
+#include "checkML.h"
 #include "ShooterAlien.h"
-
-
-
-
-ShooterAlien::ShooterAlien(Game* _game, Point2D<int>& _pos, Texture* _textura, int _subtipo, int _reloadTime, Mothership* _motherShip)
-	:
-	reloadTime(_reloadTime),
-	Alien(_game, _pos, _textura, _subtipo, _motherShip) {}
-
-
+#include "Game.h"
+#include "PlayState.h"
+ShooterAlien::ShooterAlien(PlayState* playState,std::istream& entrada ,Texture* texture, Mothership* mothership):
+	Alien(playState, entrada, texture, mothership)
+	 {
+     if (!(entrada >> reloadTime ))throw FileFormatError("error al leer reloadTime de shooterAlien", 8);
+}
 void ShooterAlien::update() {
 	Alien::update();
-
-	//logica de disparo que hay que ver para que funcione
-	if (timeCounter < reloadTime) {
-		timeCounter += FRAME_DELAY;
-	}
-	else {
-		timeCounter = 0;
-		if (game->getRandomRange(0, reloadTime) < 1) {
-			Point2D<int> centeredPos(pos.getX() + textura->getFrameWidth() / 2,
-				pos.getY());
-
-			game->fireLaser(centeredPos, 'b');
+	int currentTime = SDL_GetTicks();
+	// Verifica si ha pasado suficiente tiempo desde el último disparo
+	if (currentTime - reloadTime >= 1000) {
+		int rnd = playState->getRandomRange(0, 2000);
+		if (rnd < 2) {
+			Point2D<int> aux = { pos.getX() + Alien::textura->getFrameWidth() / 2, pos.getY() };
+			playState->fireLaser(aux, 'r');
+			// Reinicia el contador de tiempo
+			reloadTime = currentTime;
 		}
 	}
+	
 }
 void ShooterAlien::save(std::ostream& os) const {
-	os << "2 ";
-	os << pos.getX() << " " << pos.getY() << " " << subtipo << " " << reloadTime;
+	
+	os << "2 " << (int)pos.getX() << " " << (int)pos.getY() << " " <<Alien::GetIndice() <<" " <<reloadTime << endl;
 }

@@ -1,3 +1,4 @@
+#include "checkML.h"
 #include "texture.h"
 
 #include <SDL_image.h>
@@ -5,22 +6,22 @@
 using namespace std;
 
 Texture::Texture(SDL_Renderer* renderer, SDL_Texture* texture, size_t rows, size_t columns)
-  : renderer(renderer)
-  , texture(texture)
-  , nrows(rows)
-  , ncolumns(columns)
+	: renderer(renderer)
+	, texture(texture)
+	, nrows(rows)
+	, ncolumns(columns)
 {
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-	 
+
 	frameWidth = width / ncolumns;
 	frameHeight = height / nrows;
 }
 
 Texture::Texture(SDL_Renderer* renderer, const char* filename, size_t rows, size_t columns)
-  : renderer(renderer)
-  , texture(nullptr)
-  , nrows(rows)
-  , ncolumns(columns)
+	: renderer(renderer)
+	, texture(nullptr)
+	, nrows(rows)
+	, ncolumns(columns)
 {
 	SDL_Surface* surface = IMG_Load(filename);
 
@@ -59,9 +60,9 @@ Texture::render(const SDL_Rect& rect) const
 
 void
 Texture::render(const SDL_Rect& rect,
-                double angle,
-                const SDL_Point* center,
-                SDL_RendererFlip flip) const
+	double angle,
+	const SDL_Point* center,
+	SDL_RendererFlip flip) const
 {
 	SDL_RenderCopyEx(renderer, texture, nullptr, &rect, angle, center, flip);
 }
@@ -75,11 +76,11 @@ Texture::renderFrame(const SDL_Rect& rect, int row, int col) const
 
 void
 Texture::renderFrame(const SDL_Rect& rect,
-                     int row,
-                     int col,
-                     double angle,
-                     const SDL_Point* center,
-                     SDL_RendererFlip flip) const
+	int row,
+	int col,
+	double angle,
+	const SDL_Point* center,
+	SDL_RendererFlip flip) const
 {
 	SDL_Rect origin{ col * frameWidth, row * frameHeight, frameWidth, frameHeight };
 	SDL_RenderCopyEx(renderer, texture, &origin, &rect, angle, center, flip);
