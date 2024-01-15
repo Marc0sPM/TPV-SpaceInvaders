@@ -12,8 +12,13 @@ void Mothership::update() {
 		if (jump) {
 			currentDirection = jumpVector;
 			jump = false;
+			changeDirection = true;
 		}
 		else {
+			if (changeDirection) {
+				changeDirection = false;
+				moveDirection = moveDirection * -1;
+			}
 			currentDirection = moveDirection;
 		}
 	}

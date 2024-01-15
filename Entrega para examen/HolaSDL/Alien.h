@@ -20,7 +20,7 @@ private:
 	int indice;
 	std::unique_ptr<SDL_Rect> destRect;
 	Mothership* mothership;
-	int animationTime;
+	int animationTime = 0;
 	int currentAnimationFrame = 0;
 	void playAnimation();
 	

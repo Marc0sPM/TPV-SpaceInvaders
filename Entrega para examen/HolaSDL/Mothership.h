@@ -22,6 +22,7 @@ protected:
 	Vector2D<int>moveDirection = { ALIEN_SPEED ,0 };
 	Vector2D<int>jumpVector = { 0 , 0 };
 	Vector2D<int> currentDirection;
+	bool changeDirection = false;
 
 public:
 	Mothership(Game* _game);
