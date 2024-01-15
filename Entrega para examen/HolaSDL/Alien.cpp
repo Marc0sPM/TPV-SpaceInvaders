@@ -61,7 +61,9 @@ void Alien::update() {
 
 		if (pos.getY() <= playState->getCannonPosY()) mothership->haveLanded();
 		playAnimation();
+		
 	}
+	SceneObject::update();
 }
 void Alien::playAnimation(){
 	currentAnimationFrame = std::abs(currentAnimationFrame - 1);
