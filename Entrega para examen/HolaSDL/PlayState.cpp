@@ -11,21 +11,19 @@ PlayState::PlayState(Game* game, std::string _entrada): GameState(game), entrada
 	mothership = new Mothership(game);
 	addObject(mothership);
 	readGame(entrada);
-	pauseState = make_shared<PauseState>(game, this);
+	pauseState = make_shared<PauseState>(game, std::shared_ptr<PlayState>(this));
 }
 
 PlayState::~PlayState() {
-	/*for (auto an : sceneObjects) {
-		delete (&an);
-	}*/
+
 }
 
 void PlayState::update() {	
 	if (mothership->getCont() <= 0) {
-		game->getGameStateMachine()->replaceState(std::make_shared<EndState>(game, true));
+		game->getGameStateMachine()->pushState(std::make_shared<EndState>(game, true));
 	}
 	else if(mothership->haveLanded() || cannon->getLifes() <= 0)
-		game->getGameStateMachine()->replaceState(std::make_shared<EndState>(game, false));
+		game->getGameStateMachine()->pushState(std::make_shared<EndState>(game, false));
 	for (auto& an : gameObjects) {
 		an.update();
 	}

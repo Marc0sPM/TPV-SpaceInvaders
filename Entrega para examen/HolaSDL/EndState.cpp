@@ -53,10 +53,10 @@ void EndState::hasDied(GameList<GameObject, true>::anchor) {}
 void EndState::createButtons() {
 
     loadMenuButton = new Button(game, game->getTexture(TextureName::RETURN),
-        Point2D<int>(400 - game->getTexture(TextureName::RETURN)->getFrameWidth() / 2, 300));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::RETURN)->getFrameWidth() / 2, 300));
 
     exitButton = new Button(game, game->getTexture(TextureName::EXIT),
-        Point2D<int>(400 - game->getTexture(TextureName::EXIT)->getFrameWidth() / 2, 360));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::EXIT)->getFrameWidth() / 2, 360));
 
     addObject(loadMenuButton);
     addEventListener(loadMenuButton);

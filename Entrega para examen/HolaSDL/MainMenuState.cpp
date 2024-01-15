@@ -75,13 +75,13 @@ void MainMenuState::createButtons() {
     // Crear botones para el menú principal
 
     newGameButton = new Button(game, game->getTexture(TextureName::NEW_GAME), 
-        Point2D<int>(400 - game->getTexture(TextureName::NEW_GAME)->getFrameWidth()/2, 140));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::NEW_GAME)->getFrameWidth()/2, 140));
 
     loadGameButton = new Button(game, game->getTexture(TextureName::LOAD_GAME),
-        Point2D<int>(400 - game->getTexture(TextureName::LOAD_GAME)->getFrameWidth()/2, 200));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::LOAD_GAME)->getFrameWidth()/2, 200));
 
     exitButton = new Button(game, game->getTexture(TextureName::EXIT), 
-        Point2D<int>(400 - game->getTexture(TextureName::EXIT)->getFrameWidth() / 2, 260));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::EXIT)->getFrameWidth() / 2, 260));
 
     addObject(newGameButton);
     addEventListener(newGameButton);
@@ -101,7 +101,6 @@ void MainMenuState::createButtons() {
         });
 
     exitButton->connect([this]() {
-        game->getGameStateMachine()->popState(); 
         game->exitGame();
         });
 }

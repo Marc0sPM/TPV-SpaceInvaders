@@ -4,29 +4,25 @@
 #include "PlayState.h"
 
 
-const int DELTA_TIME = 16;
-const int SPEED_INCREMENT = 50;
+const int SPEED_INCREMENT = 3;
 const int VERTICAL_OFFSET = 25;
+const int TIME_TO_MOVE = 1000;
 const int ALIEN_SPEED = 10;
 
 
 class Game;
-enum MovingStates {
-	Moving,
-	goDown
-};
 class Mothership : public GameObject
 {
 protected:
 	int alienCont = 0;
-	int timeCounter = 0;
-	int timeToMove = 1000;
+	int timeCounter = SDL_GetTicks();
 	bool shouldmove = false;
-	bool canMove = true;
+	bool jump = false;
 	bool landed = false;
-	Vector2D<int>aliensDirection = { 1,0 };
-	
-	MovingStates state = Moving;
+	Vector2D<int>moveDirection = { ALIEN_SPEED ,0 };
+	Vector2D<int>jumpVector = { 0 , 0 };
+	Vector2D<int> currentDirection;
+
 public:
 	Mothership(Game* _game);
 	void update()override;
@@ -34,7 +30,7 @@ public:
 	void save(std::ostream& os) const override;
 	void addAlien();
 	//Retorna la direccion de los aliens 
-	Vector2D<int> getDirection() const { return aliensDirection; }
+	Vector2D<int> getDirection() const { return currentDirection; }
 	// Lleva el contador de tiempo para cada actualizacion e 
 
 	//indicar cual es el frame en el que los aliens se deben mover
@@ -43,9 +39,6 @@ public:
 	//Cambia direccion si se indica
 	void cannotMove();
 
-	MovingStates getState() { return state; }
-	int getVerticalOffset();
-	int getAlienSpeed() { return ALIEN_SPEED; }
 	void alienDied();
 	void alienLanded();
 	bool haveLanded() { return landed; }

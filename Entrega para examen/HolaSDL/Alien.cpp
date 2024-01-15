@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "PlayState.h"
 #include "Exceptions.h"
+#include <cmath>
 
 
 Alien::Alien(PlayState* playState,std::istream& entrada, Texture* textura, Mothership* mothership) 
@@ -16,9 +17,6 @@ Alien::Alien(PlayState* playState,std::istream& entrada, Texture* textura, Mothe
 {
 	setTexture(textura);
 	if (!(entrada >> indice))throw FileFormatError("Indice de alien no valido en línea: ", 17);
-}
-void Alien::Down() {
-	pos.setY(pos.getY() + 10);
 }
 
 bool Alien::hit(SDL_Rect* attackRect, char laserType) {
@@ -47,34 +45,26 @@ void Alien::render() const {
 		*destRect = { (int)pos.getX(), (int)pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 		textura->renderFrame(*destRect, indice, currentAnimationFrame);
 	}
+
 }
 void Alien::update() {
-	if (mothership->getState() == Moving) {
+	if (mothership->shouldMove()) {
+		pos += mothership->getDirection();
+
 		if ((pos.getX() <= ALIEN_SPEED
 			&& mothership->getDirection().getX() < 0)
 			|| (pos.getX() > WINDOW_WIDTH - (textura->getFrameWidth() + ALIEN_SPEED)
 				&& mothership->getDirection().getX() > 0))
-
+		{
 			mothership->cannotMove();
-	}
+		}
 
-	if (mothership->shouldMove()) {
-		//Evaluamos salto
-		pos = pos + Point2D<int>(0, mothership->getVerticalOffset());
-		if (mothership->getState() == Moving)
-			pos = pos + (mothership->getDirection() * mothership->getAlienSpeed());
+		if (pos.getY() <= playState->getCannonPosY()) mothership->haveLanded();
+		playAnimation();
 	}
-	if (pos.getY() >= playState->getCannonPosY()) mothership->alienLanded();
-	playAnimation();
-	SceneObject::update();
-	
 }
 void Alien::playAnimation(){
-	int time = SDL_GetTicks();
-	if (time - animationTime >= 500) {
-		currentAnimationFrame = 1 - currentAnimationFrame;
-		animationTime = time;
-	}
+	currentAnimationFrame = std::abs(currentAnimationFrame - 1);
 }
 
 void Alien::save(ostream& os) const {

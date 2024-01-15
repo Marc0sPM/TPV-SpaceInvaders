@@ -4,9 +4,8 @@
 #include "EndState.h"
 #include "MainMenuState.h"
 #include "Game.h"
-#include "PlayState.h"
 #include "Exceptions.h"
-PauseState::PauseState(Game* game, PlayState* playState) :
+PauseState::PauseState(Game* game, std::shared_ptr<PlayState> playState) :
     GameState(game),
     playState(playState),
     destRect(make_unique<SDL_Rect>(SDL_Rect{ 250, 200, game->getTexture(TextureName::BOX)->getFrameWidth(), game->getTexture(TextureName::BOX)->getFrameHeight() })),
@@ -16,9 +15,6 @@ PauseState::PauseState(Game* game, PlayState* playState) :
 }
 
 void PauseState::update() {
-    if (canExit) {
-        game->getGameStateMachine()->popState();
-    }
     // Renderizar botones
     if (!codigoMode && !loadMode) {
         for (auto& button : gameObjects)
@@ -95,16 +91,16 @@ void PauseState::savedGame(std::string codigoString) {
 
 void PauseState::createButtons() {
     continueButton = new Button(game, game->getTexture(TextureName::CONTINUE),
-        Point2D<int>(400 - game->getTexture(TextureName::CONTINUE)->getFrameWidth() / 2, 100));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::CONTINUE)->getFrameWidth() / 2, 100));
 
     saveButton = new Button(game, game->getTexture(TextureName::SAVE_GAME),
-        Point2D<int>(400 - game->getTexture(TextureName::SAVE_GAME)->getFrameWidth() / 2, 200));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::SAVE_GAME)->getFrameWidth() / 2, 200));
 
     loadButton = new Button(game, game->getTexture(TextureName::LOAD_GAME),
-        Point2D<int>(400 - game->getTexture(TextureName::LOAD_GAME)->getFrameWidth() / 2, 300));
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::LOAD_GAME)->getFrameWidth() / 2, 300));
 
-    exitButton = new Button(game, game->getTexture(TextureName::EXIT),
-        Point2D<int>(400 - game->getTexture(TextureName::EXIT)->getFrameWidth() / 2, 400));
+    exitButton = new Button(game, game->getTexture(TextureName::RETURN),
+        Point2D<int>(WINDOW_WIDTH/2 - game->getTexture(TextureName::RETURN)->getFrameWidth() / 2, 400));
 
     addObject(continueButton);
     addEventListener(continueButton);
@@ -135,12 +131,6 @@ void PauseState::createButtons() {
     exitButton->connect([this]() {
         game->getGameStateMachine()->replaceState(std::make_shared<MainMenuState>(game));
         });
-}
-
-void PauseState::continueLevel() {
-
-    canExit = true;
-
 }
 
 void PauseState::changeNewLevel(string name) {

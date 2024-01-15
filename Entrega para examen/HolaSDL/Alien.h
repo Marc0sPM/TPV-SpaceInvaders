@@ -23,13 +23,13 @@ private:
 	int animationTime;
 	int currentAnimationFrame = 0;
 	void playAnimation();
+	
 public:
 	Alien(PlayState* playState ,std::istream& entrada,Texture* textura, Mothership* mothership);
 	
 	void render() const override;
 	void update() override;
 	void save(std::ostream& os) const override;
-	void Down();
 	SDL_Rect* getRect() const;
 	int GetIndice() const {
 		return indice;

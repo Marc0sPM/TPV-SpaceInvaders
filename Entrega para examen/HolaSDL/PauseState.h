@@ -6,7 +6,7 @@
 #include "SDL.h"
 #include <memory>
 
-class PlayState;
+
 class PauseState : public GameState
 {
 private:
@@ -14,7 +14,7 @@ private:
 	std::unique_ptr<SDL_Rect> destRectCodigo;
 	bool codigo = false;
 	bool canExit = false;
-	PlayState* playState;
+	std::shared_ptr<PlayState> playState;
 	Button* continueButton;
 	Button* saveButton;
 	Button* loadButton;
@@ -25,7 +25,7 @@ private:
 	std::string codigoString;
 
 public:
-	PauseState(Game* game, PlayState* playState);
+	PauseState(Game* game, std::shared_ptr<PlayState> playState);
 	void update() override;
 	void render() const override;
 	void handleEvent(const SDL_Event& event) override;

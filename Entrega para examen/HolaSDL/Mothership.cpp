@@ -3,25 +3,24 @@
 
 Mothership::Mothership(Game* _game ) : GameObject(_game){ }
 void Mothership::update() {
-	//Moviemiento intermitente de los aliens
-
-	if (timeCounter < timeToMove) {
-		timeCounter += DELTA_TIME;
-		shouldmove = false;
-	}
-	else {
-		//cuando los aliens se mueven de verdad
-		timeCounter = 0;
-
+	
+	//Cada TIME_TO_MOVE ms hace que se muevan
+	int time = SDL_GetTicks();
+	if (time - timeCounter > TIME_TO_MOVE) {
+		timeCounter = SDL_GetTicks();
 		shouldmove = true;
-		if (!canMove) {
-			state = goDown;
-			timeToMove -= SPEED_INCREMENT;
-			canMove = true;
+		if (jump) {
+			currentDirection = jumpVector;
+			jump = false;
 		}
-		else state = Moving;
-
+		else {
+			currentDirection = moveDirection;
+		}
 	}
+	else { 
+		shouldmove = false; 
+	}
+
 }
 void Mothership::render() const {
 
@@ -34,17 +33,17 @@ bool Mothership::shouldMove() {
 	return shouldmove;
 }
 void Mothership::cannotMove() {
-	if (canMove && !shouldmove) {
-		aliensDirection = aliensDirection * -1;
-	}
-
-	canMove = false;
+	jump = true;
+	
+	moveDirection += Vector2D{ SPEED_INCREMENT, 0 };
+	moveDirection = moveDirection * -1;
+	jumpVector += Vector2D{ 0, VERTICAL_OFFSET };
 }
 //Si va hacia abjo devuelve el offset si no, 0
-int Mothership::getVerticalOffset() {
-	if (state == goDown) return VERTICAL_OFFSET;
-	else return 0;
-}
+//int Mothership::getVerticalOffset() {
+//	if (state == goDown) return VERTICAL_OFFSET;
+//	else return 0;
+//}
 void Mothership::alienDied() {
 	alienCont--;
 }
