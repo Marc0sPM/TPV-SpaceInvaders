@@ -9,6 +9,7 @@ EndState::EndState(Game* game, bool victory)
 {
 	createButtons();
 }
+EndState::~EndState(){}
 
 void EndState::update() {
     // Renderizar botones
@@ -75,5 +76,5 @@ void EndState::createButtons() {
 }
 
 void EndState::changeToMenu() {
-    game->getGameStateMachine()->replaceState(std::make_shared<MainMenuState>(game));
+    game->getGameStateMachine()->replaceState(new MainMenuState(game));
 }

@@ -10,10 +10,11 @@ protected:
 	GameList<GameObject, true>::anchor listAnchor;
 public:
 	GameObject(Game* game);
-	virtual ~GameObject();
+	virtual ~GameObject(){}
 	virtual void render() const = 0;
 	virtual void update() = 0;
 	virtual void save(std::ostream& os) const = 0;
 	void setListAnchor(GameList<GameObject, true>::anchor objAnchor);
+	GameList<GameObject, true>::anchor getAnchor() { return listAnchor; }
 };
 

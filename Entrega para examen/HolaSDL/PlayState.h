@@ -32,7 +32,6 @@ private:
 	Mothership* mothership;
 	InfoBar* infoBar;
 	std::string entrada;
-	std::shared_ptr<PauseState> pauseState;
 
 	//Funciones de lectura e inicializacion
 	void readGame(string file);
@@ -47,7 +46,7 @@ public:
 	void update() override;		
 	void render() const override;
 	void hasDied(GameList<GameObject, true>::anchor an) override;
-	void hasDied(GameList<SceneObject, false>::anchor an );
+	void hasDied(GameList<SceneObject>::anchor an );
 	void handleEvent(const SDL_Event& event) override;
 	void save(std::ostream& os) const override;
 	int getCannonPosY(){ return cannon->getPos().getY(); }

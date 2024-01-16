@@ -41,15 +41,14 @@ bool Alien::hit(SDL_Rect* attackRect, char laserType) {
 	return false;
 }
 void Alien::render() const {
-	if (textura) {
 		*destRect = { (int)pos.getX(), (int)pos.getY(), textura->getFrameWidth(), textura->getFrameHeight() };
 		textura->renderFrame(*destRect, indice, currentAnimationFrame);
-	}
 
 }
 void Alien::update() {
 	if (mothership->shouldMove()) {
 		pos += mothership->getDirection();
+		playAnimation();
 
 		if ((pos.getX() <= ALIEN_SPEED
 			&& mothership->getDirection().getX() < 0)
@@ -59,14 +58,15 @@ void Alien::update() {
 			mothership->cannotMove();
 		}
 
-		if (pos.getY() <= playState->getCannonPosY()) mothership->haveLanded();
-		playAnimation();
+		if (pos.getY() >= playState->getCannonPosY()) mothership->alienLanded();
 		
 	}
 	SceneObject::update();
 }
 void Alien::playAnimation(){
-	currentAnimationFrame = std::abs(currentAnimationFrame - 1);
+	if (currentAnimationFrame == 0) currentAnimationFrame = 1;
+	else currentAnimationFrame = 0;
+	cout << currentAnimationFrame << endl;
 }
 
 void Alien::save(ostream& os) const {

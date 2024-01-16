@@ -8,7 +8,6 @@ ShooterAlien::ShooterAlien(PlayState* playState,std::istream& entrada ,Texture* 
      if (!(entrada >> reloadTime ))throw FileFormatError("error al leer reloadTime de shooterAlien", 8);
 }
 void ShooterAlien::update() {
-	Alien::update();
 	int currentTime = SDL_GetTicks();
 	// Verifica si ha pasado suficiente tiempo desde el último disparo
 	if (currentTime - reloadTime >= 1000) {
@@ -20,6 +19,7 @@ void ShooterAlien::update() {
 			reloadTime = currentTime;
 		}
 	}
+	Alien::update();
 	
 }
 void ShooterAlien::save(std::ostream& os) const {

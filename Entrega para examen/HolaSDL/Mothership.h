@@ -4,8 +4,8 @@
 #include "PlayState.h"
 
 
-const int SPEED_INCREMENT = 3;
-const int VERTICAL_OFFSET = 25;
+const int SPEED_INCREMENT = 2;
+const int VERTICAL_OFFSET = 10;
 const int TIME_TO_MOVE = 1000;
 const int ALIEN_SPEED = 10;
 
@@ -20,7 +20,7 @@ protected:
 	bool jump = false;
 	bool landed = false;
 	Vector2D<int>moveDirection = { ALIEN_SPEED ,0 };
-	Vector2D<int>jumpVector = { 0 , 0 };
+	Vector2D<int>jumpVector = { 0 , VERTICAL_OFFSET };
 	Vector2D<int> currentDirection;
 	bool changeDirection = false;
 
@@ -45,41 +45,3 @@ public:
 	bool haveLanded() { return landed; }
 	int getCont() const { return alienCont; }
 };
-
-
-
-//#pragma once
-//#include "GameObject.h"
-//#include "Vector2D.h"
-//#include <iostream>
-//enum MovementState {
-//	MOVE_LEFT,
-//	MOVE_RIGHT
-//};
-//class Mothership : public GameObject
-//{
-//private:
-//	int time = 0;
-//	MovementState state;
-//	int level;
-//	int remaingTime = 100;
-//	bool dontChange = false;;
-//	Vector2D<double> direction = { 1.2,0 };
-//public:
-//	Mothership(Game* game);
-//
-//	Vector2D<double> getDirection() const;
-//	MovementState getState();
-//	MovementState setDirection(MovementState newstate);
-//	bool shouldMove();
-//	
-//	void cannotMove();
-//	
-//	void alienLanded();
-//	bool haveLanded();
-//	
-//	void render() const override;
-//	void update() override;
-//	void save(ostream& os) const override;
-//};
-//

@@ -6,7 +6,6 @@
 
 GameObject::GameObject(Game* game): game(game){}
 
-GameObject::~GameObject(){}
 
 void GameObject::setListAnchor(GameList<GameObject, true>::anchor objAnchor) {
 	listAnchor = objAnchor;

@@ -106,10 +106,7 @@ void MainMenuState::createButtons() {
 }
 
 void MainMenuState::changeNewLevel(string name) {
-    //newPlaySate = new PlayState(game, name);
-   
-    //ver que se hace luego
-    game->getGameStateMachine()->replaceState(std::make_shared<PlayState>(game, name));
+    game->getGameStateMachine()->replaceState(new PlayState(game, name));
     stateChanged = true;
 }
 std::string MainMenuState::askLoadNumber() {

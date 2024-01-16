@@ -6,12 +6,15 @@
 #include "PauseState.h"
 #include "EndState.h"
 
-PlayState::PlayState(Game* game, std::string _entrada): GameState(game), entrada(_entrada){
-	//Inicializar mothership
+PlayState::PlayState(Game* game, std::string _entrada)
+	: 
+	GameState(game), 
+	entrada(_entrada)
+{
+	
 	mothership = new Mothership(game);
 	addObject(mothership);
 	readGame(entrada);
-	pauseState = make_shared<PauseState>(game, std::shared_ptr<PlayState>(this));
 }
 
 PlayState::~PlayState() {
@@ -20,10 +23,10 @@ PlayState::~PlayState() {
 
 void PlayState::update() {	
 	if (mothership->getCont() <= 0) {
-		game->getGameStateMachine()->pushState(std::make_shared<EndState>(game, true));
+		game->getGameStateMachine()->pushState(new EndState(game, true));
 	}
 	else if(mothership->haveLanded() || cannon->getLifes() <= 0)
-		game->getGameStateMachine()->pushState(std::make_shared<EndState>(game, false));
+		game->getGameStateMachine()->pushState(new EndState(game, false));
 	for (auto& an : gameObjects) {
 		an.update();
 	}
@@ -44,14 +47,16 @@ void PlayState::render() const {
 	}
 }
 void PlayState::hasDied(GameList<SceneObject>::anchor an) {
+	GameList<GameObject, true>::anchor aux = an->elem->GameObject::getAnchor();
 	sceneObjects.erase(an);
+	gameObjects.erase(aux);
 }
 void PlayState::hasDied(GameList<GameObject, true>::anchor an) {
 	gameObjects.erase(an);
 }
 void PlayState::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-	game->getGameStateMachine()->pushState(pauseState);
+	game->getGameStateMachine()->pushState(new PauseState(game, this));
 
 	for (auto& handler : eventHandlers) {
 		handler->handleEvent(event);
@@ -78,19 +83,22 @@ void PlayState::save(std::ostream& os ) const {
 
 void PlayState::loadGame(std::string fileName) { 
 	destroyAllObjects();
-	eventHandlers.clear();
-	gameObjects.clear();
 	mothership = new Mothership(game);
 	addObject(mothership);
 	readGame(fileName);
 }
 void PlayState::destroyAllObjects() {
-	sceneObjects.clear();
-
+	GameList<GameObject, true>::anchor auxAnchor;
+	for (auto& it = sceneObjects.begin(); it != sceneObjects.end(); ++it) {
+		sceneObjects.erase((*it).getAnchor());
+		auxAnchor = (*it).GameObject::getAnchor();
+		gameObjects.erase(auxAnchor);
+	}
 }
 void PlayState::fireLaser(Point2D<int>& pos, char source) {
 	Laser* l = new Laser(this, pos, source);
 	sceneObjects.push_back(l);
+	gameObjects.push_back(l);
 }
 
 void PlayState::GenerateUFOObject(Point2D<int>& pos) {
@@ -106,10 +114,12 @@ void PlayState::GenerateUFOObject(Point2D<int>& pos) {
 void PlayState::initBomb(Point2D<int>& pos) {
 	Bomb* bomb = new Bomb(this, game->getTexture(TextureName::BOMB), pos);
 	sceneObjects.push_back(bomb);
+	gameObjects.push_back(bomb);
 }
 void PlayState::initShield(Point2D<int>& pos) {
 	Reward* shield = new Reward(this, game->getTexture(TextureName::SHIELD_REWARD), pos);
 	sceneObjects.push_back(shield);
+	gameObjects.push_back(shield);
 	shield->setFunction([this]() {
 		setShield();
 		});
@@ -185,5 +195,6 @@ void PlayState::readGame(string file) {
 
 void PlayState::setToList(SceneObject* object) {   
 	sceneObjects.push_back(object);  
+	gameObjects.push_back(object);
 }
 #pragma endregion

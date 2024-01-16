@@ -14,7 +14,7 @@ private:
 	std::unique_ptr<SDL_Rect> destRectCodigo;
 	bool codigo = false;
 	bool canExit = false;
-	std::shared_ptr<PlayState> playState;
+	PlayState* playState;
 	Button* continueButton;
 	Button* saveButton;
 	Button* loadButton;
@@ -25,7 +25,8 @@ private:
 	std::string codigoString;
 
 public:
-	PauseState(Game* game, std::shared_ptr<PlayState> playState);
+	PauseState(Game* game, PlayState* playState);
+	~PauseState();
 	void update() override;
 	void render() const override;
 	void handleEvent(const SDL_Event& event) override;
@@ -35,7 +36,6 @@ public:
 	void renderTextBox() const;
 	void renderTextCodigo() const;
 	void createButtons();
-	void continueLevel();
 	std::string askLoadNumber();
 	void changeNewLevel(std::string name);
 

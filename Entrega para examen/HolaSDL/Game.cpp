@@ -13,6 +13,7 @@ Game::Game() :  window(nullptr), renderer(nullptr), stateMachine(nullptr){
 	stateMachine = new GameStateMachine();
 }
 Game::~Game() {
+	delete stateMachine;
 	for (auto& it : textures) {
 		delete it;
 	}
@@ -43,7 +44,7 @@ void Game::loadTextures() {
 }
 void Game::run()
 {
-	stateMachine->pushState(std::make_shared<MainMenuState>(this));
+	stateMachine->pushState(new MainMenuState(this));
 
 	while (!exit) {
 		Uint32 currentFrameTime = SDL_GetTicks();

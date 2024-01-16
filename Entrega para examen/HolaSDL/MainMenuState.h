@@ -21,6 +21,7 @@ private:
 	
 public:
 	MainMenuState(Game* game);
+	~MainMenuState(){}
 	void update() override;	
 	void render() const override;
 	void handleEvent(const SDL_Event& event) override;

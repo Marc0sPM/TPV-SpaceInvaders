@@ -18,6 +18,7 @@ private:
 	bool hover;
 public:
 	Button(Game* game, Texture* texture, Point2D<int> pos);
+	~Button(){}
 	void render() const override;
 	void update() override;
 	void handleEvent(const SDL_Event& event) override;

@@ -42,13 +42,7 @@ void Mothership::cannotMove() {
 	
 	moveDirection += Vector2D{ SPEED_INCREMENT, 0 };
 	moveDirection = moveDirection * -1;
-	jumpVector += Vector2D{ 0, VERTICAL_OFFSET };
 }
-//Si va hacia abjo devuelve el offset si no, 0
-//int Mothership::getVerticalOffset() {
-//	if (state == goDown) return VERTICAL_OFFSET;
-//	else return 0;
-//}
 void Mothership::alienDied() {
 	alienCont--;
 }

@@ -5,7 +5,7 @@
 #include "MainMenuState.h"
 #include "Game.h"
 #include "Exceptions.h"
-PauseState::PauseState(Game* game, std::shared_ptr<PlayState> playState) :
+PauseState::PauseState(Game* game, PlayState* playState) :
     GameState(game),
     playState(playState),
     destRect(make_unique<SDL_Rect>(SDL_Rect{ 250, 200, game->getTexture(TextureName::BOX)->getFrameWidth(), game->getTexture(TextureName::BOX)->getFrameHeight() })),
@@ -13,7 +13,10 @@ PauseState::PauseState(Game* game, std::shared_ptr<PlayState> playState) :
 {
     createButtons();
 }
-
+PauseState::~PauseState() {
+    delete destRect.get();
+    delete destRectCodigo.get();
+}
 void PauseState::update() {
     // Renderizar botones
     if (!codigoMode && !loadMode) {
@@ -129,7 +132,7 @@ void PauseState::createButtons() {
         });
 
     exitButton->connect([this]() {
-        game->getGameStateMachine()->replaceState(std::make_shared<MainMenuState>(game));
+        game->getGameStateMachine()->replaceState(new MainMenuState(game));
         });
 }
 
@@ -152,19 +155,19 @@ void PauseState::renderTextBox() const {
 }
 void PauseState::renderTextCodigo() const {
     
-        // Crear una superficie de texto
-        SDL_Surface* textSurface = TTF_RenderText_Solid(game->getFont(), codigoString.c_str(), { 255, 255, 255 }); // Color blanco
+    // Crear una superficie de texto
+    SDL_Surface* textSurface = TTF_RenderText_Solid(game->getFont(), codigoString.c_str(), { 255, 255, 255 }); // Color blanco
 
-        // Crear una textura a partir de la superficie
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(game->getRenderer(), textSurface);
+    // Crear una textura a partir de la superficie
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(game->getRenderer(), textSurface);
 
-        // Obtener las dimensiones del texto
-        int textWidth = textSurface->w;
-        int textHeight = textSurface->h;
+    // Obtener las dimensiones del texto
+    int textWidth = textSurface->w;
+    int textHeight = textSurface->h;
 
-        // Crear un rectángulo para la posición y tamaño del texto
-        SDL_Rect rect = { destRect->x + 80, destRect->y + 80, textWidth, textHeight };
+    // Crear un rectángulo para la posición y tamaño del texto
+    SDL_Rect rect = { destRect->x + 80, destRect->y + 80, textWidth, textHeight };
 
-        // Renderizar la textura en el renderer
-        SDL_RenderCopy(game->getRenderer(), textTexture, nullptr, &rect);
+    // Renderizar la textura en el renderer
+    SDL_RenderCopy(game->getRenderer(), textTexture, nullptr, &rect);
 }

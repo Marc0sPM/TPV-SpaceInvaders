@@ -5,12 +5,16 @@ class GameStateMachine
 {
 private:
 	
-	std::stack<std::shared_ptr<GameState>> gameStates;
+	std::stack<GameState*> gameStates;
+
+	//Acumulador de estados por borrar para que no haya fallo de acceso a memoria
+	std::list<GameState*> statesToDelete;
 public:
 	GameStateMachine();
-	void pushState(std::shared_ptr<GameState> pState);
+	~GameStateMachine();
+	void pushState(GameState* state);
 	void popState();
-	void replaceState(std::shared_ptr<GameState> pState);
+	void replaceState(GameState* state);
 	void update();
 	void render() const;
 	void handleEvent(const SDL_Event& event);

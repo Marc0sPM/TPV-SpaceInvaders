@@ -24,8 +24,9 @@ void SceneObject::setListAnchor(GameList<SceneObject>::anchor anchor) {
     sceneAnchor = anchor;
 }
 void SceneObject::update() {
-    if (lifes <= 0) 
+    if (lifes <= 0) {
         playState->hasDied(sceneAnchor);
+    }
 }
 void SceneObject::render()const {}
 void SceneObject::save(std::ostream& os) const {}
